@@ -3,44 +3,40 @@
     <van-nav-bar
       title="临近营业线详情"
       left-text="返回"
-      @click-left="onClickLeft"
+      @click-left="onClickLeft"  fixed
     ></van-nav-bar>
-    <!--<van-row v-for="(name, index) in DayPlanCount">
-      <div @click="getDayPlanDetail(name.date,index,true)">
-      <van-col span="16">{{name.date}}</van-col>
-      <van-col span="4" offset="4">{{name.count}}</van-col>
-      </div>
-    </van-row>-->
 
-    <van-row v-for="(name, index) in DayPlanCount" :key="index">
-      <div @click="getDayPlanDetail(name.date,index,true)">
-      </div>
-      <van-col span="10"  >
-        <h3>{{ name.date}}</h3>
-      </van-col>
-      <van-col span="6" offset="4">
-        <h3>{{ name.count }}</h3>
-      </van-col>
-      <van-col span="4">
-        <van-button type="default" @click="getDayPlanDetail(name.date,index,true)" v-show="!(index===showmum)"><van-icon name="add" /></van-button>
-        <van-button type="default" @click="getDayPlanDetail(name.date,index,false)" v-show="index===showmum"><van-icon name="clear" /></van-button>
-      </van-col>
-      <div v-show="index===showmum">
-        <van-steps direction="vertical"  active-color="#f60" v-waterfall-lower="loadMore(index)"
-                   waterfall-disabled="disabled"
-                   waterfall-offset="400">
-          <!--<van-pull-refresh v-model="isLoading">-->
-          <van-step v-for="(plan, index) in DayPlanDetail" >
-            <h3>{{ "序号："+(index+1)}}</h3>
-            <p>{{ "开始时间："+plan.kssjd}}</p>
-            <p>{{ "项目名称："+plan.xmmc }}</p>
-            <p>{{ "项目地点："+plan.sgdd }}</p>
-            <p>{{ "结束时间："+plan.jssjd }}</p>
-          </van-step>
-          <!--</van-pull-refresh>-->
-        </van-steps>
-      </div>
-    </van-row>
+    <div class="content">
+      <van-row v-for="(name, index) in DayPlanCount" :key="index">
+        <div @click="getDayPlanDetail(name.date,index,true)">
+        </div>
+        <van-col span="10"  >
+          <h3>{{ name.date}}</h3>
+        </van-col>
+        <van-col span="6" offset="4">
+          <h3>{{ name.count }}</h3>
+        </van-col>
+        <van-col span="4">
+          <van-button type="default" @click="getDayPlanDetail(name.date,index,true)" v-show="!(index===showmum)"><van-icon name="add" /></van-button>
+          <van-button type="default" @click="getDayPlanDetail(name.date,index,false)" v-show="index===showmum"><van-icon name="clear" /></van-button>
+        </van-col>
+        <div v-show="index===showmum">
+          <van-steps direction="vertical"  active-color="#f60" v-waterfall-lower="loadMore(index)"
+                     waterfall-disabled="disabled"
+                     waterfall-offset="400">
+            <!--<van-pull-refresh v-model="isLoading">-->
+            <van-step v-for="(plan, index) in DayPlanDetail" >
+              <h3>{{ "序号："+(index+1)}}</h3>
+              <p>{{ "开始时间："+plan.kssjd}}</p>
+              <p>{{ "项目名称："+plan.xmmc }}</p>
+              <p>{{ "项目地点："+plan.sgdd }}</p>
+              <p>{{ "结束时间："+plan.jssjd }}</p>
+            </van-step>
+            <!--</van-pull-refresh>-->
+          </van-steps>
+        </div>
+      </van-row>
+    </div>
   </div>
 
 </template>
@@ -219,5 +215,29 @@
     color: #fff;
   }
   /* 设置头部 style end */
+
+  /* 内容区域 */
+  .content{
+    margin-top:44px;
+    margin-bottom:60px;
+    z-index: 1;
+  }
+  /* 每行加一个底边 */
+  .van-row{
+    padding-top: 1px;
+    padding-bottom:1px;
+    border-bottom:1px solid #ccc;
+    background: #E5F2FA;
+  }
+  /* 去掉展开按钮的边框 */
+  .van-button{
+    top:-3px;
+    background: #E5F2FA;
+  }
+  .van-button--default{
+    border:none;
+  }
+
+
 
 </style>

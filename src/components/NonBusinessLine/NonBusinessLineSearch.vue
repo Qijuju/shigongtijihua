@@ -135,6 +135,7 @@
     },
     data() {
       return {
+        baseuserid:102300,
         //项目名称相关
         xmmc:'',
         xmmc_id:'',
@@ -173,7 +174,6 @@
     },
     watch: {
       $route: function (route) {
-        debugger
         var query = route.query;
         this.xmmc=query.slectProjectName===undefined?'':query.slectProjectName
         this.xmmc_id=query.slectProjectId===undefined?'':query.slectProjectId
@@ -193,7 +193,6 @@
         this.showEndPicker=false
       },
       closeOthers(value){
-        debugger
         if(value!='xmmc'){
           this.showxmmc=false
         }
@@ -214,7 +213,9 @@
         }
       },
       getXiangmuServlet(){
-        axios.get('http://whjjgc.r93535.com/XiangmuServlet?orgid=265')
+        let url='http://whjjgc.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid;
+
+        axios.get(url)
           .then(response => {
             this.xiangmuServlet = response.data
             var data = this.xiangmuServlet
@@ -293,12 +294,11 @@
         this.closeAll()
       },*/
       startPicker(){
-        this.closeOthers('sgksrq')
+        this.closeOthers('sgksrq');
         this.showStartPicker = !this.showStartPicker
       },
       startConfirm(){
         //Toast(`当前值：`+this.startDate);
-        debugger
         this.startDay = this.startDate.getFullYear()+(this.startDate.getMonth()>=9?"-":"-0")+(this.startDate.getMonth()+1)+(this.startDate.getDate()>9?"-":"-0")+this.startDate.getDate(),
           this.closeAll()
       },
@@ -308,15 +308,14 @@
       },
       endConfirm(){
         //Toast(`当前值：`+this.startDate);
-        /*debugger*/
         this.endDay = this.endDate.getFullYear()+(this.endDate.getMonth()>=9?"-":"-0")+(this.endDate.getMonth()+1)+(this.endDate.getDate()>9?"-":"-0")+this.endDate.getDate(),
           this.closeAll()
       },
       onClickLeft() {
-        this.$router.push({path: '/Test'});
+        this.$router.push({path: '/NonBusinessLine'});
       },
       onClickRight() {
-        /*debugger
+        /*
         this.$store.commit('setNonBusinessLineSearch',{
           xmmc:this.xmmc_id,
           mc:this.xmmc,

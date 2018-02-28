@@ -9,7 +9,7 @@
         <van-col span="6" class="chooseBtn">
           <van-button type="primary">
             <div class="flex">
-              <input type="text"  @click="openByDrop($event)" v-model="calendar.display">
+              <input type="text"  @click="openByDrop($event)" v-model="calendar.display" readonly>
             </div>
           </van-button>
         </van-col>
@@ -268,14 +268,21 @@
       // 底部'项目'的显示和隐藏
       selectProShowOrHidden(){
         var isOpen=false;
-        $('#project').click(function () {
+        var projectAnimation = document.getElementById("projectAnimation");
+
+        projectAnimation.addEventListener("click", function(){
           isOpen =!isOpen;
           if(isOpen){ // 打开时
+            this.className = 'animated jello';
             $('#projectList').height('100px');
           }else { // 关闭时
             $('#projectList').height('0px');
           }
-        });
+        }, false);
+
+        projectAnimation.addEventListener("webkitAnimationEnd", function(){ //动画结束时事件
+          this.className ='';
+        }, false);
       },
 
       //日历控件的事件

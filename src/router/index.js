@@ -158,7 +158,7 @@ const router = new VueRouter({
       component: ICreateSearch
     },{
 		path: '*',
-    redirect: '/BusinessLine'
+    redirect: '/Index'
 	}]
 })
 
