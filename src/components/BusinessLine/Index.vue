@@ -123,7 +123,7 @@
           value:[y,m,d], //  打开的日历默认选中的时间
           lunar:true, //显示农历
           select:(value)=>{ // 当选中日历上的某一天时，触发的事件
-//            value.pop(); // 删除‘天’\
+            value.pop(); // 删除‘天’\
             this.setStore(value); // 将选中的日期存储到store中
             this.calendar.show=false;
             this.calendar.value=value;

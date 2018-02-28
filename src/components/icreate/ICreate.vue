@@ -76,7 +76,7 @@ export default {
   methods: {
     // 表头返回按钮事件
     onClickLeft() {
-        this.$router.push({path: '/NonBusinessLine'});
+        this.$router.push({path: '/Index'});
         // Toast('返回');
       },
     // 表头关闭按钮事件
