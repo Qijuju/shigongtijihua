@@ -8,10 +8,18 @@
       <!-- 施工日计划我发起的列表-搜索筛选框-开始 -->
       <van-row>
         <van-col span="12">
-          <van-button bottom-action @click="ToICreateSearch()"><van-icon name="search" />搜索</van-button>
+          <van-button bottom-action @click="ToICreateSearch()" class="todoWorkSearch">
+            <!--<van-icon name="search" />-->
+            <img class="seachimg" v-if="searchTab1" src="../../assets/images/sgrjhImages/searchg.png" alt="searchLogo">
+            <img class="seachimg" v-else="false" src="../../assets/images/sgrjhImages/search.png" alt="searchLogo">
+            搜索</van-button>
         </van-col>
         <van-col span="12">
-          <van-button bottom-action @click="ToICreateScreen()"><van-icon name="search" />筛选</van-button>
+          <van-button bottom-action @click="ToICreateScreen()" class="todoWorkScreen">
+            <!--<van-icon name="search" />-->
+            <img class="seachimg" v-if="searchTab2" src="../../assets/images/sgrjhImages/sxg.png" alt="searchLogo">
+            <img class="seachimg" v-else="false" src="../../assets/images/sgrjhImages/sx.png" alt="searchLogo">
+            筛选</van-button>
         </van-col>
       </van-row>
     </div>
@@ -58,8 +66,9 @@ export default {
       workflowTypeId:'18',//流程分类id  15代表施工日计划
       pageSize:'10',//每页条数
       workflowId:'59',//流程类型id  51营业线 52临近营业线 53非营业线
-      disabled: false
-
+      disabled: false,
+      searchTab1:false,
+      searchTab2:false,
     };
   },
 
@@ -87,11 +96,18 @@ export default {
 
 // 点击搜索按钮跳转到搜索页面
   ToICreateSearch(){
-    // debugger
+    this.searchTab1 = true;
+    this.searchTab2 = false;
+    $(".todoWorkSearch").css("color","rgb(0, 135, 232)");
+    $(".todoWorkScreen").css("color","rgb(0,0,0)");
     this.$router.push({path: '/ICreateSearch'});
   },
   // 点击筛选按钮跳转到筛选页面
   ToICreateScreen(){
+    this.searchTab1 = false;
+    this.searchTab2 = true;
+    $(".todoWorkSearch").css("color","rgb(0, 0, 0)");
+    $(".todoWorkScreen").css("color","rgb(0, 135, 232)");
     this.$router.push({path: '/ICreateScreen'});
   },
 
@@ -228,14 +244,39 @@ export default {
 /* 施工日计划我发起的列表-搜索筛选框-背景颜色 */
 .van-button--bottom-action {
   color:#000;
-  background-color: #c9c9c9;
+  /*background-color: #c9c9c9;*/
+  background-color: rgb(229, 242, 250);
 }
 /*  施工日计划我发起的列表-代办列表信息-table样式 */
 /* html5 list页面的中间table标签样式  */
 .tablelist{
-  width:100%;border-collapse:collapse;border:1px solid #efeff4; margin-top: 3px;background-color: #efeff4;}
+  /*width:100%;*/
+  border-collapse:collapse;
+  border:1px solid #efeff4;
+  margin-top: 3px;
+  /*background-color: #efeff4;*/
+  /*修改列表内容区域样式*/
+  width: 95%;
+  margin: 10px;
+  border-radius: 4px;
+  padding: 5px;
+  -webkit-box-shadow: 0px 0px 5px 1px #ccc;
+  box-shadow: 0px 0px 5px 1px #ccc;
+}
 .tablelist td{
   padding:6px 6px 3px 4px;font:Arial, Helvetica, sans-serif;text-align:left;}
 .tablelist th{
   padding:6px 6px 3px 4px;font:Arial, Helvetica, sans-serif;text-align:left;}
+/*修改施工日计划搜索和筛选的样式*/
+.van-col-12 button{
+  border: 1px solid #ccc;
+}
+.van-button--bottom-action{
+  height: 44px;
+  line-height: 44px;
+}
+.seachimg{
+  width: 20px;
+  height: 20px;
+}
 </style>
