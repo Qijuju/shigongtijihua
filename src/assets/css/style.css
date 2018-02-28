@@ -1,0 +1,11 @@
+.van-col{
+  text-align: center;
+  padding:3px 0;
+}
+/* 导航条的字体颜色 */
+.van-nav-bar__text{
+  color: #fff !important;
+}
+
+
+
