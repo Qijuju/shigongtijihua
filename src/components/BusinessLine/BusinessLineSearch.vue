@@ -146,6 +146,7 @@
     },
     data() {
       return {
+        baseuserid:102300,
         //项目名称相关
         xmmc:'',
         xmmc_id:'',
@@ -219,7 +220,9 @@
         }
       },
       getXiangmuServlet(){
-        axios.get('http://whjjgc.r93535.com/XiangmuServlet?orgid=265')
+        let url='http://whjjgc.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid;
+
+        axios.get(url)
           .then(response => {
             this.xiangmuServlet = response.data
             var data = this.xiangmuServlet
@@ -318,7 +321,7 @@
           this.closeAll()
       },
       onClickLeft() {
-        this.$router.push({path: '/Test'});
+        this.$router.push({path: '/BusinessLine'});
       },
       onClickRight() {
 //        debugger
@@ -363,4 +366,6 @@
     color: #fff;
   }
   /* 设置头部 style end */
+
+
 </style>

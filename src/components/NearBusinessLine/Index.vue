@@ -11,7 +11,7 @@
         <van-col span="6" class="chooseBtn">
           <van-button type="primary">
             <div class="flex">
-              <input type="text"  @click="openByDrop($event)" v-model="calendar.display">
+              <input type="text"  @click="openByDrop($event)" v-model="calendar.display" readonly>
             </div>
           </van-button>
         </van-col>

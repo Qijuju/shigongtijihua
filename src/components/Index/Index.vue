@@ -1,11 +1,10 @@
 <template>
   <div class="nonBusinessLine">
-    <!--<Header title="施工日计划"></Header>-->
     <van-nav-bar title="施工日计划"></van-nav-bar>
     <div class="content">
       <van-row>
         <van-col span="8">
-          <div class="imgB" @click="todowork()">
+          <div class="imgB imgB1" @click="todowork()">
             {{ToDoWorkflowCount}}
           </div>
           <p @click="todowork()">待我审批</p>
@@ -58,7 +57,6 @@
       },
       //获取待我审批列表中的总条数
       GetToDoWorkflowCount() {
-        // debugger;
         this.baseuserId=102300;
         var url = 'http://whjjgc.r93535.com/GetToDoWorkflowCount?baseuserId='+this.baseuserId+'&workflowTypeId='+this.workflowTypeId;
         axios.get(url)
@@ -68,12 +66,14 @@
           console.error(err.message)
         })
       },
-
     }
   }
 </script>
 
 <style scoped>
+  .content{
+    padding-top:10px;
+  }
   /* 设置头部 style start */
   .van-nav-bar{
     background: #2196F3;
@@ -93,26 +93,28 @@
   .imgB{
     position: absolute;
     left:50%;
-    margin-left:-25px;
-    width:50px;
+    margin-left:-20%;
+    width:40%;
     height:50px;
     text-align: center;
     line-height:50px;
     color: #fff;
-    background: url("../../assets/images/sgrjhImages/dsp.png") no-repeat 0 0;
-    -webkit-background-size: cover;
-    background-size: cover;
+  }
 
+  .imgB1{
+    background: url("../../assets/images/sgrjhImages/dsp.png") no-repeat center;
+    -webkit-background-size: contain;
+    background-size: contain;
   }
   .imgB2{
-    background: url("../../assets/images/sgrjhImages/ysp.png") no-repeat 0 0;
-    -webkit-background-size: cover;
-    background-size: cover;
+    background: url("../../assets/images/sgrjhImages/ysp.png") no-repeat center;
+    -webkit-background-size: contain;
+    background-size: contain;
   }
   .imgB3{
-    background: url("../../assets/images/sgrjhImages/fqd.png") no-repeat 0 0;
-    -webkit-background-size: cover;
-    background-size: cover;
+    background: url("../../assets/images/sgrjhImages/fqd.png") no-repeat center;
+    -webkit-background-size: contain;
+    background-size: contain;
   }
   p{
     position: absolute;

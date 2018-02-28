@@ -135,6 +135,7 @@
     },
     data() {
       return {
+        baseuserid:102300,
         //项目名称相关
         xmmc:'',
         xmmc_id:'',
@@ -173,7 +174,6 @@
     },
     watch: {
       $route: function (route) {
-        /*debugger*/
         var query = route.query;
         this.xmmc=query.slectProjectName===undefined?'':query.slectProjectName
         this.xmmc_id=query.slectProjectId===undefined?'':query.slectProjectId
@@ -213,18 +213,15 @@
         }
       },
       getXiangmuServlet(){
-        axios.get('http://whjjgc.r93535.com/XiangmuServlet?orgid=265')
+        let url='http://whjjgc.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid;
+
+        axios.get(url)
           .then(response => {
-            this.xiangmuServlet = response.data
+            this.xiangmuServlet = response.data;
             var data = this.xiangmuServlet
             for(var i in data) {
-              console.log(data[i].id)
-              console.log(data[i].xmmc)
               this.xmcolumns.push(data[i].xmmc)
             }
-            console.log(response.data)
-            console.log(this.xiangmuServlet)
-            console.log(this.xmcolumns)
           }).catch(err => {
           console.error(err.message)
         })
@@ -310,7 +307,7 @@
           this.closeAll()
       },
       onClickLeft() {
-        this.$router.push({path: '/Test'});
+        this.$router.push({path: '/NearBusinessLine'});
       },
       onClickRight() {
         /*this.$store.commit('setNearBusinessLineSearch',{
