@@ -1,11 +1,9 @@
 <template>
   <div class="1">
  <!-- 施工日计划我已审批搜索-表头-开始 -->
-    <van-nav-bar title="我已审批" left-text="返回" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
-      <van-icon name="arrow-left" slot="left" />
-      <van-icon name="close" slot="right" />
+    <van-nav-bar title="我已审批" left-text="返回" @click-left="onClickLeft">
     </van-nav-bar>
-<!-- 施工日计划我已审批搜索-表头-结束 -->
+<!-- 施工日计划我已审批搜索-表头-结束-->
 <!-- 施工日计划我已审批搜索-输入项目名称-开始 -->
    <form action="/">
     <van-search
@@ -40,7 +38,7 @@ export default {
     onSearch(){
       //向我已审批页面展示-传递流程名称
       bus.$emit('v-model',this.value)
-      this.$router.push({path: '/ICreate'}); 
+      this.$router.push({path: '/ICreate'});
       },
     // 点击取消按钮跳转事件
     onCancel(){
@@ -53,5 +51,15 @@ export default {
 </script>
 
 <style scoped>
+  /* 设置头部 style start */
+  .van-nav-bar{
+    background: #2196F3;
+    color: #fff;
+  }
+  .van-nav-bar .van-icon{
+    color: #fff;
+  }
+  /* 设置头部 style end */
+
 
 </style>

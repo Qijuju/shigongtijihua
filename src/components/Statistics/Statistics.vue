@@ -1,6 +1,6 @@
 <template>
   <div class="statistics">
-    <p>统计模块，待开发</p>
+    <p>待开发</p>
     <!--<ul-->
       <!--v-waterfall-lower="loadMore"-->
       <!--v-waterfall-upper="refreshData"-->

@@ -301,12 +301,10 @@
 
         var clickDay =item.day>9?item.day:'0'+item.day;
 
-
         vm.sgrq = vm.calendar.value[0]+'-'+vm.calendar.value[1]+'-'+clickDay;
 
 //        重新调取数据，刷新列表数据
         this.getList();
-
 
         this.$store.commit('setDaysIndex',{daysIndex:index});
 
@@ -335,17 +333,16 @@
         for(var i=0;i<this.days.length;i++){
           this.days[i].showBg = i===index?true:false;
         }
-
       }
     }
   }
 
-  // 定义一个函数:获取某个月的天数
-  function getDaysInOneMonth(year, month){
-    month = parseInt(month, 10);
-    var d= new Date(year, month, 0);
-    return d.getDate();
-  }
+    // 定义一个函数:获取某个月的天数
+    function getDaysInOneMonth(year, month){
+      month = parseInt(month, 10);
+      var d= new Date(year, month, 0);
+      return d.getDate();
+    }
 
 </script>
 

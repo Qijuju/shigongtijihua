@@ -46,15 +46,15 @@
     methods:{
       todowork(){
         //跳转到待我审批页面展示
-//        this.$router.push({path: '/ToDoWork'});
+        this.$router.push({path: '/ToDoWork'});
       },
       dowork(){
         //跳转到我已审批页面展示
-//        this.$router.push({path: '/DoWork'});
+        this.$router.push({path: '/DoWork'});
       },
       icrate(){
         //跳转到我已审批页面展示
-//        this.$router.push({path: '/ICreate'});
+        this.$router.push({path: '/ICreate'});
       },
       //获取待我审批列表中的总条数
       GetToDoWorkflowCount() {
@@ -64,7 +64,6 @@
         axios.get(url)
           .then(response => {
             this.ToDoWorkflowCount  = response.data;
-//            alert(this.ToDoWorkflowCount);
           }).catch(err => {
           console.error(err.message)
         })

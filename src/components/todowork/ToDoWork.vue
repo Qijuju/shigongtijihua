@@ -2,12 +2,13 @@
   <div class="1">
     <!-- 施工日计划待我审批列表-表头-开始 -->
     <div class = "biaotou">
-      <van-nav-bar title="待我审批" left-text="返回" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
-        <van-icon name="arrow-left" slot="left" />
-        <van-icon name="close" slot="right" />
+      <van-nav-bar
+        title="待我审批"
+        left-text="返回"
+        @click-left="onClickLeft"
+      >
       </van-nav-bar>
-      <!-- 施工日计划待我审批列表-表头-结束 -->
-      <!-- 施工日计划待我审批列表-搜索筛选框-开始 -->
+
       <van-row>
         <van-col span="12">
           <van-button bottom-action @click="ToToDoWorkSearch()"><van-icon name="search" />     搜索</van-button>
@@ -91,13 +92,7 @@ export default {
   methods: {
     // 表头返回按钮事件
     onClickLeft() {
-        this.$router.push({path: '/NonBusinessLine'});
-        // Toast('返回');
-      },
-    // 表头关闭按钮事件
-      onClickRight() {
-        this.$router.push({path: '/NonBusinessLine'});
-        // Toast('关闭');
+        this.$router.push({path: '/Index'});
       },
 
 //获取待我审批列表中的总条数
@@ -203,14 +198,19 @@ GetToDoWorkflowList(){
 </script>
 
 <style scoped>
+  /* 设置头部 style start */
+  .van-nav-bar{
+    background: #2196F3;
+    color: #fff;
+  }
+  .van-nav-bar .van-icon{
+    color: #fff;
+  }
+  /* 设置头部 style end */
 /* 表头标题演示 */
 .biaotou{
   position: fixed;
   width: 100%;
-}
-/* 标题样式 */
-.van-nav-bar{
-  background-color: #e5f2fa;
 }
 /* 筛选标题样式 */
 .van-button--bottom-action{

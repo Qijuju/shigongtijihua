@@ -2,18 +2,16 @@
   <div class="1">
     <!-- 施工日计划我发起的列表-表头-开始 -->
     <div class = "biaotou">
-      <van-nav-bar title="我发起的" left-text="返回" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
-        <van-icon name="arrow-left" slot="left" />
-        <van-icon name="close" slot="right" />
+      <van-nav-bar title="我发起的" left-text="返回" @click-left="onClickLeft">
       </van-nav-bar>
       <!-- 施工日计划我已审批列表-表头-结束 -->
       <!-- 施工日计划我发起的列表-搜索筛选框-开始 -->
       <van-row>
         <van-col span="12">
-          <van-button bottom-action @click="ToICreateSearch()"><van-icon name="search" />     搜索</van-button>
+          <van-button bottom-action @click="ToICreateSearch()"><van-icon name="search" />搜索</van-button>
         </van-col>
         <van-col span="12">
-          <van-button bottom-action @click="ToICreateScreen()"><van-icon name="search" />     筛选</van-button>
+          <van-button bottom-action @click="ToICreateScreen()"><van-icon name="search" />筛选</van-button>
         </van-col>
       </van-row>
     </div>
@@ -61,15 +59,15 @@ export default {
       pageSize:'10',//每页条数
       workflowId:'59',//流程类型id  51营业线 52临近营业线 53非营业线
       disabled: false
-      
+
     };
   },
 
-//打开页面是调用此方法，获取代办流程列表数据 
+//打开页面是调用此方法，获取代办流程列表数据
   mounted: function() {
   // 施工日计划我发起的搜索-获取流程名称值
       this.GetOnSearch();
-   //施工日计划我发起的筛选-获取流程类型id 
+   //施工日计划我发起的筛选-获取流程类型id
       this.GetOnClickSgrjh();
   //  刷新页面加载初始化数据
         this.GetICreateflowList();
@@ -86,7 +84,7 @@ export default {
         this.$router.push({path: '/NonBusinessLine'});
         // Toast('关闭');
       },
-   
+
 // 点击搜索按钮跳转到搜索页面
   ToICreateSearch(){
     // debugger
@@ -157,7 +155,7 @@ export default {
         })
       },
 
-//下拉页面刷新数据操作 
+//下拉页面刷新数据操作
       onRefresh(done) {
         // debugger
         // 获取代办流程列表数据-拼接url，发送请求获取待办流程列表数据
@@ -165,7 +163,7 @@ export default {
         done() // call done
       },
 
-//上拉页面加载更多数据操作 
+//上拉页面加载更多数据操作
       onInfinite(done) {
         // debugger
         let vm = this;
@@ -204,10 +202,17 @@ export default {
   position: fixed;
   width: 100%;
 }
-/* 标题样式 */
+
+/* 设置头部 style start */
 .van-nav-bar{
-  background-color: #e5f2fa;
+  background: #2196F3;
+  color: #fff;
 }
+.van-nav-bar .van-icon{
+  color: #fff;
+}
+/* 设置头部 style end */
+
 /* 筛选标题样式 */
 .van-button--bottom-action{
   top:-3px;

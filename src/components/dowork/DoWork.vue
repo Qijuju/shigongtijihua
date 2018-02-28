@@ -2,9 +2,7 @@
   <div class="1">
     <!-- 施工日计划我已审批列表-表头-开始 -->
     <div class = "biaotou">
-      <van-nav-bar title="我已审批" left-text="返回" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
-        <van-icon name="arrow-left" slot="left" />
-        <van-icon name="close" slot="right" />
+      <van-nav-bar title="我已审批" left-text="返回" @click-left="onClickLeft">
       </van-nav-bar>
       <!-- 施工日计划我已审批列表-表头-结束 -->
       <!-- 施工日计划我已审批列表-搜索筛选框-开始 -->
@@ -203,9 +201,15 @@ export default {
   width: 100%;
 }
 /* 标题样式 */
+/* 设置头部 style start */
 .van-nav-bar{
-  background-color: #e5f2fa;
+  background: #2196F3;
+  color: #fff;
 }
+.van-nav-bar .van-icon{
+  color: #fff;
+}
+/* 设置头部 style end */
 /* 筛选标题样式 */
 .van-button--bottom-action{
   top:-3px;
