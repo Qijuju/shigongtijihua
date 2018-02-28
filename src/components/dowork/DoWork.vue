@@ -8,10 +8,10 @@
       <!-- 施工日计划我已审批列表-搜索筛选框-开始 -->
       <van-row>
         <van-col span="12">
-          <van-button bottom-action @click="ToDoWorkSearch()"><van-icon name="search" />     搜索</van-button>
+          <van-button bottom-action @click="ToDoWorkSearch()"><van-icon name="search" />搜索</van-button>
         </van-col>
         <van-col span="12">
-          <van-button bottom-action @click="ToDoWorkScreen()"><van-icon name="search" />     筛选</van-button>
+          <van-button bottom-action @click="ToDoWorkScreen()"><van-icon name="search" />筛选</van-button>
         </van-col>
       </van-row>
     </div>
