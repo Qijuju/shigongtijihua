@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <van-nav-bar title="营业线施工日计划"></van-nav-bar>
+    <van-nav-bar title="营业线施工日计划" fixed></van-nav-bar>
     <!--搜索栏-->
     <div class="search">
       <van-row>
@@ -32,6 +32,7 @@
     </div>
     <transition name="fade">
       <div class="calendar-dropdown" :style="{'left':calendar.left+'px','top':calendar.top+'px','z-index':calendar.zIndex,'height':calendar.height+'px'}" v-if="calendar.show">
+      <!--<div class="calendar-dropdown" :style="{'left':calendar.left+'px','top':calendar.top+'px','z-index':calendar.zIndex}" v-if="calendar.show">-->
         <calendar :zero="calendar.zero" :lunar="calendar.lunar" :value="calendar.value" :begin="calendar.begin" :end="calendar.end" @select="calendar.select"></calendar>
       </div>
     </transition>
@@ -66,6 +67,7 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -179,7 +181,7 @@
     created:function () {  // 将日历提交到store中
       this.$store.commit('setProjectCount',{count:getDaysInOneMonth(this.calendar.value[0],this.calendar.value[1]),year: this.calendar.value[0],month: this.calendar.value[1],day:this.calendar.value[2]});
       this.$store.commit('setBusinessLineSelectProjectCount',{count:this.projects.length });
-//      this.$store.commit('setInfiniteLoading',{infiniteLoading:this.infiniteLoading });
+
     },
     methods:{
       setStore(value){
@@ -190,10 +192,11 @@
       getList(){
         let vm = this;
         let url = 'http://whjjgc.r93535.com/DayPlanDetailServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq;
+
         vm.$http.get(url).then((response) => {
 
           vm.listdata = response.data;
-          console.log("当前的项目的数据:"+JSON.stringify(vm.listdata));
+
           if (response.data.thiscount< 10){
             this.infiniteLoading =  true;
             this.loading = '没有更多数据了'
@@ -213,14 +216,10 @@
       onInfinite(done) {
         let vm = this;
         vm.counter++;
-        console.log("当前请求页数：" + vm.counter);
         let url = 'http://whjjgc.r93535.com/DayPlanDetailServlet?page='+vm.counter+'&baseuserid='+this.baseuserid+'&sgrq='+vm.sgrq;
         vm.$http.get(url).then((response) => {
-
-//          vm.pageEnd = vm.num * vm.counter;
-//          vm.pageStart = vm.pageEnd - vm.num;
           let arr = response.data.data;
-          console.log('thiscount'+ response.data.thiscount);
+
           if (response.data.thiscount< 10){
             this.infiniteLoading =  true;
             this.loading = '没有更多数据了'
@@ -276,6 +275,7 @@
             this.className = 'animated jello';
             $('#projectList').height('100px');
           }else { // 关闭时
+            this.className = 'animated jello';
             $('#projectList').height('0px');
           }
         }, false);
@@ -291,7 +291,10 @@
         this.calendar.left=0;
         this.calendar.top=91;
         this.calendar.zIndex=6; // 设置显示层级
-        this.calendar.height=document.body.clientHeight-120;
+
+        var h=document.documentElement.clientHeight-140;
+
+        this.calendar.height=h;
 
         e.stopPropagation();
         window.setTimeout(()=>{
@@ -305,9 +308,7 @@
       // 点击事件
       dayClick(index,item) { // index 为下标值
         let vm = this;
-
         var clickDay =item.day>9?item.day:'0'+item.day;
-
         vm.sgrq = vm.calendar.value[0]+'-'+vm.calendar.value[1]+'-'+clickDay;
 
 //        重新调取数据，刷新列表数据
@@ -398,7 +399,6 @@
     line-height:20px;
     margin:0 auto;
     background: #E5F2FA;
-    /*background: #ff47ee;*/
     -webkit-border-radius: 20px 20px 0 0;
     -moz-border-radius: 20px 20px 0 0;
     border-radius: 20px 20px 0 0;
@@ -407,6 +407,7 @@
     width:100%;
     height:0px;
   }
+
   #projectList.show{
     animation:projectListShowAnim 1s;
     -moz-animation:projectListShowAnim 1s; /* Firefox */
@@ -423,13 +424,27 @@
   }
   @keyframes projectListShowAnim
   {
-    0%   {heigth:0;}
-    100% {height:120px;}
+    0%   {
+      heigth:0;
+    }
+    50%{
+      height:50px;
+    }
+    100% {
+      height:100px;
+    }
   }
   @keyframes projectListHiddenAnim
   {
-    0%   {heigth:120px}
-    100% {height:0px;}
+    0%   {
+      heigth:120px;
+    }
+    50%{
+      height:50px;
+    }
+    100% {
+      height:0px;
+    }
   }
   /*scroll组件*/
   .days_box{
@@ -556,7 +571,7 @@
 
   /*下拉框*/
   .calendar-dropdown{
-    background: #ccc;
+    background: rgba(0,0,0,.5);
     position: absolute;
     left:0;
     top:0;
@@ -564,7 +579,7 @@
     border-radius: 2px;
     /*控制日期表格显示的宽度=100%*/
     width:100%;
-    height:800px;
+    /*height:800px;*/
   }
   /*弹出框*/
   .calendar-dialog{

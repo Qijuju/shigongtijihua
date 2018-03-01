@@ -260,14 +260,22 @@
       // 底部'项目'的显示和隐藏
       selectProShowOrHidden(){
         var isOpen=false;
-        $('#project').click(function () {
+        var projectAnimation = document.getElementById("projectAnimation");
+
+        projectAnimation.addEventListener("click", function(){
           isOpen =!isOpen;
           if(isOpen){ // 打开时
+            this.className = 'animated jello';
             $('#projectList').height('100px');
           }else { // 关闭时
+            this.className = 'animated jello';
             $('#projectList').height('0px');
           }
-        });
+        }, false);
+
+        projectAnimation.addEventListener("webkitAnimationEnd", function(){ //动画结束时事件
+          this.className ='';
+        }, false);
       },
 
       //日历控件的事件
@@ -276,7 +284,10 @@
         this.calendar.left=0;
         this.calendar.top=91;
         this.calendar.zIndex=6; // 设置显示层级
-        this.calendar.height=document.body.clientHeight-120;
+
+        var h=document.documentElement.clientHeight-140;
+
+        this.calendar.height=h;
 
         e.stopPropagation();
         window.setTimeout(()=>{
@@ -326,7 +337,6 @@
         for(var i=0;i<this.days.length;i++){
           this.days[i].showBg = i===index?true:false;
         }
-
       }
     }
   }
@@ -545,13 +555,12 @@
 
   /*下拉框*/
   .calendar-dropdown{
-    background: #ccc;
+    background:rgba(0,0,0,.5);
     position: absolute;
     left:0;
     top:0;
     border: 1px solid #eee;
     border-radius: 2px;
-    /*控制日期表格显示的宽度=100%*/
     width:100%;
     height:800px;
   }
@@ -618,10 +627,8 @@
   }
   p.dateDetail{
     width:100%;
-    /*height:22px;*/
     height:44px;
     text-align: center;
-    /*line-height:22px;*/
     line-height:44px;
     padding:3px;
     color: #2196F3;
@@ -644,6 +651,5 @@
     height:2px;
     background: #2196F3;
   }
-
 
 </style>

@@ -13,6 +13,7 @@
 </template>
 
 <script>
+
   import Tabbar from './components/Common/Tabbar'
 
   export default {
