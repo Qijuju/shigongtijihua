@@ -120,6 +120,7 @@
         />
       </van-col>
     </van-row>
+    <Tabbar></Tabbar>
   </div>
 </template>
 
@@ -127,11 +128,12 @@
   import { NavBar,Field,Picker,Radio,Toast,DatetimePicker  } from 'vant';
   import Vue from 'vue';
   import axios from 'axios';
+  import Tabbar from '../Common/Tabbar';
 
   export default {
     name: "NearBusinessLineSearch",
     components: {
-      NavBar,Field,Picker,Radio,Toast,DatetimePicker
+      NavBar,Field,Picker,Radio,Toast,DatetimePicker,Tabbar
     },
     data() {
       return {

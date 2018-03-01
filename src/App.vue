@@ -8,17 +8,16 @@
         <router-view></router-view>
       </keep-alive>
     </div>
-    <Tabbar/>
+    <!--<Tabbar/>-->
   </div>
 </template>
 
 <script>
-
-  import Tabbar from './components/Common/Tabbar'
+  // import Tabbar from './components/Common/Tabbar'
 
   export default {
     components: {
-       Tabbar
+       // Tabbar
     },
     data(){
       return{

@@ -66,11 +66,13 @@
         <SelectProject v-if="projects" :projects="projects" :count="projects.length"></SelectProject>
       </div>
     </div>
+    <Tabbar/>
   </div>
 
 </template>
 
 <script>
+  import Tabbar from '../Common/Tabbar';
   import $ from "jquery"
   import axios from 'axios';
   import Header from '../Common/Header'
@@ -90,6 +92,7 @@
   export default {
     name: "index",
     components: {
+      Tabbar,
       SearchIndex,
       Header,
       calendar,
@@ -474,9 +477,9 @@
   }
 
   /* 修改tabbar和内容显示区域的显示层级 */
-  .van-tabbar--fixed{
-    z-index: 2;
-  }
+  /*.van-tabbar--fixed{*/
+    /*z-index: 5;*/
+  /*}*/
   /* 栅格样式 */
   .van-col{
     height: 44px;

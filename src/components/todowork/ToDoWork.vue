@@ -259,8 +259,9 @@ GetToDoWorkflowList(){
     margin-top: 3px;
     /*background-color: #efeff4;*/
     /*修改列表内容区域样式*/
-    width: 95%;
-    margin: 10px;
+    width: 94%;
+    margin: 0 auto;
+    margin-top: 6%;
     border-radius: 4px;
     padding: 5px;
     -webkit-box-shadow: 0px 0px 5px 1px #ccc;

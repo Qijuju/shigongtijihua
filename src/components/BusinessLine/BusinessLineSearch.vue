@@ -120,18 +120,21 @@
         />
       </van-col>
     </van-row>
+    <Tabbar/>
   </div>
 </template>
 
 <script>
+
   import { NavBar,Field,Picker,Radio,Toast,DatetimePicker  } from 'vant';
   import Vue from 'vue';
   import axios from 'axios';
+  import Tabbar from '../Common/Tabbar';
 
   export default {
     name: "businessline-search",
     components: {
-      NavBar,Field,Picker,Radio,Toast,DatetimePicker
+      NavBar,Field,Picker,Radio,Toast,DatetimePicker,Tabbar
     },
     watch: {
       $route: function (route) {
