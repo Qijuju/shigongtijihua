@@ -94,7 +94,8 @@ margin: 10px 0px 0px 10px;
 }
 /* 施工日计划我已审批筛选-类型标题-样式 */
  h1{
-   font: 0.4em sans-serif;
+   /*font: 0.4em sans-serif;*/
+   font: 0.9em sans-serif;
    margin: 10px 0px 0px 20px;
  }
 

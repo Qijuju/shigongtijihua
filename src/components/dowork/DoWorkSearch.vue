@@ -6,13 +6,21 @@
 <!-- 施工日计划我已审批搜索-表头-结束-->
 <!-- 施工日计划我已审批搜索-输入项目名称-开始 -->
    <form action="/">
-    <van-search
-      v-model="value"
-      placeholder="请输入项目名称"
-      show-action
-      @search="onSearch"
-      @cancel="onCancel"
-    />
+    <!--<van-search-->
+      <!--v-model="value"-->
+      <!--placeholder="请输入项目名称"-->
+      <!--show-action-->
+      <!--@search="onSearch"-->
+      <!--@cancel="onCancel"-->
+    <!--/>-->
+     <van-search
+       v-model="value"
+       placeholder="请输入项目名称"
+       show-action
+       @search="onSearch"
+     >
+       <div slot="action" @click="onSearch" style="padding: 0 10px;">搜索</div>
+     </van-search>
   </form>
 <!-- 施工日计划我已审批搜索-输入项目名称-结束 -->
   </div>
@@ -37,7 +45,9 @@ export default {
     //  点击搜索按钮跳转事件
     onSearch(){
       //向我已审批页面展示-传递流程名称
-      bus.$emit('v-model',this.value)
+      console.log(this.value);
+      debugger;
+      bus.$emit('v-model',this.value);
       this.$router.push({path: '/ICreate'});
       },
     // 点击取消按钮跳转事件

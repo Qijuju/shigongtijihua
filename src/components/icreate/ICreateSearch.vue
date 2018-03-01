@@ -6,13 +6,21 @@
 <!-- 施工日计划我发起的搜索-表头-结束 -->
 <!-- 施工日计划我发起的搜索-输入项目名称-开始 -->
    <form action="/">
-    <van-search
-      v-model="value"
-      placeholder="请输入项目名称"
-      show-action
-      @search="onSearch"
-      @cancel="onCancel"
-    />
+    <!--<van-search-->
+      <!--v-model="value"-->
+      <!--placeholder="请输入项目名称"-->
+      <!--show-action-->
+      <!--@search="onSearch"-->
+      <!--@cancel="onCancel"-->
+    <!--/>-->
+     <van-search
+       v-model="value"
+       placeholder="请输入项目名称"
+       show-action
+       @search="onSearch"
+     >
+       <div slot="action" @click="onSearch" style="padding: 0 10px;">搜索</div>
+     </van-search>
   </form>
 <!-- 施工日计划我发起的搜索-输入项目名称-结束 -->
   </div>

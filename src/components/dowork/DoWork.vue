@@ -132,10 +132,10 @@ export default {
       //  获取点击审批状态事件的值
        bus.$on('van-button--normal-zt',data=> {
          this.status = data;
-         alert('status===='+data);
+         //alert('status===='+data);
          bus.$on('van-button--normal',data=> {
           this.workflowId = data;
-          alert('workflowId===='+data);
+          //alert('workflowId===='+data);
           this.GetDoWorkflowList();
           });
       });

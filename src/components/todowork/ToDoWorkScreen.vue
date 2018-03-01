@@ -79,7 +79,8 @@ export default {
 }
 /* 施工日计划待我审批筛选-类型标题-样式 */
  h1{
-   font: 1.0em sans-serif;
+   /*font: 1.0em sans-serif;*/
+   font: 0.9em sans-serif;
    margin: 10px 0px 0px 20px;
  }
 </style>

@@ -117,6 +117,10 @@
   -webkit-transform-origin: center;
   transform-origin: center;
 }
+/* 修改tabbar和内容显示区域的显示层级 */
+.van-tabbar--fixed{
+  z-index: 5;
+}
 
 
 
