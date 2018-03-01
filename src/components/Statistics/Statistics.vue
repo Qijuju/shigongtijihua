@@ -1,61 +1,48 @@
 <template>
   <div class="statistics">
     <p>待开发</p>
-    <!--<ul-->
-      <!--v-waterfall-lower="loadMore"-->
-      <!--v-waterfall-upper="refreshData"-->
-      <!--waterfall-disabled="disabled"-->
-      <!--waterfall-offset="400"-->
-    <!--&gt;-->
-      <!--<li v-for="item in list">{{ item }}</li>-->
-    <!--</ul>-->
+    <van-tabbar v-model="active" to="/NonBusinessLine">
+      <van-tabbar-item icon="shop">
+        <span>自定义1</span>
+        <template slot="icon" slot-scope="props" to="/Index">
+          <img src="../../assets/images/sgrjhImages/tjg.png" alt="" v-if="props.active">
+          <img src="../../assets/images/sgrjhImages/tj.png" v-else="">
+        </template>
+      </van-tabbar-item>
+      <van-tabbar-item icon="shop">
+        <span>自定义2</span>
+        <template slot="icon" slot-scope="props">
+          <img src="../../assets/images/sgrjhImages/sxg.png" alt="" v-if="props.active">
+          <img src="../../assets/images/sgrjhImages/sx.png" v-else="">
+        </template>
+      </van-tabbar-item>
+      <van-tabbar-item icon="shop">
+        <span>自定义3</span>
+        <template slot="icon" slot-scope="props">
+          <img src="../../assets/images/sgrjhImages/ljyyxg.png" alt="" v-if="props.active">
+          <img src="../../assets/images/sgrjhImages/ljyyx.png" v-else="">
+        </template>
+      </van-tabbar-item>
+
+    </van-tabbar>
   </div>
 </template>
 
 <script>
-  import { Waterfall } from 'vant';
-
   export default{
     name:'statistics',
-    directives: {
-      /*WaterfallLower: Waterfall('lower'),
-      WaterfallUpper: Waterfall('upper')*/
-    },
     data(){
       return {
-        /*list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-        disabled: false*/
-      }
-    },
-    components:{
-    },
-    methods: {
-      /*refreshData(){
-        this.disabled = true;
-        setTimeout(() => {
-          this.list = ['a','b','c','d','e','f','g','h','i','j','k','l'];
-          this.disabled = false;
-        }, 200);
+        active: 0,
+        icon: {
 
-      },
-      loadMore(){
-        this.disabled = true;
-        setTimeout(() => {
-          for (let i = 0; i < 5; i++) {
-            this.list.push(this.list.length);
-          }
-          this.disabled = false;
-        }, 200);
-      }*/
+        }
+      }
     }
   }
 </script>
 
-<style>
-/*  ul li{
-    height:60px;
-    line-height:60px;
-    border-bottom:1px solid #ccc;
-  }*/
+<style scoped>
+
 
 </style>
