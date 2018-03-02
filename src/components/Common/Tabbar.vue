@@ -1,12 +1,15 @@
 <template>
   <div class="tabbar">
+    <!--<activity-->
+      <!--android:name=".filing.MainActivity"-->
+      <!--android:windowSoftInputMode="adjustResize|stateHidden"-->
+    <!--/>-->
     <van-tabbar v-model="active">
       <van-tabbar-item icon="shop" to="/Index">
         <span>首页</span>
         <template slot="icon" slot-scope="props" >
           <img src="../../assets/images/sgrjhImages/homeg.png" alt="" v-if="props.active">
           <img src="../../assets/images/sgrjhImages/home.png" v-else="">
-          <!--<img :src="props.active ? icon.active : icon.normal" />-->
         </template>
       </van-tabbar-item>
       <van-tabbar-item icon="shop" to="/BusinessLine">
