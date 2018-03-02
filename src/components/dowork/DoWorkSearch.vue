@@ -46,7 +46,6 @@ export default {
     onSearch(){
       //向我已审批页面展示-传递流程名称
       console.log(this.value);
-      debugger;
       bus.$emit('v-model',this.value);
       this.$router.push({path: '/ICreate'});
       },
