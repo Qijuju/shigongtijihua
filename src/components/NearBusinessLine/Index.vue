@@ -67,12 +67,10 @@
         <SelectProject v-if="projects" :projects="projects" :count="projects.length"></SelectProject>
       </div>
     </div>
-    <Tabbar/>
   </div>
 </template>
 
 <script>
-  import Tabbar from '../Common/Tabbar';
   import $ from "jquery"
   import axios from 'axios';
   import Header from '../Common/Header'
@@ -92,7 +90,6 @@
   export default {
     name: "index",
     components: {
-      Tabbar,
       SearchIndex,
       Header,
       calendar,

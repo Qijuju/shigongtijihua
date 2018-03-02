@@ -1,5 +1,5 @@
 <template>
-  <div class="1">
+  <div class="iCreateSearch">
  <!-- 施工日计划我发起的搜索-表头-开始 -->
     <van-nav-bar title="我发起的" left-text="返回" @click-left="onClickLeft">
     </van-nav-bar>
@@ -32,7 +32,30 @@ import axios from 'axios';
 import bus from '../bus';
 
 export default {
+  name:'iCreateSearch',
+  data() {
+    return {
+
+    }
+  },
+  mounted: function() {
+    this.disnone();
+    this.disblock();
+  },
    methods: {
+     disnone(){
+       $("input").focus(function(){
+         $(".van-tabbar--fixed").hide();
+       });
+     },
+     disblock(){
+       $("input").blur(function(){
+         setInterval(function () {
+           $(".van-tabbar--fixed").show();
+         },1000);
+
+       });
+     },
      // 表头返回按钮事件
     onClickLeft() {
         // Toast('返回');

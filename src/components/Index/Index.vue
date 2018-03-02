@@ -21,13 +21,11 @@
         </van-col>
       </van-row>
     </div>
-    <Tabbar/>
   </div>
 
 </template>
 
 <script>
-  import Tabbar from '../Common/Tabbar';
   import axios from 'axios';
   import Header from '../Common/Header'
 
@@ -40,8 +38,7 @@
       }
     },
     components:{
-      Header,
-      Tabbar
+      Header
     },
     mounted:function () {
       this.GetToDoWorkflowCount();

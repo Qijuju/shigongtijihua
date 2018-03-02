@@ -1,5 +1,5 @@
 <template>
-  <div class="1">
+  <div class="toDoWorkSearch">
     <!-- 施工日计划待我审批搜索-表头-开始 -->
     <van-nav-bar title="待我审批" left-text="返回" @click-left="onClickLeft">
     </van-nav-bar>
@@ -33,12 +33,30 @@ import axios from 'axios';
 import bus from '../bus';
 
 export default {
-   data() {
+  name:'toDoWorkSearch',
+  data() {
     return {
 
-    };
+    }
+  },
+  mounted: function() {
+    this.disnone();
+    this.disblock();
   },
    methods: {
+     disnone(){
+       $("input").focus(function(){
+         $(".van-tabbar--fixed").hide();
+       });
+     },
+     disblock(){
+       $("input").blur(function(){
+         setInterval(function () {
+           $(".van-tabbar--fixed").show();
+         },1000);
+
+       });
+     },
      // 表头返回按钮事件
     onClickLeft() {
        this.$router.push({path: '/ToDoWork'});

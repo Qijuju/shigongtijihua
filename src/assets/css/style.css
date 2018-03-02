@@ -206,6 +206,9 @@
 .van-tabbar--fixed{
   z-index: 5;
 }
+.mint-tabbar.is-fixed{
+  z-index: 5;
+}
 
 
 

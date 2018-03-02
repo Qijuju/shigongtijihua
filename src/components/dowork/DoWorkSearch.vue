@@ -1,5 +1,5 @@
 <template>
-  <div class="1">
+  <div class="doWorkSearch">
  <!-- 施工日计划我已审批搜索-表头-开始 -->
     <van-nav-bar title="我已审批" left-text="返回" @click-left="onClickLeft">
     </van-nav-bar>
@@ -32,7 +32,30 @@ import axios from 'axios';
 import bus from '../bus';
 
 export default {
+  name:'doWorkSearch',
+  data() {
+    return {
+
+    }
+  },
+  mounted: function() {
+    this.disnone();
+    this.disblock();
+  },
    methods: {
+     disnone(){
+       $("input").focus(function(){
+         $(".van-tabbar--fixed").hide();
+       });
+     },
+     disblock(){
+       $("input").blur(function(){
+         setInterval(function () {
+           $(".van-tabbar--fixed").show();
+         },1000);
+
+       });
+     },
      // 表头返回按钮事件
     onClickLeft() {
        // Toast('返回');
@@ -46,7 +69,6 @@ export default {
     onSearch(){
       //向我已审批页面展示-传递流程名称
       console.log(this.value);
-      debugger;
       bus.$emit('v-model',this.value);
       this.$router.push({path: '/ICreate'});
       },
