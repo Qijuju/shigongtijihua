@@ -23,24 +23,23 @@
     </div>
     <div class="charts" >
       <div id="mycharts" calss="mycharts" :style="{width:mywidth,height:mywidth}"></div>
-      <div>
         <van-row>
           <van-col span="9">
-            <div class="chartsSize">项目名称</div>
+            <h4>项目名称</h4>
           </van-col>
           <van-col span="4" >
-            <div class="chartsSize">营业线</div>
+            <h4>营业线</h4>
           </van-col>
           <van-col span="6"  >
-            <div class="chartsSize">临近营业线</div>
+            <h4>临近营业线</h4>
           </van-col>
           <van-col span="5" >
-            <div class="chartsSize">非营业线</div>
+            <h4>非营业线</h4>
           </van-col>
         </van-row>
         <van-row v-for="detail in today_detail">
-            <van-col span="9">
-              <div class="chartsSize hh">{{ detail.xmmc}}</div>
+            <van-col span="9" class="getHeight">
+              <div class="chartsSize">{{ detail.xmmc}}</div>
             </van-col>
             <van-col span="4" >
               <div class="chartsSize">{{ detail.yyxrjh }}</div>
@@ -52,26 +51,24 @@
               <div class="chartsSize">{{ detail.fyyxrjh }}</div>
             </van-col>
         </van-row>
-      </div>
-      <div id="mycharts1" calss="mycharts1" :style="{width:mywidth,height:mywidth}"></div>
-      <div>
+        <div id="mycharts1" calss="mycharts1" :style="{width:mywidth,height:mywidth}"></div>
         <van-row>
-          <van-col span="9"  >
-            <div class="chartsSize">项目名称</div>
+          <van-col span="9">
+            <h4>项目名称</h4>
           </van-col>
           <van-col span="4" >
-            <div class="chartsSize">营业线</div>
+            <h4>营业线</h4>
           </van-col>
           <van-col span="6"  >
-            <div class="chartsSize">临近营业线</div>
+            <h4>临近营业线</h4>
           </van-col>
           <van-col span="5" >
-            <div class="chartsSize">非营业线</div>
+            <h4>非营业线</h4>
           </van-col>
         </van-row>
         <van-row v-for="detail in tomorrow_detail">
-            <van-col span="9"  >
-              <div class="chartsSize h">{{ detail.xmmc}}</div>
+            <van-col span="9"  class="getHeight">
+              <div class="chartsSize">{{ detail.xmmc}}</div>
             </van-col>
             <van-col span="4" >
               <div class="chartsSize">{{ detail.yyxrjh }}</div>
@@ -83,7 +80,6 @@
               <div class="chartsSize">{{ detail.fyyxrjh }}</div>
             </van-col>
         </van-row>
-      </div>
     </div>
 
   </div>
@@ -95,6 +91,7 @@
   import echarts from 'echarts'
   import { Row, Col } from 'vant';
 
+
   export default {
     name: 'nonBusinessLine',// 和组件名称保持一致，只不过是小写的
     data () {
@@ -102,7 +99,8 @@
         ToDoWorkflowCount:'',//存放获取待办流程条数
         workflowTypeId:18,
         charts: '',
-        mywidth:window.innerWidth + 'px',
+//        mywidth:window.innerWidth + 'px',
+        mywidth:document.body.clientWidth + 'px',
         today:'2018-01-01',
         tomorrow:'2018-12-31',
         /*opinion: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎'],
@@ -120,7 +118,7 @@
         today_detail:[],
         today_statistics:[],
         tomorrow_detail:[],
-        tomorrow_statistics:[],
+        tomorrow_statistics:[]
       }
     },
     components:{
@@ -128,28 +126,16 @@
     },
     mounted:function () {
       this.GetToDoWorkflowCount();
-      this.today=this.getDay(0,'-')
+      this.today=this.getDay(0,'-');
       this.tomorrow=this.getDay(1,'-')
       this.today='2018-02-28'
       this.tomorrow='2018-02-28'
-      this.getdata(this.baseuserId,this.type,this.today,this.today,0)
+      this.getdata(this.baseuserId,this.type,this.today,this.today,0);
       this.getdata(this.baseuserId,this.type,this.tomorrow,this.tomorrow,1)
-      // this.getheight();
-    },
-    created:function () {  // 将日历提交到store中
-
     },
     methods:{
-      getheight(){
-
-        // $(".h").siblings().height('63px');
-        $(".hh").height($(".h").height);
-        console.log("高度：",$(".h"));
-        console.log("高度：",$(".h").height());
-        console.log("gaodu;",document.getElementsByClassName('h')[0]);
-
-      },
       getdata(baseuserid,type,sgksrq,sgjsrq,date){
+        let vm=this;
         var url='http://whjjgc.r93535.com/DayplanAllProjectnewServlet?baseuserid='+baseuserid+'&type='+type+'&sgksrq='+sgksrq+'&sgjsrq='+sgjsrq
         axios.get(url)
           .then(response => {
@@ -164,9 +150,8 @@
               this.today_statistics.push({value: response.data.ljyyxrjh, name: '临近营业线'})
               this.today_statistics.push({value: response.data.fyyxrjh, name: '非营业线'})
               this.drawPie('mycharts','施工日计划统计图',this.today,0)
-              this.getheight();
             }
-            console.log("当日数据源："+JSON.stringify(this.today_detail));
+//            console.log("当日数据源："+JSON.stringify(this.today_detail));
             if(date===1){
               var data = response.data.data
               for(var i in data) {
@@ -176,17 +161,28 @@
               this.tomorrow_statistics.push({value: response.data.ljyyxrjh, name: '临近营业线'})
               this.tomorrow_statistics.push({value: response.data.fyyxrjh, name: '非营业线'})
               this.drawPie('mycharts1','施工日计划统计图',this.tomorrow,1)
-              this.getheight();
             }
-            console.log("次日数据源："+JSON.stringify(this.tomorrow_detail));
+
+            this.$nextTick(function(){
+              console.log("$nextTick监听数据渲染完成之后的回调函数");
+              var obj = $(".getHeight");
+              for(var i=0;i<obj.length;i++){
+                var h=$(obj[i]).height();
+                $(obj[i]).siblings().height(h);
+                $(obj[i]).siblings().css({
+                  'lineHeight':h+'px'
+                });
+              }
+            })
           }).catch(err => {
           console.error(err.message)
         })
       },
-      resizeCharts () {
-        let chartBox = document.getElementsByClassName('charts')[0]
-        this.mywidth = chartBox.clientWidth + 'px'
-      },
+//      resizeCharts () {
+//        let chartBox = document.getElementsByClassName('charts')[0];
+//        console.log("设置宽度："+ chartBox.clientWidth);
+//        this.mywidth = chartBox.clientWidth + 'px'
+//      },
       getDay(num, str) {
         var today = new Date();
         var nowTime = today.getTime();
@@ -340,16 +336,19 @@
 
   /*}*/
   .charts .van-row{
-    border: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    margin-top:-1px;
 
+  }
+  .charts .van-row:last-child{
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
   }
   .charts .van-col{
     border-right:1px solid #ccc;
   }
-  /*.charts .van-col-9,*/
-  /*.charts .van-col-6,*/
-  /*.charts .van-col-4,*/
-  /*.charts .van-col-5{*/
-    /*height:63px;*/
-  /*}*/
+  .charts .van-col:last-child{
+    border-right:0;
+  }
 </style>

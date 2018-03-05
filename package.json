@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "calendar": "^0.1.0",
+    "echarts": "^4.0.4",
     "jquery": "^1.10.2",
     "mint-ui": "^2.2.13",
     "vant": "^0.12.4",

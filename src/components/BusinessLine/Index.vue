@@ -193,9 +193,12 @@
         let vm = this;
         let url = 'http://whjjgc.r93535.com/DayPlanDetailServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq;
 
+        console.log("营业线首页数据源请求url："+url);
         vm.$http.get(url).then((response) => {
 
           vm.listdata = response.data;
+
+          console.log("营业线首页列表数据："+JSON.stringify(vm.listdata));
 
           if (response.data.thiscount< 10){
             this.infiniteLoading =  true;
