@@ -164,7 +164,7 @@
             }
 
             this.$nextTick(function(){
-              console.log("$nextTick监听数据渲染完成之后的回调函数");
+//              console.log("$nextTick监听数据渲染完成之后的回调函数");
               var obj = $(".getHeight");
               for(var i=0;i<obj.length;i++){
                 var h=$(obj[i]).height();
