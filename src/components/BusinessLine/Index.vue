@@ -197,6 +197,9 @@
       // 获取列表首页数据
       getList(){
         let vm = this;
+        // 测试用
+//        vm.sgrq='2018-02-28';
+
         let url = 'http://whjjgc.r93535.com/DayPlanDetailServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq;
 
         console.log("营业线首页数据源请求url："+url);

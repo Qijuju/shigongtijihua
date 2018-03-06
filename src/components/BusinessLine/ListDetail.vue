@@ -84,7 +84,7 @@
       <van-row>
         <van-col span="8">结束时间点</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.jjsjd)'>{{totalData.jjsjd}}</span>
+          <span @click='popupClick(totalData.jssjd)'>{{totalData.jssjd}}</span>
         </van-col>
       </van-row>
       <van-row>
@@ -132,7 +132,7 @@
       <van-row>
         <van-col span="8">配合单位</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.hpdw)'>{{totalData.hpdw}}</span>
+          <span @click='popupClick(totalData.phdw)'>{{totalData.phdw}}</span>
         </van-col>
       </van-row>
       <van-row>
@@ -149,12 +149,13 @@
       </van-row>
       <br>
       <van-row>
-        <van-col span="8">计划批复情况</van-col>
-        <van-col span="16">
-          <span @click='popupClick(totalData.jhpfqk)'>{{totalData.jhpfqk}}</span>
-        </van-col>
+        <van-col span="24">计划批复情况</van-col>
+        <!--<van-col span="16">-->
+          <!--<span @click='popupClick(totalData.jhpfqk)'>{{totalData.jhpfqk}}</span>-->
+        <!--</van-col>-->
       </van-row>
       <div class="img">
+        <!--jhpfqktp 图片的id,根据id区接口那图片路径-->
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
@@ -163,12 +164,14 @@
       </div>
       <van-row>
         <van-col span="8">计划批复情况描述</van-col>
-        <van-col span="16">span: 16</van-col>
+        <van-col span="16">
+            <span @click='popupClick(totalData.jhpfqk)'>{{totalData.jhpfqk}}</span>
+        </van-col>
       </van-row>
       <br>
       <van-row>
-        <van-col span="8">人员签到情况</van-col>
-        <van-col span="16">span: 16</van-col>
+        <van-col span="24">人员签到情况</van-col>
+        <!--<van-col span="16">span: 16</van-col>-->
       </van-row>
       <div class="img">
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
@@ -178,17 +181,25 @@
       </div>
       <van-row>
         <van-col span="8">人员签到情况描述</van-col>
-        <van-col span="16">span: 16</van-col>
+        <van-col span="16">
+          <span @click='popupClick(totalData.dcryqk)'>{{totalData.dcryqk}}</span>
+        </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">计划兑现情况</van-col>
+        <van-col span="8">计划兑现情况 字段jhsfdx</van-col>
         <van-col span="16">
           <van-switch :value="checked" @input="onInput" />
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">现场照片</van-col>
-        <van-col span="16">span: 16</van-col>
+        <van-col span="8">计划兑现情况描述jhdxqk</van-col>
+        <van-col span="16">
+          <span @click='popupClick(totalData.jhdxqk)'>{{totalData.jhdxqk}}</span>
+        </van-col>
+      </van-row>
+      <van-row>
+        <van-col span="24">现场照片</van-col>
+        <!--<van-col span="16">span: 16</van-col>-->
       </van-row>
       <div class="img">
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
@@ -199,10 +210,12 @@
       </div>
       <van-row>
         <van-col span="8">签到时间</van-col>
-        <van-col span="16">span: 16</van-col>
+        <van-col span="16">
+          <span @click='popupClick(totalData.qdsj)'>{{totalData.qdsj}}</span>
+        </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">签到地点</van-col>
+        <van-col span="8">签到地点 qddd</van-col>
         <van-col span="16">span: 16
           <button>获取</button>
           <button>刷新</button>
@@ -282,7 +295,7 @@
         },
         getData(){
           let vm = this;
-          let url = 'http://whjjgc.r93535.com/YYXDayPlanUniqueServlet?id='+vm.id+'&baseuserId=236215';
+          let url = 'http://whjjgc.r93535.com/YYXDayPlanUniqueServlet?id='+vm.id+'&baseuserId='+vm.baseuserid;
           vm.$http.get(url).then((response) => {
             console.log("详情页面的数据：" + JSON.stringify(response.data));
             vm.totalData = response.data;
@@ -351,6 +364,7 @@
   }
   .content{
     margin-top:44px;
+    margin-bottom:55px;
   }
 
   /* 修改栅格样式 */

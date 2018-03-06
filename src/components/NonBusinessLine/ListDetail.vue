@@ -1,7 +1,12 @@
 <template>
   <div class="listDetail">
     <!--title-->
-    <Header title="非营业线施工日计划"></Header>
+    <van-nav-bar title="非营业线施工日计划"
+                 left-text="返回"
+                 @click-left="onClickLeft"
+                 fixed
+    ></van-nav-bar>
+    <!--<Header title="非营业线施工日计划"></Header>-->
     <!--内容-->
     <div class="content">
       <van-row>
@@ -37,7 +42,7 @@
       <van-row>
         <van-col span="8">结束时间点</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.jjsjd)'>{{totalData.jjsjd}}</span>
+          <span @click='popupClick(totalData.jssjb)'>{{totalData.jssjb}}</span>
         </van-col>
       </van-row>
       <van-row>
@@ -129,6 +134,9 @@
         }
       },
       methods:{
+        onClickLeft(){
+          this.$router.push({path: '/NonBusinessLine'});
+        },
         phoneOrPicture() { // 拍照或从相册中选择
           console.log("拍照或从相册中选择--点击事件进来了吗？");
           this.sheetVisible = true;
@@ -172,6 +180,14 @@
 </script>
 
 <style scoped>
+  /* 设置头部 style start */
+  .van-nav-bar{
+    background: #2196F3;
+    color: #fff;
+  }
+  .van-nav-bar .van-icon{
+    color: #fff;
+  }
   /* popup */
   .mint-popup{
     -webkit-border-radius: 4px;
@@ -207,6 +223,7 @@
   }
   .content{
     margin-top:44px;
+    margin-bottom:55px;
   }
 
   /* 修改栅格样式 */

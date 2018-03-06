@@ -23,6 +23,10 @@
     </div>
     <div class="charts" >
       <div id="mycharts" calss="mycharts" :style="{width:mywidth,height:mywidth}"></div>
+      <div id="mycharts1" calss="mycharts1" :style="{width:mywidth,height:mywidth}"></div>
+        <van-row>
+          <van-col span="24"><h4>{{today}}至{{nextweek}}施工日计划</h4></van-col>
+        </van-row>
         <van-row>
           <van-col span="9">
             <h4>项目名称</h4>
@@ -37,47 +41,18 @@
             <h4>非营业线</h4>
           </van-col>
         </van-row>
-        <van-row v-for="detail in today_detail">
-            <van-col span="9" class="getHeight">
-              <div class="chartsSize">{{ detail.xmmc}}</div>
-            </van-col>
-            <van-col span="4" >
-              <div class="chartsSize">{{ detail.yyxrjh }}</div>
-            </van-col>
-            <van-col span="6"  >
-              <div class="chartsSize">{{ detail.ljyyxrjh}}</div>
-            </van-col>
-            <van-col span="5" >
-              <div class="chartsSize">{{ detail.fyyxrjh }}</div>
-            </van-col>
-        </van-row>
-        <div id="mycharts1" calss="mycharts1" :style="{width:mywidth,height:mywidth}"></div>
-        <van-row>
-          <van-col span="9">
-            <h4>项目名称</h4>
-          </van-col>
-          <van-col span="4" >
-            <h4>营业线</h4>
-          </van-col>
-          <van-col span="6"  >
-            <h4>临近营业线</h4>
-          </van-col>
-          <van-col span="5" >
-            <h4>非营业线</h4>
-          </van-col>
-        </van-row>
-        <van-row v-for="detail in tomorrow_detail">
+        <van-row v-for="d in detail">
             <van-col span="9"  class="getHeight">
-              <div class="chartsSize">{{ detail.xmmc}}</div>
+              <div class="chartsSize">{{ d.xmmc}}</div>
             </van-col>
             <van-col span="4" >
-              <div class="chartsSize">{{ detail.yyxrjh }}</div>
+              <div class="chartsSize">{{ d.yyxrjh }}</div>
             </van-col>
             <van-col span="6"  >
-              <div class="chartsSize">{{ detail.ljyyxrjh}}</div>
+              <div class="chartsSize">{{ d.ljyyxrjh}}</div>
             </van-col>
             <van-col span="5" >
-              <div class="chartsSize">{{ detail.fyyxrjh }}</div>
+              <div class="chartsSize">{{ d.fyyxrjh }}</div>
             </van-col>
         </van-row>
     </div>
@@ -99,25 +74,16 @@
         ToDoWorkflowCount:'',//存放获取待办流程条数
         workflowTypeId:18,
         charts: '',
-//        mywidth:window.innerWidth + 'px',
         mywidth:document.body.clientWidth + 'px',
         today:'2018-01-01',
         tomorrow:'2018-12-31',
-        /*opinion: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎'],
-        todaydata:[],
-        tomorrowdata:[],
-        opinionData: [
-          {value: 335, name: '直接访问'},
-          {value: 310, name: '邮件营销'},
-          {value: 234, name: '联盟广告'},
-          {value: 135, name: '视频广告'},
-          {value: 1548, name: '搜索引擎'}
-        ],*/
+        nextweek:'2018-01-01',
         baseuserid:102298,
         type:2,
         today_detail:[],
         today_statistics:[],
-        tomorrow_detail:[],
+        detail:[],
+        /*tomorrow_detail:[],*/
         tomorrow_statistics:[]
       }
     },
@@ -126,26 +92,24 @@
     },
     mounted:function () {
       this.GetToDoWorkflowCount();
-      this.today=this.getDay(0,'-');
-      this.tomorrow=this.getDay(1,'-')
-      this.today='2018-02-28'
-      this.tomorrow='2018-02-28'
-      this.getdata(this.baseuserId,this.type,this.today,this.today,0);
-      this.getdata(this.baseuserId,this.type,this.tomorrow,this.tomorrow,1)
+      this.$nextTick(function() {
+        this.today = this.getDay(0, '-')
+        this.tomorrow = this.getDay(1, '-')
+        this.nextweek = this.getDay(6, '-')
+        /*this.today = '2018-02-28'*/
+        /*this.tomorrow='2018-02-28'*/
+        this.getdata(this.baseuserId, this.type, this.today, this.today, 0);
+        this.getdata(this.baseuserId, this.type, this.tomorrow, this.tomorrow, 1)
+        this.getdata(this.baseuserId, this.type, this.today, this.nextweek, 2)
+      })
     },
     methods:{
       getdata(baseuserid,type,sgksrq,sgjsrq,date){
-        let vm=this;
         var url='http://whjjgc.r93535.com/DayplanAllProjectnewServlet?baseuserid='+baseuserid+'&type='+type+'&sgksrq='+sgksrq+'&sgjsrq='+sgjsrq
         axios.get(url)
           .then(response => {
+            console.log(url)
             if(date===0){
-              var data = response.data.data
-              for(var i = 0;i<data.length;i++) {
-                this.today_detail.push(data[i])
-              }
-              // debugger
-              console.log(this.today_detail)
               this.today_statistics.push({value: response.data.yyxrjh, name: '营业线'})
               this.today_statistics.push({value: response.data.ljyyxrjh, name: '临近营业线'})
               this.today_statistics.push({value: response.data.fyyxrjh, name: '非营业线'})
@@ -153,36 +117,39 @@
             }
 //            console.log("当日数据源："+JSON.stringify(this.today_detail));
             if(date===1){
-              var data = response.data.data
-              for(var i in data) {
-                this.tomorrow_detail.push(data[i])
-              }
               this.tomorrow_statistics.push({value: response.data.yyxrjh, name: '营业线'})
               this.tomorrow_statistics.push({value: response.data.ljyyxrjh, name: '临近营业线'})
               this.tomorrow_statistics.push({value: response.data.fyyxrjh, name: '非营业线'})
               this.drawPie('mycharts1','施工日计划统计图',this.tomorrow,1)
             }
-
-            this.$nextTick(function(){
-//              console.log("$nextTick监听数据渲染完成之后的回调函数");
-              var obj = $(".getHeight");
-              for(var i=0;i<obj.length;i++){
-                var h=$(obj[i]).height();
-                $(obj[i]).siblings().height(h);
-                $(obj[i]).siblings().css({
-                  'lineHeight':h+'px'
-                });
+            if(date===2){
+              var data = response.data.data
+              for(var i = 0;i<data.length;i++) {
+                this.detail.push(data[i])
               }
-            })
+              /*表格渲染*/
+              this.$nextTick(function(){
+                console.log("$nextTick监听数据渲染完成之后的回调函数");
+                var obj = $(".getHeight");
+                for(var i=0;i<obj.length;i++){
+                  var h=$(obj[i]).height(); // 63
+                  $(obj[i]).siblings().height(h);
+                  $(obj[i]).siblings().css({
+                    'lineHeight':h+'px'
+                  });
+                }
+              })
+            }
+
           }).catch(err => {
           console.error(err.message)
         })
       },
-//      resizeCharts () {
-//        let chartBox = document.getElementsByClassName('charts')[0];
-//        console.log("设置宽度："+ chartBox.clientWidth);
-//        this.mywidth = chartBox.clientWidth + 'px'
-//      },
+      resizeCharts () {
+        let chartBox = document.getElementsByClassName('charts')[0];
+        console.log("设置宽度："+ chartBox.clientWidth);
+        this.mywidth = chartBox.clientWidth + 'px'
+      },
       getDay(num, str) {
         var today = new Date();
         var nowTime = today.getTime();

@@ -14,7 +14,7 @@
       <!--@cancel="onCancel"-->
     <!--/>-->
      <van-search
-       v-model="value"
+       v-model="qsrxmmc"
        placeholder="请输入项目名称"
        show-action
        @search="onSearch"
@@ -36,14 +36,16 @@ export default {
   data() {
     return {
 
+      qsrxmmc:'',//请输入项目名称
+      disabled: false,
     }
   },
   mounted: function() {
-    this.disnone();
-    this.disblock();
+   /* this.disnone();
+    this.disblock();*/
   },
    methods: {
-     disnone(){
+    /* disnone(){
        $("input").focus(function(){
          $(".van-tabbar--fixed").hide();
        });
@@ -55,7 +57,7 @@ export default {
          },1000);
 
        });
-     },
+     },*/
      // 表头返回按钮事件
     onClickLeft() {
         // Toast('返回');
@@ -68,7 +70,7 @@ export default {
     //  点击搜索按钮跳转事件
     onSearch(){
       //向我发起的页面展示-传递流程名称
-      bus.$emit('v-model',this.value)
+      bus.$emit('v-model',this.qsrxmmc)
       this.$router.push({path: '/DoWork'});
       },
     // 点击取消按钮跳转事件
