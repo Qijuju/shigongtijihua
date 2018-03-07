@@ -143,7 +143,7 @@
       getheight(){
 
         // $(".h").siblings().height('63px');
-        $(".hh").height($(".h").height);
+        $(".van-row").height($(".h").height+"px");
         console.log("高度：",$(".h"));
         console.log("高度：",$(".h").height());
         console.log("gaodu;",document.getElementsByClassName('h')[0]);
@@ -352,4 +352,5 @@
   /*.charts .van-col-5{*/
     /*height:63px;*/
   /*}*/
+
 </style>

@@ -90,11 +90,11 @@
         <img v-else slot="icon" src="../../assets/images/sgrjhImages/fyyx.png" >
         非营业线
       </mt-tab-item>
-      <!--<mt-tab-item id="统计">-->
-        <!--<img v-if="selectedTab==='统计'" slot="icon" src="../../assets/images/sgrjhImages/tjg.png" >-->
-        <!--<img v-else slot="icon" src="../../assets/images/sgrjhImages/tj.png" >-->
-        <!--统计-->
-      <!--</mt-tab-item>-->
+      <mt-tab-item id="统计">
+        <img v-if="selectedTab==='统计'" slot="icon" src="../../assets/images/sgrjhImages/tjg.png" >
+        <img v-else slot="icon" src="../../assets/images/sgrjhImages/tj.png" >
+        统计
+      </mt-tab-item>
     </mt-tabbar>
   </div>
 </template>
@@ -123,9 +123,9 @@
           case '非营业线':
             this.$router.push({path: '/NonBusinessLine'});
             break;
-          // case '统计':
-          //   this.$router.push({path: '/Statistics'});
-          //   break;
+          case '统计':
+            this.$router.push({path: '/Statistics'});
+            break;
         }
       }
     },

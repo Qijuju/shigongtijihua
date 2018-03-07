@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "calendar": "^0.1.0",
+    "echarts": "^4.0.4",
     "jquery": "^1.10.2",
     "mint-ui": "^2.2.13",
     "vant": "^0.12.4",
@@ -50,6 +51,7 @@
     "shelljs": "^0.7.6",
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
+    "vue-image-upload-preview": "^1.0.2",
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",

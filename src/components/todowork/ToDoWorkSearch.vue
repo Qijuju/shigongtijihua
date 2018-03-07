@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import $ from "jquery"
 import { Toast } from 'vant';
 import Vue from 'vue';
 import axios from 'axios';
@@ -38,7 +39,21 @@ export default {
 
     };
   },
+  mounted: function() {
+    this.disnone();
+    this.disblock();
+  },
    methods: {
+     disnone(){
+       $("input").focus(function(){
+         $(".mint-tabbar.is-fixed").hide();
+       });
+     },
+     disblock(){
+       $("input").blur(function(){
+         $(".mint-tabbar.is-fixed").show();
+       });
+     },
      // 表头返回按钮事件
     onClickLeft() {
        this.$router.push({path: '/ToDoWork'});
@@ -57,7 +72,6 @@ export default {
     onCancel(){
       this.$router.push({path: '/ToDoWork'});
     }
-
    }
 };
 
