@@ -48,7 +48,7 @@
                       <span class="jssjd">{{planItem.jssjd}}</span>
                       <span class="rjhh">{{planItem.rjhh}}</span>
                     </p>
-                    <p>{{planItem.xmmc}}-{{planItem.id}}</p>
+                    <p>{{planItem.xmmc}}</p>
                     <p>{{planItem.dd}}</p>
                   </div>
                 </van-step>
@@ -71,6 +71,7 @@
 </template>
 
 <script>
+
   import $ from "jquery"
   import axios from 'axios';
   import Header from '../Common/Header'
@@ -197,9 +198,7 @@
       // 获取列表首页数据
       getList(){
         let vm = this;
-        // 测试用
-//        vm.sgrq='2018-02-28';
-
+        vm.sgrq='2018-02-28';
         let url = 'http://whjjgc.r93535.com/DayPlanDetailServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq;
 
         console.log("营业线首页数据源请求url："+url);

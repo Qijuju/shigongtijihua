@@ -1,13 +1,12 @@
 <template>
   <div class="listDetail">
-    <!--title-->
+
     <van-nav-bar title="非营业线施工日计划"
                  left-text="返回"
                  @click-left="onClickLeft"
                  fixed
     ></van-nav-bar>
-    <!--<Header title="非营业线施工日计划"></Header>-->
-    <!--内容-->
+
     <div class="content">
       <van-row>
         <van-col span="8">项目名称</van-col>
@@ -93,6 +92,9 @@
         v-model="sheetVisible"
       >
       </mt-actionsheet>
+
+      <div id="save">保存</div>
+
     </div>
   </div>
 </template>
@@ -180,6 +182,22 @@
 </script>
 
 <style scoped>
+
+
+  /* 保存按钮 */
+  #save{
+    position: fixed;
+    left:0px;
+    bottom:50px;
+    width:100%;
+    height:30px;
+    text-align: center;
+    line-height:30px;
+    background: #2196F3;
+    color:#fff;
+    border-radius:4px 4px 0 0;
+    display: none;
+  }
   /* 设置头部 style start */
   .van-nav-bar{
     background: #2196F3;
@@ -223,7 +241,7 @@
   }
   .content{
     margin-top:44px;
-    margin-bottom:55px;
+    margin-bottom:81px;
   }
 
   /* 修改栅格样式 */

@@ -17,6 +17,7 @@
     };
 
     e.getCurrentPositionInfo=function () { // 获取位置信息
+      console.log("获取位置信息方法调用");
         loadURL("getCurrentPositionInfo:getCurrentPositionInfo:39.992520,116.336170,描述0;39.992520,116.336170,描述1;39.998293,116.352343,描述2;40.0040871,16.348904,描述3;40.001442, 116.353915,描述4;39.989105,116.353915,描述5;43.989105,119.353915,描述6");
     };
     e.selectPhotos=function () { // 从相册中选择照片

@@ -6,7 +6,6 @@
                  @click-left="onClickLeft"
                  fixed
     ></van-nav-bar>
-    <!--<Header title="营业线施工日计划"></Header>-->
     <!--内容-->
     <div class="content">
       <van-row>
@@ -160,12 +159,16 @@
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
-        <div class="addPhoto" @click='phoneOrPicture()'>+</div>
+        <!--<div class="addPhoto" @click='phoneOrPicture()'>+</div>-->
+        <!-- -->
+        <div class="addPhoto" @click='phoneOrPicture()' v-if="totalData.editStatus===2">+</div>
+
       </div>
       <van-row>
         <van-col span="8">计划批复情况描述</van-col>
         <van-col span="16">
-            <span @click='popupClick(totalData.jhpfqk)'>{{totalData.jhpfqk}}</span>
+          <input type="text" @click='popupClick(totalData.jhpfqk)'v-model="totalData.jhpfqk" v-if="totalData.editStatus===2">
+          <input type="text" @click='popupClick(totalData.jhpfqk)'v-model="totalData.jhpfqk" v-else readonly>
         </van-col>
       </van-row>
       <br>
@@ -177,48 +180,51 @@
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
-        <div class="addPhoto" @click='phoneOrPicture()'>+</div>
+        <div class="addPhoto" @click='phoneOrPicture()' v-if="totalData.editStatus===1">+</div>
       </div>
       <van-row>
         <van-col span="8">人员签到情况描述</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.dcryqk)'>{{totalData.dcryqk}}</span>
+          <input type="text" @click='popupClick(totalData.dcryqk)'v-model="testTxt" v-if="totalData.editStatus===1">
+          <input type="text" @click='popupClick(totalData.dcryqk)'v-model="testTxt" v-else readonly>
         </van-col>
       </van-row>
       <van-row>
         <van-col span="8">计划兑现情况 字段jhsfdx</van-col>
         <van-col span="16">
-          <van-switch :value="checked" @input="onInput" />
+          <van-switch v-model="totalData.jhsfdx" v-if="totalData.editStatus===1"/>
+          <van-switch v-model="totalData.jhsfdx" v-else disabled  />
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">计划兑现情况描述jhdxqk</van-col>
+        <van-col span="8">计划兑现情况描述</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.jhdxqk)'>{{totalData.jhdxqk}}</span>
+          <input type="text" @click='popupClick(totalData.jhdxqk)'v-model="totalData.jhdxqk" v-if="totalData.editStatus===1">
+          <input type="text" @click='popupClick(totalData.jhdxqk)'v-model="totalData.jhdxqk" v-else readonly>
         </van-col>
       </van-row>
       <van-row>
         <van-col span="24">现场照片</van-col>
-        <!--<van-col span="16">span: 16</van-col>-->
       </van-row>
       <div class="img">
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
-        <div class="addPhoto" @click='phoneOrPicture()'>+</div>
+        <div class="addPhoto" @click='phoneOrPicture()' v-if="totalData.editStatus===1" >+</div>
       </div>
       <van-row>
         <van-col span="8">签到时间</van-col>
         <van-col span="16">
           <span @click='popupClick(totalData.qdsj)'>{{totalData.qdsj}}</span>
+          <button @click="getCurrentTime()" v-if="totalData.editStatus===1">获取当前时间</button>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">签到地点 qddd</van-col>
-        <van-col span="16">span: 16
-          <button>获取</button>
-          <button>刷新</button>
+        <van-col span="8">签到地点</van-col>
+        <van-col span="16">
+          <span @click='popupClick(totalData.qddd)'>{{totalData.qddd}}</span>
+          <button @click="getCurrentPositionInfo()" v-if="totalData.editStatus===1">获取当前位置</button>
         </van-col>
       </van-row>
       <!--弹出层-->
@@ -233,6 +239,8 @@
         v-model="sheetVisible"
       >
       </mt-actionsheet>
+
+      <div id="save">保存</div>
     </div>
   </div>
 </template>
@@ -243,6 +251,25 @@
   import { Dialog } from 'vant';
 //  import axios from 'axios';
 
+  function RPMOriginalImageCallBack(params) {
+    if(params!==null&&params!==undefined&&params!==""){
+      alert("拍照回调1："+params);
+      var srcStr="data:image/png;base64,"+params;
+      document.getElementById("save").innerText=params;
+//      document.getElementById("img").src=srcStr;
+    }else {
+      alert("拍照回调2："+params);
+      return;
+    }
+  }
+
+  function RPMPositionCallback(param) {
+    debugger;
+    alert("1243");
+    document.getElementById("save").innerText=param;
+
+  }
+
     export default {
       name: "listDetail",
       components: {
@@ -250,6 +277,8 @@
       },
       data(){
         return{
+          testTxt:'测试input框的值',
+
           checked: true,
           baseuserid:102300,
           id:this.$route.query.id,// 获取通过路由传的值
@@ -261,7 +290,8 @@
             {
               name:'拍照',
               method :function () {
-                console.log("拍照事件")
+                console.log("拍照事件"+RPM);
+                RPM.takePicture();
               }
             },
             {
@@ -274,12 +304,18 @@
         }
       },
       methods:{
+        getCurrentPositionInfo(){
+          console.log("获取位置信息");
+          RPM.getCurrentPositionInfo();
+        },
         onClickLeft(){
           this.$router.push({path: '/BusinessLine'});
         },
         phoneOrPicture() { // 拍照或从相册中选择
           console.log("拍照或从相册中选择--点击事件进来了吗？");
           this.sheetVisible = true;
+
+
         },
         popupClick(txt) { // popup弹出层点击事件
           this.popupVisible = true;
@@ -299,6 +335,8 @@
           vm.$http.get(url).then((response) => {
             console.log("详情页面的数据：" + JSON.stringify(response.data));
             vm.totalData = response.data;
+
+            vm.totalData.jhsfdx = vm.totalData.jhsfdx == '1'?true:false;
           }, (response) => {
             console.log('error');
           });
@@ -320,6 +358,28 @@
 </script>
 
 <style scoped>
+  /* input */
+  input{
+    display: inline-block;
+    width:100%;
+    height:100%;
+    border:0;
+    padding:5px;
+  }
+
+  /* 保存按钮 */
+  #save{
+    position: fixed;
+    left:0px;
+    bottom:50px;
+    width:100%;
+    height:30px;
+    text-align: center;
+    line-height:30px;
+    background: #2196F3;
+    color:#000;
+    border-radius:4px 4px 0 0;
+  }
   /* 设置头部 style start */
   .van-nav-bar{
     background: #2196F3;
@@ -364,7 +424,7 @@
   }
   .content{
     margin-top:44px;
-    margin-bottom:55px;
+    margin-bottom:81px;
   }
 
   /* 修改栅格样式 */

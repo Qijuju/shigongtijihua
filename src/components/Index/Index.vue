@@ -55,6 +55,7 @@
               <div class="chartsSize">{{ d.fyyxrjh }}</div>
             </van-col>
         </van-row>
+
     </div>
 
   </div>
