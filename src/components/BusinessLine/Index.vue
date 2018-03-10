@@ -6,6 +6,8 @@
       <van-row>
         <van-col span="6" ><span v-on:click="goSearchPage(calendar.value,selectProjectObj.id,selectProjectObj.xmmc)">搜索</span></van-col>
         <van-col span="12">{{selectProjectObj.xmmc}}</van-col>
+        <!--<van-col span="12">{{projectName}}</van-col>-->
+
         <van-col span="6" class="chooseBtn">
           <van-button type="primary">
             <div class="flex">
@@ -63,9 +65,18 @@
         项目
       </div>
       <div id="projectList">
+        <!--<div id="wrapProject">-->
+          <!--<div id="innerWrapProject" :style="{'width':width+'px'}">-->
+            <!--<div class="scrollProject" v-for="item in projects" @click="changeItem($event,item)">-->
+              <!--{{item.xmmc}}-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
         <SelectProject v-if="projects" :projects="projects" :count="projects.length"></SelectProject>
       </div>
     </div>
+
+    <!--<span hidden>{{selectProjectObj.xmmc}}</span>-->
   </div>
 
 </template>
@@ -115,7 +126,8 @@
         counter : 1, //默认已经显示出15条数据 count等于一是让从16条开始加载
         num : 10,  // 一次显示多少条
         listdata: [], // 下拉更新数据存放数组
-        projectName:'武汉铁路局',
+//        projectName:'全部',
+        xmmcId:'',
         width: 15 * 56, // 设置滚动日历最外层盒子的宽度为屏幕宽度
         projects:[],
         calendar:{
@@ -143,6 +155,14 @@
     },
     computed:{
       selectProjectObj() { //businessLineSelectProjectName
+        var name= this.$store.getters.selectProjectObj.xmmc;
+
+        if (name == undefined || name == '' ||name == null){
+          this.xmmcId ='';
+        }else {
+          this.xmmcId =this.$store.getters.selectProjectObj.id;
+        }
+        this.getList();
         return this.$store.getters.selectProjectObj// 时时获取选中项目的名称
       },
       daysIndex(){
@@ -198,8 +218,8 @@
       // 获取列表首页数据
       getList(){
         let vm = this;
-        vm.sgrq='2018-02-28';
-        let url = 'http://whjjgc.r93535.com/DayPlanDetailServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq;
+        // url参数： page 页码；sgrq施工日期；xmmc 项目名称id
+        let url = 'http://whjjgc.r93535.com/DayPlanDetailServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq+'&xmmc='+vm.xmmcId;
 
         console.log("营业线首页数据源请求url："+url);
         vm.$http.get(url).then((response) => {

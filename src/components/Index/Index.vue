@@ -180,6 +180,7 @@
             subtext: subtext,
             x:'center'
           },
+          color:['red','green','#5cc8b0'],
           tooltip : {
             trigger: 'item',
             formatter: "{a} <br/>{b} : {c} ({d}%)"

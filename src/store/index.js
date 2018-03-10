@@ -17,6 +17,7 @@ const store = new Vuex.Store({
       songList: [],
       songIndex: 0
     },
+
     test:'我是初始化数据',
     daysObj:[],
     scrollLeft:0, // 左边的位移
@@ -32,7 +33,8 @@ const store = new Vuex.Store({
       sgksrq:'',
       sgjsrq:'',
       daysIndex:0 ,// 当前选中对象('哪一天')的下标
-      infiniteLoading:false // 是否加载中状态设置
+      infiniteLoading:false, // 是否加载中状态设置
+      imgCount:''
     },
     nearBusinessLineSearch: {
       xmmc:'',
@@ -73,7 +75,9 @@ const store = new Vuex.Store({
       state.listInfo.songList = list
       state.listInfo.songIndex = index
     },
-    setBusinessLineSearch: (state, { xmmc, dj, xingbie, sglc, sglx, sgksrq, sgjsrq}) => {
+    setBusinessLineSearch: (state, { xmmc, dj, xingbie, sglc, sglx, sgksrq, sgjsrq,imgCount}) => {
+
+      console.log("store存储的图片的个数为：" + imgCount);
       state.businessLineSearch.xmmc = xmmc
       state.businessLineSearch.dj = dj
       state.businessLineSearch.xingbie = xingbie
@@ -81,13 +85,14 @@ const store = new Vuex.Store({
       state.businessLineSearch.sglx = sglx
       state.businessLineSearch.sgksrq = sgksrq
       state.businessLineSearch.sgjsrq = sgjsrq
+      state.businessLineSearch.imgCount = imgCount
     },
     setInfiniteLoading:(state,{infiniteLoading}) =>{
       state.businessLineSearch.infiniteLoading = infiniteLoading
     },
 
     setDaysIndex:(state,{daysIndex})=>{ // 一个月的天数选中的那天
-      console.log("显得Freud："+daysIndex);
+
       state.businessLineSearch.daysIndex = daysIndex
     },
 

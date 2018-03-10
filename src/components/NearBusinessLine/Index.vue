@@ -117,6 +117,7 @@
         pageEnd : 0, // 结束页数
         listdata: [], // 下拉更新数据存放数组
         projectName:'武汉铁路局',
+        xmmcId:'',
         width: 15 * 56, // 设置滚动日历最外层盒子的宽度为屏幕宽度
         projects:[],
         calendar:{
@@ -141,7 +142,15 @@
       }
     },
     computed:{
-      selectProjectObj() { //businessLineSelectProjectName
+      selectProjectObj() {
+        var name= this.$store.getters.selectProjectObj.xmmc;
+
+        if (name == undefined || name == '' ||name == null){
+          this.xmmcId ='';
+        }else {
+          this.xmmcId =this.$store.getters.selectProjectObj.id;
+        }
+        this.getList();
         return this.$store.getters.selectProjectObj// 时时获取选中项目的名称
       },
       daysIndex(){
@@ -197,7 +206,7 @@
       // 获取列表首页数据
       getList(){
         let vm = this;
-        let url = 'http://whjjgc.r93535.com/DayPlanDetailNearbyServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq;
+        let url = 'http://whjjgc.r93535.com/DayPlanDetailNearbyServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq+'&xmmc='+vm.xmmcId;
         vm.$http.get(url).then((response) => {
           vm.listdata = response.data;
           console.log("邻近营业线列表数据："+JSON.stringify(vm.listdata));
@@ -349,7 +358,6 @@
         for(var i=0;i<this.days.length;i++){
           this.days[i].showBg = i===index?true:false;
         }
-
       }
     }
   }

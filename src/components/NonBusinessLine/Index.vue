@@ -40,7 +40,7 @@
 
     <!--<transition name="fade">-->
     <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite" :infiniteLoading='infiniteLoading' :loading ='loading'>
-      <div class="list" >
+      <div class="list">
         <div v-for="item in listdata.data" >
           <p>{{item.kssjd}}</p>
           <van-steps direction="vertical">
@@ -64,6 +64,13 @@
         项目
       </div>
       <div id="projectList">
+        <!--<div id="wrapProject">-->
+          <!--<div id="innerWrapProject" :style="{'width':width+'px'}">-->
+            <!--<div class="scrollProject" v-for="item in projects" @click="changeItem($event,item)">-->
+              <!--{{item.xmmc}}-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
         <SelectProject v-if="projects" :projects="projects" :count="projects.length"></SelectProject>
       </div>
     </div>
@@ -79,6 +86,13 @@
   import Days from '../Common/Days'
   import SelectProject from '../Common/SelectPeoject'
   import Scroll from '../Common/PullRefresh';
+
+//  $(function () {
+//    var screenW = $(window).width(); // 获取屏幕的宽度
+//    $("#wrapProject").width(screenW);// 设置外层盒子宽度==屏幕宽度
+//    $("#innerWrapProject").addClass('bg');
+//
+//  })
 
   var date=new Date();
   var y = date.getFullYear();
@@ -117,6 +131,7 @@
         pageEnd : 0, // 结束页数
         listdata: [], // 下拉更新数据存放数组
         projectName:'武汉铁路局',
+        xmmcId:'', // 选择项目的id
         width: 15 * 56, // 设置滚动日历最外层盒子的宽度为屏幕宽度
         projects:[],
         calendar:{
@@ -141,7 +156,19 @@
       }
     },
     computed:{
+      width(){
+        return this.count*130 // 动态设置宽度
+      },
       selectProjectObj() {
+        var name= this.$store.getters.selectProjectObj.xmmc;
+
+        if (name == undefined || name == '' ||name == null){
+          this.xmmcId ='';
+        }else {
+          this.xmmcId =this.$store.getters.selectProjectObj.id;
+        }
+        this.getList();
+
         return this.$store.getters.selectProjectObj// 时时获取选中项目的名称
       },
       daysIndex(){
@@ -190,12 +217,20 @@
       this.$store.commit('setBusinessLineSelectProjectCount',{count:this.projects.length });
     },
     methods:{
+//      changeItem(e,item) { // 点击项目的触发函数
+//        // 改变背景色
+//        $(e.target).addClass("bg").siblings().removeClass("bg");
+//
+//        // 将项目名称存储到store
+//        this.$store.commit('setSelectProjectObj',{selectProjectObj:item});
+//      },
       setStore(value){
         this.$store.commit('setProjectCount',{count:getDaysInOneMonth(value[0],value[1]),year: value[0],month: value[1],day:value[2]})
       },
       getList(){
         let vm = this;
-        var url='http://whjjgc.r93535.com/NonBusinessDayPlanDetailServlet?sgrq='+vm.sgrq+'&page='+vm.page+'&baseuserid='+this.baseuserid;
+        var url='http://whjjgc.r93535.com/NonBusinessDayPlanDetailServlet?sgrq='+vm.sgrq+'&page='+vm.page+'&baseuserid='+this.baseuserid+'&xmmc='+vm.xmmcId;
+
         console.log("非营业线的请求列表数据url："+url);
         vm.$http.get(url).then((response) => {
           vm.listdata = response.data;
@@ -355,6 +390,42 @@
 </script>
 
 <style scoped>
+  /* 供选择项目的style start */
+  /*#wrapProject{*/
+    /*position: relative;*/
+    /*top: 0px;*/
+    /*left:0;*/
+    /*!*width:100%;*!*/
+    /*height:100px;*/
+    /*margin:0 auto;*/
+    /*overflow: scroll;*/
+    /*z-index: 99;*/
+    /*overflow: scroll;*/
+    /*background: #E5F2FA;*/
+  /*}*/
+  /*#innerWrapProject{*/
+    /*height:100%;*/
+  /*}*/
+  /*#innerWrapProject .scrollProject{*/
+    /*float: left;*/
+    /*width:120px;*/
+    /*height:90px;*/
+    /*text-align: center;*/
+    /*margin:0 5px;*/
+    /*padding:5px;*/
+    /*border-radius:10px;*/
+    /*color: #fff;*/
+    /*background: #59C13A*/
+  /*}*/
+  /*#innerWrapProject .scrollProject.bg{*/
+    /*background-color: #FF4A58;*/
+  /*}*/
+  /*!* 隐藏滚动条 *!*/
+  /*::-webkit-scrollbar{*/
+    /*display:none;*/
+  /*}*/
+
+  /* 供选择项目的style end */
 
   /* 设置头部 style start */
   .van-nav-bar{

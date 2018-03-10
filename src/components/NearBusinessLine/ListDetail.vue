@@ -90,8 +90,8 @@
       <van-row>
         <van-col span="8">施工配合通知书照片</van-col>
         <van-col span="16">
-          <img width="50" height="50" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1520405413606&di=076f896cc7aa7a173cdbe7bfecf27b7b&imgtype=0&src=http%3A%2F%2Fimg3.3lian.com%2F2013%2Fc2%2F75%2Fd%2F21.jpg" alt="通知书照片">
-          <!--<span @click='popupClick(totalData.phtzszp)'>{{totalData.phtzszp}}</span>-->
+          <!--<img width="90%" height="80%" style="margin-left: 5%;" v-bind:src="totalData.phtzszp" alt="通知书照片">-->
+          <img width="90%" height="80%" style="margin-left: 5%;" src="" alt="通知书照片" v-on:click="showBigImage($event)"/>
         </van-col>
       </van-row>
       <van-row>
@@ -113,16 +113,14 @@
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">人员签到情况</van-col>
-        <van-col span="16">
-          <span @click='popupClick(totalData.ryqdb)'>{{totalData.ryqdb}}</span>
-        </van-col>
+        <van-col span="24">人员签到情况</van-col>
+        <!--<van-col span="16">-->
+          <!--<span @click='popupClick(totalData.ryqdb)'>{{totalData.ryqdb}}</span>-->
+        <!--</van-col>-->
       </van-row>
       <div class="img">
-        <img class="photo" src="../../assets/images/icon/date.png" alt="">
-        <img class="photo" src="../../assets/images/icon/date.png" alt="">
-        <img class="photo" src="../../assets/images/icon/date.png" alt="">
-        <img class="photo" src="../../assets/images/icon/date.png" alt="">
+        <img class="photo" src="../../assets/images/icon/qdb.jpg" alt="">
+
         <div class="addPhoto" @click='phoneOrPicture()' v-if="totalData.editStatus===1" >+</div>
       </div>
       <van-row>
@@ -139,9 +137,7 @@
         <van-col span="24">现场照片</van-col>
       </van-row>
       <div class="img">
-        <img class="photo" src="../../assets/images/icon/date.png" alt="">
-        <img class="photo" src="../../assets/images/icon/date.png" alt="">
-        <img class="photo" src="../../assets/images/icon/date.png" alt="">
+        <img class="photo" src="../../assets/images/icon/timg.jpg" alt="">
         <div class="addPhoto" @click='phoneOrPicture()' v-if="totalData.editStatus===1" >+</div>
       </div>
       <van-row>
@@ -173,7 +169,14 @@
       >
       </mt-actionsheet>
 
-      <div id="save">保存</div>
+      <div id="save" @click="save()">保存</div>
+
+
+
+    </div>
+
+    <div id="showBigImage" v-if="showBigImage" @click="showBigImageBox($event)">
+      <img  src="../../assets/images/sgrjhImages/search.png" alt="">
 
     </div>
   </div>
@@ -183,7 +186,7 @@
   import Header from '../Common/Header'
   import $ from 'jquery'
   import { Dialog } from 'vant';
-  //  import axios from 'axios';
+    import axios from 'axios';
 
   export default {
     name: "listDetail",
@@ -192,6 +195,7 @@
     },
     data(){
       return{
+
         checked: true,
         baseuserid:102300,
         id:this.$route.query.id,// 获取通过路由传的值
@@ -199,6 +203,11 @@
         popupVisible:false,
         popupTxt:'',
         sheetVisible:false, // 隐藏拍照、相册选择框
+        xczp:[{
+          type:'image/jpg',
+          base64:''
+        }],
+
         actions:[
           {
             name:'拍照',
@@ -216,6 +225,52 @@
       }
     },
     methods:{
+      showBigImageBox(event){
+        var el = event.currentTarget;
+        $(el).hide();
+      },
+      // 保存可编辑字段
+      save(){
+        console.log("邻近营业线保存接口调用");
+        let vm = this;
+        vm.id=28;
+        vm.qdsj='2018-03-08';
+
+        let url = 'http://whjjgc.r93535.com/NearDayplanPhSaveServlet';
+
+        var obj={
+          id:vm.id,
+          qdsj:vm.qdsj,
+          xczp:vm.xczp,
+          ryqdb:'',
+          jhdxqk:'',
+          qddd:'',
+          jwd:''
+        }
+        axios.post(url, obj, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        })
+          .then(function (response) {
+            console.log("post请求成功"+JSON.stringify(response));
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+      },
+      showBigImage(event){
+        // 现实box
+       $('#showBigImage').show();
+
+        //获取点击对象
+        var el = event.currentTarget;
+        $(el).css({
+          'width':document.body.clientWidth,
+          'height':'200px'
+        })
+      },
       onClickLeft(){
         this.$router.push({path: '/NearBusinessLine'});
       },
@@ -263,6 +318,25 @@
 </script>
 
 <style scoped>
+  /* 点击放大图片 */
+  #showBigImage{
+    display: none;
+    position: fixed;
+    top:0px;
+    left:0px;
+    z-index: 999;
+    width:100%;
+    height:600px;
+    background: rgba(0,0,0,.5);
+
+  }
+  #showBigImage > img{
+    width:100%;
+    height:50%;
+    background: #f30;
+    margin-top:50%;
+
+  }
   /* input */
   input{
     display: inline-block;
@@ -277,12 +351,12 @@
     left:0px;
     bottom:50px;
     width:100%;
-    height:30px;
+    height:40px;
     text-align: center;
-    line-height:30px;
+    line-height:40px;
     background: #2196F3;
     color:#fff;
-    border-radius:4px 4px 0 0;
+    border-radius:4px;
   }
   /* 设置头部 style start */
   .van-nav-bar{
@@ -302,8 +376,8 @@
   /* 照片 */
   .img{
     width:100%;
-    height:100px;
-    background: #a3f8ff;
+    /*height:100px;*/
+    /*background: #a3f8ff;*/
   }
   img.photo{
     width: 50px;
@@ -327,7 +401,7 @@
   }
   .content{
     margin-top:44px;
-    margin-bottom:81px;
+    margin-bottom:91px;
   }
 
   /* 修改栅格样式 */

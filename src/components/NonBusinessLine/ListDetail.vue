@@ -9,195 +9,153 @@
 
     <div class="content">
       <van-row>
-        <van-col span="8">项目名称</van-col>
+        <van-col span="8" class="getHeight">项目名称</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.xmmc)'>{{totalData.xmmc}}</span>
+          <span @click='popupClick(totalData.xmmc)' v-html="totalData.xmmc"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">施工日期</van-col>
+        <van-col span="8" class="getHeight">施工日期</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.sgrq)'>{{totalData.sgrq}}</span>
+          <span @click='popupClick(totalData.sgrq)' v-html="totalData.sgrq"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">施工地点</van-col>
+        <van-col span="8" class="getHeight">施工地点</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.sgdd)'>{{totalData.sgdd}}</span>
+          <span @click='popupClick(totalData.sgdd)' v-html="totalData.sgdd"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">施工项目</van-col>
+        <van-col span="8" class="getHeight">施工项目</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.sgxm)'>{{totalData.sgxm}}</span>
+          <span @click='popupClick(totalData.sgxm)' v-html="totalData.sgxm"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">开始时间点</van-col>
+        <van-col span="8" class="getHeight">开始时间点</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.kssjd)'>{{totalData.kssjd}}</span>
+          <span @click='popupClick(totalData.kssjd)' v-html="totalData.kssjd"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">结束时间点</van-col>
+        <van-col span="8" class="getHeight">结束时间点</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.jssjb)'>{{totalData.jssjb}}</span>
+          <span @click='popupClick(totalData.jssjb)' v-html="totalData.jssjb"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8" class="wordBreak">施工内容</van-col>
+        <!--<van-col span="8" class="wordBreak">施工内容</van-col>-->
+        <van-col span="8" class="getHeight">施工内容</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.sgnr)'>{{totalData.sgnr}}</span>
+          <span @click='popupClick(totalData.sgnr)' v-html="totalData.sgnr"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">施工机械</van-col>
+        <van-col span="8" class="getHeight">施工机械</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.sgjx)'>{{totalData.sgjx}}</span>
+          <span @click='popupClick(totalData.sgjx)' v-html="totalData.sgjx"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">施工单位及带班领导</van-col>
+        <van-col span="8" class="getHeight">施工单位及带班领导</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.sgdwdbld)'>{{totalData.sgdwdbld}}</span>
+          <span @click='popupClick(totalData.sgdwdbld)' v-html="totalData.sgdwdbld"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">施工架子队</van-col>
+        <van-col span="8" class="getHeight">施工架子队</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.sgjzd)'>{{totalData.sgjzd}}</span>
+          <span @click='popupClick(totalData.sgjzd)' v-html="totalData.sgjzd"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">监理单位及现场监理</van-col>
+        <van-col span="8" class="getHeight">监理单位及现场监理</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.jldwxcjl)'>{{totalData.jldwxcjl}}</span>
+          <span @click='popupClick(totalData.jldwxcjl)' v-html="totalData.jldwxcjl"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">建设单位包保人员</van-col>
+        <van-col span="8" class="getHeight">建设单位包保人员</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.jsdwbbry)'>{{totalData.jsdwbbry}}</span>
+          <span @click='popupClick(totalData.jsdwbbry)' v-html="totalData.jsdwbbry"></span>
         </van-col>
       </van-row>
+
       <!--弹出层-->
       <mt-popup
         v-model="popupVisible"
         popup-transition="popup-fade">
         <p>{{popupTxt}}</p>
       </mt-popup>
-      <!--相册、拍照选择-->
-      <mt-actionsheet
-        :actions="actions"
-        v-model="sheetVisible"
-      >
-      </mt-actionsheet>
-
-      <div id="save">保存</div>
 
     </div>
   </div>
 </template>
 <script>
   // 引入组件
-  import Header from '../Common/Header'
   import $ from 'jquery'
   import { Dialog } from 'vant';
-//  import axios from 'axios';
 
     export default {
       name: "listDetail",
-      components: {
-        Header
-      },
       data(){
         return{
-          baseuserid:102300,
-          checked: true,
+          baseuserid:102300, // 基础平台登录人员id
           id:this.$route.query.id,// 获取通过路由传的值
-          totalData:[],
-          popupVisible:false,
-          popupTxt:'',
-          sheetVisible:false, // 隐藏拍照、相册选择框
-          actions:[
-            {
-              name:'拍照',
-              method :function () {
-                console.log("拍照事件")
-              }
-            },
-            {
-              name:'从相册中选择',
-              method :function () {
-                console.log("从相册中选择事件")
-              }
-            }
-          ]
+          totalData:[], // 数据源
+          popupVisible:false, // 弹出层显示隐藏控制
+          popupTxt:'', // 弹出层内容
+
         }
       },
+      mounted:function () {
+        this.getData();
+      },
       methods:{
+        // 返回事件
         onClickLeft(){
           this.$router.push({path: '/NonBusinessLine'});
         },
-        phoneOrPicture() { // 拍照或从相册中选择
-          console.log("拍照或从相册中选择--点击事件进来了吗？");
-          this.sheetVisible = true;
-        },
-        popupClick(txt) { // popup弹出层点击事件
+
+        // popup弹出层点击事件
+        popupClick(txt) {
           this.popupVisible = true;
           this.popupTxt = txt;
         },
-        onInput(checked) {
-          Dialog.confirm({
-            title: '提醒',
-            message: '是否切换开关？'
-          }).then(() => {
-            this.checked = checked;
-          });
-        },
+
+        // 获取详情数据
         getData(){
           let vm = this;
           let url = 'http://whjjgc.r93535.com/FYYXDayUniquePlanServlet?id='+ vm.id+'&baseuserId='+this.baseuserid;
           vm.$http.get(url).then((response) => {
-            console.log("详情页面的数据：" + JSON.stringify(response.data));
+
+            // 请求成功返回数据
             vm.totalData = response.data;
+
+            /* 表格渲染:动态设置第二列的高度 */
+            this.$nextTick(function(){
+              console.log("$nextTick监听数据渲染完成之后的回调函数");
+              var obj = $(".getHeight");
+              for(var i=0;i<obj.length;i++){
+                var h=$(obj[i]).height();
+                $(obj[i]).siblings().css({
+                  'height':h+'px',
+                  'lineHeight':h+'px'
+                });
+              }
+            })
+
           }, (response) => {
             console.log('error');
           });
 
         }
-      },
-      mounted:function () {
-        this.getData(),
-        $('.van-col.van-col-8').each(function (i) {
-          var txtL=$($('.van-col.van-col-8')[i]).text().length;
-          if(txtL>7){
-            $($('.van-col.van-col-8')[i]).addClass('wordBreak')
-          }else {
-            $($('.van-col.van-col-8')[i]).removeClass('wordBreak')
-          }
-        })
       }
     }
 </script>
 
 <style scoped>
-
-
-  /* 保存按钮 */
-  #save{
-    position: fixed;
-    left:0px;
-    bottom:50px;
-    width:100%;
-    height:30px;
-    text-align: center;
-    line-height:30px;
-    background: #2196F3;
-    color:#fff;
-    border-radius:4px 4px 0 0;
-    display: none;
-  }
   /* 设置头部 style start */
   .van-nav-bar{
     background: #2196F3;
@@ -213,35 +171,9 @@
     border-radius: 4px;
     padding:5px;
   }
-  /* 照片 */
-  .img{
-    width:100%;
-    height:100px;
-    background: #a3f8ff;
-  }
-  img.photo{
-    width: 50px;
-    height:50px;
-    margin:5px;
-  }
-  .addPhoto{
-    display: inline-block;
-    width:50px;
-    height:50px;
-    text-align: center;
-    line-height:50px;
-    background: #ccc;
-    color: #9c9c9c;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    font-size:30px;
-    margin:5px;
-    border:1px dashed #9c9c9c;
-  }
   .content{
     margin-top:44px;
-    margin-bottom:81px;
+    margin-bottom:50px;
   }
 
   /* 修改栅格样式 */
@@ -251,10 +183,9 @@
     margin-top:-1px;
   }
   .van-col{
-    height:44px;
     padding:0;
-    line-height:44px;
-    /* 折行显示 */
+    line-height:30px;
+    padding:5px;
     white-space: normal;
     -ms-word-wrap: break-word;
     word-wrap: break-word;
@@ -274,9 +205,9 @@
     overflow: hidden;
   }
   /* 折行显示 */
-  .van-col.wordBreak{
-    line-height:22px;
-  }
+  /*.van-col.wordBreak{*/
+    /*line-height:22px;*/
+  /*}*/
 
 
 </style>

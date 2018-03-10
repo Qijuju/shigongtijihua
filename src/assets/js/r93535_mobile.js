@@ -1,5 +1,7 @@
 (function(){
+
     "use strict";
+
     var u = navigator.userAgent, app = navigator.appVersion;
     var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
     var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
@@ -11,22 +13,24 @@
         isiOS?loadURL("scanClick:scanClick"):androidObject.scan();
     };
 
-    e.takePicture=function () { // 调相机实现拍照功能
-      console.log("jsApi拍照函数--哈哈  ---调取成功了");
-        isiOS? loadURL("takePicture:takePicture"):androidObject.photo();
+    e.takePicture=function (num) { // 调相机实现拍照功能
+      console.log("jsApi拍照函数");
+        isiOS? loadURL("takePicture:takePicture:"+num):androidObject.photo(num);
+    };
+    // 获取位置信息
+    e.getCurrentPositionInfo=function () {
+      console.log("获取位置信息调取方法");
+      isiOS? loadURL("getCurrentPositionInfo:getCurrentPositionInfo:39.992520,116.336170,描述0;39.992520,116.336170,描述1;39.998293,116.352343,描述2;40.0040871,16.348904,描述3;40.001442, 116.353915,描述4;39.989105,116.353915,描述5;43.989105,119.353915,描述6"):androidObject.getCurrentPositionInfo();
     };
 
-    e.getCurrentPositionInfo=function () { // 获取位置信息
-      console.log("获取位置信息方法调用");
-        loadURL("getCurrentPositionInfo:getCurrentPositionInfo:39.992520,116.336170,描述0;39.992520,116.336170,描述1;39.998293,116.352343,描述2;40.0040871,16.348904,描述3;40.001442, 116.353915,描述4;39.989105,116.353915,描述5;43.989105,119.353915,描述6");
-    };
-    e.selectPhotos=function () { // 从相册中选择照片
-        isiOS? loadURL("selectPhotos:selectPhotos"):androidObject.selectPhoto();
+    e.selectPhotos=function (num) { // 从相册中选择照片
+        isiOS? loadURL("selectPhotos:selectPhotos:"+num):androidObject.selectPhoto(num);
     };
 
     // e.selectPhotoToLarger=function () { // 放大选中的照片
     //     isiOS? loadURL("selectPhotoToLarger:selectPhotoToLarger"):androidObject.selectPhoto();
     // };
+
     function loadURL(url) {
         var iFrame;
         iFrame = document.createElement("iframe");
@@ -40,6 +44,7 @@
         iFrame.parentNode.removeChild(iFrame);
         iFrame = null;
     }
+
     this.RPM=e;
 
 }).call(window);
