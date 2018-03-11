@@ -67,13 +67,13 @@
       </van-row>
     </div>
     <van-row v-show="showxmmc">
-      <van-col>
-        <van-picker :columns="xmcolumns"
-                    visible-item-count=3 v-bind:xmmc="xmmc" show-toolbar @cancel="closeAll"
-                    @confirm="onXMConfirm"
-        />
-      </van-col>
-    </van-row>
+    <van-col>
+      <van-picker :columns="xmcolumns"
+                  visible-item-count=3 v-bind:xmmc="xmmc" show-toolbar @cancel="closeAll"
+                  @confirm="onXMConfirm"
+      />
+    </van-col>
+  </van-row>
     <van-row v-show="showdj">
       <van-col>
         <van-picker :columns="djcolumns"
@@ -221,7 +221,7 @@
         }
       },
       getXiangmuServlet(){
-        let url='http://whjjgc.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid;
+        let url='http://tljjgxt.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid;
 
         axios.get(url)
           .then(response => {

@@ -213,7 +213,7 @@
         }
       },
       getXiangmuServlet(){
-        let url='http://whjjgc.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid;
+        let url='http://tljjgxt.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid;
 
         axios.get(url)
           .then(response => {

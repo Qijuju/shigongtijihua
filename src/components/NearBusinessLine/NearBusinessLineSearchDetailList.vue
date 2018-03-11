@@ -236,7 +236,7 @@
         vm.id=28;
         vm.qdsj='2018-03-08';
 
-        let url = 'http://whjjgc.r93535.com/NearDayplanPhSaveServlet';
+        let url = 'http://tljjgxt.r93535.com/NearDayplanPhSaveServlet';
 
         var obj={
           id:vm.id,
@@ -292,7 +292,7 @@
       },
       getData(){
         let vm = this;
-        let url = 'http://whjjgc.r93535.com/LJYYXDayUniquePlanServlet?id='+vm.id+'&baseuserId='+vm.baseuserid;
+        let url = 'http://tljjgxt.r93535.com/LJYYXDayUniquePlanServlet?id='+vm.id+'&baseuserId='+vm.baseuserid;
         console.log("邻近营业线详情页请求的url："+url);
         vm.$http.get(url).then((response) => {
           console.log("详情页面的数据：" + JSON.stringify(response.data));

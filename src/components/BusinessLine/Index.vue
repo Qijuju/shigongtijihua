@@ -219,7 +219,7 @@
       getList(){
         let vm = this;
         // url参数： page 页码；sgrq施工日期；xmmc 项目名称id
-        let url = 'http://whjjgc.r93535.com/DayPlanDetailServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq+'&xmmc='+vm.xmmcId;
+        let url = 'http://tljjgxt.r93535.com/DayPlanDetailServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq+'&xmmc='+vm.xmmcId;
 
         console.log("营业线首页数据源请求url："+url);
         vm.$http.get(url).then((response) => {
@@ -247,7 +247,7 @@
       onInfinite(done) {
         let vm = this;
         vm.counter++;
-        let url = 'http://whjjgc.r93535.com/DayPlanDetailServlet?page='+vm.counter+'&baseuserid='+this.baseuserid+'&sgrq='+vm.sgrq;
+        let url = 'http://tljjgxt.r93535.com/DayPlanDetailServlet?page='+vm.counter+'&baseuserid='+this.baseuserid+'&sgrq='+vm.sgrq;
         vm.$http.get(url).then((response) => {
           let arr = response.data.data;
 
@@ -285,7 +285,7 @@
 
       // 获取可选项目列表数据
       getProjects(){
-        axios.get('http://whjjgc.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid)
+        axios.get('http://tljjgxt.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid)
           .then(response => {
             // 接收响应数据
             this.projects = response.data;

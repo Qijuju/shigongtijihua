@@ -229,7 +229,7 @@
       },
       getList(){
         let vm = this;
-        var url='http://whjjgc.r93535.com/NonBusinessDayPlanDetailServlet?sgrq='+vm.sgrq+'&page='+vm.page+'&baseuserid='+this.baseuserid+'&xmmc='+vm.xmmcId;
+        var url='http://tljjgxt.r93535.com/NonBusinessDayPlanDetailServlet?sgrq='+vm.sgrq+'&page='+vm.page+'&baseuserid='+this.baseuserid+'&xmmc='+vm.xmmcId;
 
         console.log("非营业线的请求列表数据url："+url);
         vm.$http.get(url).then((response) => {
@@ -251,7 +251,7 @@
       onInfinite(done) {
         let vm = this;
         vm.counter++;
-        let url = 'http://whjjgc.r93535.com/NonBusinessDayPlanDetailServlet?sgrq='+vm.sgrq+'&page='+ vm.counter +'&baseuserid='+this.baseuserid;
+        let url = 'http://tljjgxt.r93535.com/NonBusinessDayPlanDetailServlet?sgrq='+vm.sgrq+'&page='+ vm.counter +'&baseuserid='+this.baseuserid;
 
         vm.$http.get(url).then((response) => {
           vm.pageEnd = vm.num * vm.counter;
@@ -287,7 +287,7 @@
 
       // 获取可选项目列表数据
       getProjects(){
-        axios.get('http://whjjgc.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid)
+        axios.get('http://tljjgxt.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid)
           .then(response => {
             // 接收响应数据
             this.projects = response.data;

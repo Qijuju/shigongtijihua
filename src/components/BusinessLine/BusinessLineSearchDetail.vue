@@ -120,7 +120,7 @@
       loadMore(index){
 //        debugger
         if(this.count>this.DayPlanDetail.length&&index===this.showmum){
-          var url='http://whjjgc.r93535.com/DayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&dj='+this.dj+'&xingbie='+this.xingbie+'&sglx='+this.sglx+'&page='+this.page+'&sglc='+this.sglc+'&baseuserid=102300&kssjd=&sgjsrq='+this.currenttime
+          var url='http://tljjgxt.r93535.com/DayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&dj='+this.dj+'&xingbie='+this.xingbie+'&sglx='+this.sglx+'&page='+this.page+'&sglc='+this.sglc+'&baseuserid=102300&kssjd=&sgjsrq='+this.currenttime
           axios.get(url)
             .then(response => {
               var data=response.data.data
@@ -137,7 +137,7 @@
       },
       getDayPlanCount() {
 //        debugger
-        var url='http://whjjgc.r93535.com/DayPlanCountServlet?baseuserid=102300&xmmc='+this.xmmc+'&type=1&sgksrq='+this.sgksrq+'&sgjsrq='+this.sgjsrq+
+        var url='http://tljjgxt.r93535.com/DayPlanCountServlet?baseuserid=102300&xmmc='+this.xmmc+'&type=1&sgksrq='+this.sgksrq+'&sgjsrq='+this.sgjsrq+
           '&dj='+this.dj+'&xingbie='+this.xingbie+'&sglx='+this.sglx+'&sglc='+this.sglc+'&kssjd=&page=1'
         axios.get(url)
           .then(response => {
@@ -150,7 +150,7 @@
       getDayPlanDetail(data,index,flag) {
         if(this.hasopen==false&&flag==true){
           this.currenttime=data
-          var url='http://whjjgc.r93535.com/DayPlanDetailSearchServlet?xmmc='
+          var url='http://tljjgxt.r93535.com/DayPlanDetailSearchServlet?xmmc='
             +this.xmmc+'&sgksrq='+data+'&dj='+this.dj+'&xingbie='+this.xingbie+'&sglx='+this.sglx+'&page='+1+
             '&sglc='+this.sglc+'&baseuserid=102300&kssjd=&sgjsrq='+data
           axios.get(url)
@@ -172,7 +172,7 @@
             this.DayPlanDetail=[]
             this.count=0
             this.page=1
-            var url='http://whjjgc.r93535.com/DayPlanDetailSearchServlet?xmmc='
+            var url='http://tljjgxt.r93535.com/DayPlanDetailSearchServlet?xmmc='
               +this.xmmc+'&sgksrq='+data+'&dj='+this.dj+'&xingbie='+this.xingbie+'&sglx='+this.sglx+'&page='+this.page+
               '&sglc='+this.sglc+'&baseuserid=102300&kssjd=&sgjsrq='+data
             axios.get(url)

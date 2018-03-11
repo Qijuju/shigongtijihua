@@ -63,9 +63,9 @@ export default {
       requestName:'',//流程名称
       userId:'',//基础平台用户id
       pageNo:'1',//页数
-      workflowTypeId:'18',//流程分类id  15代表施工日计划
+      workflowTypeId:'15',//流程分类id  15代表施工日计划
       pageSize:'10',//每页条数
-      workflowId:'59',//流程类型id  51营业线 52临近营业线 53非营业线
+      workflowId:'0',//流程类型id  51营业线 52临近营业线 53非营业线
       disabled: false,
       searchTab1:false,
       searchTab2:false,
@@ -141,7 +141,7 @@ export default {
 //           this.sglx=data.sglx
 //           this.sgksrq=data.startDay
 //           this.sgjsrq=data.endDay
-//           var url='http://whjjgc.r93535.com/MyWorkflowRequestList?userId=236807&workflowTypeId=18&workflowId=59'
+//           var url='http://tljjgxt.r93535.com/MyWorkflowRequestList?userId=236807&workflowTypeId=18&workflowId=59'
 //           axios.get(url)
 //             .then(response => {
 //               //debugger
@@ -155,7 +155,7 @@ export default {
     GetICreateflowList(){
           // debugger
       this.userId=236807;
-        var url = 'http://whjjgc.r93535.com/MyWorkflowRequestList?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
+        var url = 'http://tljjgxt.r93535.com/MyWorkflowRequestList?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
         // alert(url);
         axios.get(url)
           .then(response => {
@@ -185,7 +185,7 @@ export default {
         let vm = this;
         this.userId=236807;
         this.pageNo = 1;
-        var url = 'http://whjjgc.r93535.com/MyWorkflowRequestList?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
+        var url = 'http://tljjgxt.r93535.com/MyWorkflowRequestList?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
         vm.$http.get(url).then((response) => {
           // debugger
           vm.counter++;

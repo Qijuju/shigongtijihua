@@ -396,7 +396,7 @@
           vm.id=28;
           vm.qdsj='2018-03-08';
 
-          let url = 'http://whjjgc.r93535.com/DayplanPhSaveServlet';
+          let url = 'http://tljjgxt.r93535.com/DayplanPhSaveServlet';
 
           var obj={
             id:vm.id,
@@ -438,7 +438,7 @@
         },
         getData(){
           let vm = this;
-          let url = 'http://whjjgc.r93535.com/YYXDayPlanUniqueServlet?id='+vm.id+'&baseuserId='+vm.baseuserid;
+          let url = 'http://tljjgxt.r93535.com/YYXDayPlanUniqueServlet?id='+vm.id+'&baseuserId='+vm.baseuserid;
           vm.$http.get(url).then((response) => {
             console.log("详情页面的数据：" + JSON.stringify(response.data));
             vm.totalData = response.data;
