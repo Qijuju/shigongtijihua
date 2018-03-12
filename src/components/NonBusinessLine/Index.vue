@@ -1,13 +1,13 @@
 <template>
   <div class="index">
-    <!-- title -->
+
     <van-nav-bar title="非营业线施工日计划" fixed></van-nav-bar>
-    <!--<Header title="非营业线施工日计划"></Header>-->
+
     <!--搜索栏-->
     <div class="search">
       <van-row>
         <van-col span="6" ><span v-on:click="goSearchPage(calendar.value,selectProjectObj.id,selectProjectObj.xmmc)">搜索</span></van-col>
-        <van-col span="12">{{selectProjectObj.xmmc}}</van-col>
+        <van-col span="12">{{projectName}}</van-col>
         <van-col span="6" class="chooseBtn">
           <van-button type="primary">
             <div class="flex">
@@ -18,7 +18,6 @@
       </van-row>
       <!--日历-->
       <div class="days_box">
-        <!--<Days></Days>-->
         <div id="wrap">
           <div id="innerWrap" :style="{'width':days2.length*66+'px'}">
             <div class="scroll" v-for="(item ,index) in days2" @click="dayClick(index,item)">
@@ -64,16 +63,19 @@
         项目
       </div>
       <div id="projectList">
-        <!--<div id="wrapProject">-->
-          <!--<div id="innerWrapProject" :style="{'width':width+'px'}">-->
-            <!--<div class="scrollProject" v-for="item in projects" @click="changeItem($event,item)">-->
-              <!--{{item.xmmc}}-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-        <SelectProject v-if="projects" :projects="projects" :count="projects.length"></SelectProject>
+        <div id="wrapProject">
+          <div id="innerWrapProject" :style="{'width':width+'px'}">
+            <div class="scrollProject bg" @click="getAllData($event)">
+             全部
+            </div>
+            <div class="scrollProject" v-for="item in projects" @click="changeItem($event,item)">
+              {{item.xmmc}}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+    <p hidden>{{selectProjectObj}}</p>
   </div>
 </template>
 
@@ -83,16 +85,15 @@
   import Header from '../Common/Header'
   import SearchIndex from '../Common/SearchIndex.vue'
   import calendar from '../Common/calendar'
-  import Days from '../Common/Days'
-  import SelectProject from '../Common/SelectPeoject'
+
   import Scroll from '../Common/PullRefresh';
 
-//  $(function () {
-//    var screenW = $(window).width(); // 获取屏幕的宽度
-//    $("#wrapProject").width(screenW);// 设置外层盒子宽度==屏幕宽度
-//    $("#innerWrapProject").addClass('bg');
-//
-//  })
+  $(function () {
+    var screenW = $(window).width(); // 获取屏幕的宽度
+    $("#wrapProject").width(screenW);// 设置外层盒子宽度==屏幕宽度
+    $("#innerWrapProject").addClass('bg');
+
+  })
 
   var date=new Date();
   var y = date.getFullYear();
@@ -107,8 +108,6 @@
       SearchIndex,
       Header,
       calendar,
-      Days,
-      SelectProject,
       'v-scroll': Scroll
     },
     data(){
@@ -130,9 +129,9 @@
         pageStart : 0, // 开始页数
         pageEnd : 0, // 结束页数
         listdata: [], // 下拉更新数据存放数组
-        projectName:'武汉铁路局',
+        projectName:'',
         xmmcId:'', // 选择项目的id
-        width: 15 * 56, // 设置滚动日历最外层盒子的宽度为屏幕宽度
+//        width: 15 * 56, // 设置滚动日历最外层盒子的宽度为屏幕宽度
         projects:[],
         calendar:{
           display:dateS,//默认显示当天日期
@@ -157,19 +156,21 @@
     },
     computed:{
       width(){
-        return this.count*130 // 动态设置宽度
+        return (this.projects.length+1)*130 // 动态设置宽度
       },
       selectProjectObj() {
-        var name= this.$store.getters.selectProjectObj.xmmc;
+        var name= this.$store.getters.nonBusinessLineSearch.selectProObj.xmmc;
 
         if (name == undefined || name == '' ||name == null){
           this.xmmcId ='';
+          this.projectName='全部'
         }else {
-          this.xmmcId =this.$store.getters.selectProjectObj.id;
+          this.xmmcId =this.$store.getters.nonBusinessLineSearch.selectProObj.id;
+          this.projectName=name;
         }
         this.getList();
 
-        return this.$store.getters.selectProjectObj// 时时获取选中项目的名称
+        return this.$store.getters.nonBusinessLineSearch.selectProObj// 时时获取选中项目的名称
       },
       daysIndex(){
         var date=new Date();
@@ -217,13 +218,30 @@
       this.$store.commit('setBusinessLineSelectProjectCount',{count:this.projects.length });
     },
     methods:{
-//      changeItem(e,item) { // 点击项目的触发函数
-//        // 改变背景色
-//        $(e.target).addClass("bg").siblings().removeClass("bg");
-//
-//        // 将项目名称存储到store
-//        this.$store.commit('setSelectProjectObj',{selectProjectObj:item});
-//      },
+      getAllData(e){
+        // 将项目id置空。获取全部数据
+        this.xmmcId='';
+        this.getList();
+
+        // 修改store中的存值
+        var item={
+          id:'',
+          xmmc:'全部'
+        };
+        this.$store.commit('setNonBusinessLineSearch',{selectProObj:item});
+
+        // 修改样式
+        $(e.target).addClass("bg").siblings().removeClass("bg");
+      },
+      changeItem(e,item) { // 点击项目的触发函数
+        // 改变背景色
+        $(e.target).addClass("bg").siblings().removeClass("bg");
+
+        // 修改，将选中的项目的名称和 id 保存的 store 中
+        this.$store.commit('setNonBusinessLineSearch',{selectProObj:item});
+
+      },
+
       setStore(value){
         this.$store.commit('setProjectCount',{count:getDaysInOneMonth(value[0],value[1]),year: value[0],month: value[1],day:value[2]})
       },
@@ -231,10 +249,8 @@
         let vm = this;
         var url='http://whjjgc.r93535.com/NonBusinessDayPlanDetailServlet?sgrq='+vm.sgrq+'&page='+vm.page+'&baseuserid='+this.baseuserid+'&xmmc='+vm.xmmcId;
 
-        console.log("非营业线的请求列表数据url："+url);
         vm.$http.get(url).then((response) => {
           vm.listdata = response.data;
-          console.log("非营业线的列表数据为："+JSON.stringify(response.data));
 
           if (response.data.thiscount< 10){
             this.infiniteLoading =  true;
@@ -285,12 +301,13 @@
         this.$router.push({path: '/NearBusinessLine/NonListDetail',query:{id:planItem.id}}); // 路由信息传值
       },
 
-      // 获取可选项目列表数据
+      // 获取项目列表数据
       getProjects(){
-        axios.get('http://whjjgc.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid)
+        let url='http://whjjgc.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid;
+        axios.get(url)
           .then(response => {
-            // 接收响应数据
             this.projects = response.data;
+
           }).catch(err => {
           console.error(err.message)
         })
@@ -390,43 +407,6 @@
 </script>
 
 <style scoped>
-  /* 供选择项目的style start */
-  /*#wrapProject{*/
-    /*position: relative;*/
-    /*top: 0px;*/
-    /*left:0;*/
-    /*!*width:100%;*!*/
-    /*height:100px;*/
-    /*margin:0 auto;*/
-    /*overflow: scroll;*/
-    /*z-index: 99;*/
-    /*overflow: scroll;*/
-    /*background: #E5F2FA;*/
-  /*}*/
-  /*#innerWrapProject{*/
-    /*height:100%;*/
-  /*}*/
-  /*#innerWrapProject .scrollProject{*/
-    /*float: left;*/
-    /*width:120px;*/
-    /*height:90px;*/
-    /*text-align: center;*/
-    /*margin:0 5px;*/
-    /*padding:5px;*/
-    /*border-radius:10px;*/
-    /*color: #fff;*/
-    /*background: #59C13A*/
-  /*}*/
-  /*#innerWrapProject .scrollProject.bg{*/
-    /*background-color: #FF4A58;*/
-  /*}*/
-  /*!* 隐藏滚动条 *!*/
-  /*::-webkit-scrollbar{*/
-    /*display:none;*/
-  /*}*/
-
-  /* 供选择项目的style end */
-
   /* 设置头部 style start */
   .van-nav-bar{
     background: #2196F3;

@@ -156,6 +156,10 @@
 </script>
 
 <style scoped>
+  /* 设置表格title*/
+  .getHeight{
+    font-weight:bold;
+  }
   /* 设置头部 style start */
   .van-nav-bar{
     background: #2196F3;
