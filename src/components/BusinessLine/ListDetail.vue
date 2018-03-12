@@ -177,7 +177,7 @@
 
         <!--绑定动态图片资源-->
         <div v-for="path in ryqdqkImgArr" class="photoBox">
-          <img class="photo" v-bind:src="path" alt="logo"  v-on:click="showBigImage($event)"/>
+          <img class="photo" v-bind:src="path" alt="logo" width="50%" height="50%"  v-on:click="showBigImage($event)"/>
         </div>
 
         <!-- 根据 editStatus的值判断账户是否有编辑权限-->
@@ -264,7 +264,9 @@
        <!--预览图片的盒子-->
       <div id="showBigImage" v-if="showBigImage" @click="showBigImageBox($event)" v-bind:style="{height:setHeight+'px'}">
         <!--<img  src="../../assets/images/sgrjhImages/search.png" alt="">-->
-        <img  v-bind:src="previewPicSrc" alt="">
+        <!--<img  v-bind:src="previewPicSrc" alt=""  :style="{width:previewPicWidth+'px',height:previewPicHeight+'px'}">-->
+        <img  v-bind:src="previewPicSrc" alt="" style="width:100%;"/>
+
       </div>
 
     </div>
@@ -297,11 +299,14 @@
           picturesArr:[], // 现场照片
 
           previewPicSrc:'', // 预览图片的src
+          previewPicWidth:'', // 预览图片的宽
+          previewPicHeight:'', // 预览图片的高
+
+          testW:'',
           setHeight:window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,/// 设置预览图片的盒子的高度=屏幕可视区域的高度
 
 
           xczp:[],// 现场照片：拍照和相册中选择的照片存放的数组
-//          imgLength:'', // 图片的长度
 
           checked: true,
           baseuserid:102300,
@@ -321,7 +326,11 @@
         },
         showBigImage(event){
           var el = event.currentTarget;   //获取点击对象
-          this.previewPicSrc =$(el).attr("src");  // 当前点击的src
+          this.previewPicSrc =$(el).attr("src");  // 当前点击图片的src
+
+          this.previewPicWidth = $(el).width();// 当前点击图片的宽
+          this.previewPicHeight = $(el).height();// 当前点击图片的高
+
           $('#showBigImage').show(); // 显示box
         },
         // 获取位置信息的回调函数（ios、android和js交互）
@@ -333,6 +342,10 @@
         RPMImageCallBack:function (params,imageType,index) { // 参数一：base64;参数二：图片类型；参数三：标识位
 
           let s="data:image/"+imageType+";base64,"+params;
+
+//          var img = new Image();
+//          img.src = s;
+//          this.testW = img.width;
 
           switch (index){
             case '1':
@@ -393,15 +406,12 @@
           RPM.getCurrentPositionInfo();
         },
         // JSAPI 函数调用 拍照或拍照或从相册中
-        takePictureE(index) { // 拍照或从相册中选择
-
-          this.sheetVisible = true; // 展示
-
+        takePictureE(index) {
+          this.sheetVisible = true; // 拍照或从相册中选择项目显示
           this.actions = [
             {
               name:'拍照',
               method :function () {
-                console.log("拍照事件");
                 // 调取JSAPI拍照事件,参数：1 表示原始照片；2 带水印照片
                 RPM.takePicture(2,index); // 参数一：表示获取原始图片JSAPI约定；参数二：点击的方法的标识位
               }
@@ -505,9 +515,9 @@
   /* 禁用按钮button*/
   /* 照片的样式 */
   .photoBox{
-    width:18%;
+    /*width:18%;*/
     margin-left:1%;
-    height:70px;
+    /*height:70px;*/
     margin-top:10px;
     float: left;
     -webkit-border-radius: 4px;
@@ -515,8 +525,8 @@
     border-radius: 4px;
   }
   .photoBox >img.photo{
-    width:100%;
-    height:100%;
+    /*width:100%;*/
+    /*height:100%;*/
     /*height:50px;*/
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
