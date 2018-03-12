@@ -73,7 +73,7 @@
     data () {
       return {
         ToDoWorkflowCount:'',//存放获取待办流程条数
-        workflowTypeId:18,
+        workflowTypeId:15,
         charts: '',
         mywidth:document.body.clientWidth + 'px',
         today:'2018-01-01',

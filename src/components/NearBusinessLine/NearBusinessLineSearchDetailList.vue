@@ -115,7 +115,7 @@
       <van-row>
         <van-col span="24">人员签到情况</van-col>
         <!--<van-col span="16">-->
-          <!--<span @click='popupClick(totalData.ryqdb)'>{{totalData.ryqdb}}</span>-->
+        <!--<span @click='popupClick(totalData.ryqdb)'>{{totalData.ryqdb}}</span>-->
         <!--</van-col>-->
       </van-row>
       <div class="img">
@@ -186,7 +186,7 @@
   import Header from '../Common/Header'
   import $ from 'jquery'
   import { Dialog } from 'vant';
-    import axios from 'axios';
+  import axios from 'axios';
 
   export default {
     name: "listDetail",
@@ -262,7 +262,7 @@
       },
       showBigImage(event){
         // 现实box
-       $('#showBigImage').show();
+        $('#showBigImage').show();
 
         //获取点击对象
         var el = event.currentTarget;

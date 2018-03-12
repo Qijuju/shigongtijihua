@@ -28,11 +28,11 @@
     <!-- 施工日计划我已审批列表-list展示数据-开始 --><!-- 我已审批页名称 -->
     <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite">
       <div class="neirong">
-      <table v-for="(plan, index) in DoWorkflowList" class="tablelist">
+        <table v-for="(plan, index) in DoWorkflowList" class="tablelist">
           <tr><td style="width:20%">流程标题:</td><td style="width:80%">{{plan.requestName }}</td></tr>
           <tr><td style="width:20%">流程类型:</td><td style="width:80%">{{plan.workflowName }}</td></tr>
           <tr><td style="width:20%">流程状态:</td><td style="width:80%">{{plan.currentNodeName }}</td></tr>
-      </table>
+        </table>
       </div>
     </v-scroll>
     <!-- 施工日计划我已审批列表-list展示数据-结束 -->
@@ -40,120 +40,120 @@
 </template>
 
 <script>
-import { Waterfall } from 'vant';
-import Vue from 'vue';
-import axios from 'axios';
-import bus from '../bus';
-import Scroll from '../Common/PullRefresh';  //引入上拉加载，下拉刷新的插件
+  import { Waterfall } from 'vant';
+  import Vue from 'vue';
+  import axios from 'axios';
+  import bus from '../bus';
+  import Scroll from '../Common/PullRefresh';  //引入上拉加载，下拉刷新的插件
 
-// 施工日计划我已审批列表-迭代动态数据-开始
-export default {
-  name: "DoWork",
+  // 施工日计划我已审批列表-迭代动态数据-开始
+  export default {
+    name: "DoWork",
     components: {
       'v-scroll': Scroll
     },
-  data() {
-    return {
-      counter : 1, //默认已经显示出15条数据 count等于一是让从16条开始加载
-      num : 10,  // 一次显示多少条
-      pageStart : 0, // 开始页数
-      pageEnd : 0, // 结束页数
+    data() {
+      return {
+        counter : 1, //默认已经显示出15条数据 count等于一是让从16条开始加载
+        num : 10,  // 一次显示多少条
+        pageStart : 0, // 开始页数
+        pageEnd : 0, // 结束页数
 
-      count:10,//存放展示条数
-      DoWorkflowCount:[],//存放获取待办流程条数
-      DoWorkflowList:[],//存放获取待办流程列表
-      requestName:'',//流程名称
-      userId:'',//基础平台用户id
-      pageNo:'1',//页数
-      workflowTypeId:'18',//流程分类id  15代表施工日计划
-      pageSize:'10',//每页条数
-      workflowId:'59',//流程类型id  51营业线 52临近营业线 53非营业线
-      status:'1', // 0审批中 ，1审批完成
-      disabled: false,
-      searchTab1:false,
-      searchTab2:false,
+        count:10,//存放展示条数
+        DoWorkflowCount:[],//存放获取待办流程条数
+        DoWorkflowList:[],//存放获取待办流程列表
+        requestName:'',//流程名称
+        userId:'',//基础平台用户id
+        pageNo:'1',//页数
+        workflowTypeId:'15',//流程分类id  15代表施工日计划
+        pageSize:'10',//每页条数
+        workflowId:'',//流程类型id  51营业线 52临近营业线 53非营业线
+        status:'1', // 0审批中 ，1审批完成
+        disabled: false,
+        searchTab1:false,
+        searchTab2:false,
 
-    };
-  },
+      };
+    },
 
 //打开页面是调用此方法，获取我已审批页列表数据
-  mounted: function() {
-    // 施工日计划我已审批页搜索-获取流程名称值
+    mounted: function() {
+      // 施工日计划我已审批页搜索-获取流程名称值
       this.GetOnSearch();
-    //施工日计划我已审批页筛选-获取流程类型id
+      //施工日计划我已审批页筛选-获取流程类型id
       this.GetOnClickSgrjh();
-  //  刷新页面加载初始化数据
+      //  刷新页面加载初始化数据
       this.GetDoWorkflowList();
-      },
+    },
 
-  methods: {
-    // 表头返回按钮事件
-    onClickLeft() {
-      this.$router.push({path: '/Index'});
+    methods: {
+      // 表头返回按钮事件
+      onClickLeft() {
+        this.$router.push({path: '/Index'});
         // Toast('返回');
       },
-    // 表头关闭按钮事件
+      // 表头关闭按钮事件
       onClickRight() {
         this.$router.push({path: '/NonBusinessLine'});
         // Toast('关闭');
       },
 
-    // 点击搜索按钮跳转到搜索页面
-  ToDoWorkSearch(){
-    this.searchTab1 = true;
-    this.searchTab2 = false;
-    $(".todoWorkSearch").css("color","rgb(0, 135, 232)");
-    $(".todoWorkScreen").css("color","rgb(0,0,0)");
-    this.$router.push({path: '/DoWorkSearch'});
-  },
-  // 点击筛选按钮跳转到筛选页面
-  ToDoWorkScreen(){
-    this.searchTab1 = false;
-    this.searchTab2 = true;
-    $(".todoWorkSearch").css("color","rgb(0, 0, 0)");
-    $(".todoWorkScreen").css("color","rgb(0, 135, 232)");
-    this.$router.push({path: '/DoWorkScreen'});
-  },
+      // 点击搜索按钮跳转到搜索页面
+      ToDoWorkSearch(){
+        this.searchTab1 = true;
+        this.searchTab2 = false;
+        $(".todoWorkSearch").css("color","rgb(0, 135, 232)");
+        $(".todoWorkScreen").css("color","rgb(0,0,0)");
+        this.$router.push({path: '/DoWorkSearch'});
+      },
+      // 点击筛选按钮跳转到筛选页面
+      ToDoWorkScreen(){
+        this.searchTab1 = false;
+        this.searchTab2 = true;
+        $(".todoWorkSearch").css("color","rgb(0, 0, 0)");
+        $(".todoWorkScreen").css("color","rgb(0, 135, 232)");
+        this.$router.push({path: '/DoWorkScreen'});
+      },
 
-  // 获取点击搜索按钮跳转事件的值
-  GetOnSearch(){
-      //我已审批页页面展示-传递流程名称 变量名为v-model
-      // debugger
-     bus.$on('v-model',data=> {
-      this.requestName = data;
-      // alert('onSearchName===='+data);
-      this.GetDoWorkflowList();
-     });
-    },
-
- //  获取点击营业线施工日计划跳转事件的值
-    GetOnClickSgrjh(){
-      //获取我已审批页页面展示-传递流程类型id 变量名van-button--normal
-      //  获取点击审批状态事件的值
-       bus.$on('van-button--normal-zt',data=> {
-         this.status = data;
-         //alert('status===='+data);
-         bus.$on('van-button--normal',data=> {
-          this.workflowId = data;
-          //alert('workflowId===='+data);
+      // 获取点击搜索按钮跳转事件的值
+      GetOnSearch(){
+        //我已审批页页面展示-传递流程名称 变量名为v-model
+        // debugger
+        bus.$on('v-model',data=> {
+          this.requestName = data;
+          // alert('onSearchName===='+data);
           this.GetDoWorkflowList();
-          });
-      });
+        });
+      },
 
-    },
+      //  获取点击营业线施工日计划跳转事件的值
+      GetOnClickSgrjh(){
+        //获取我已审批页页面展示-传递流程类型id 变量名van-button--normal
+        //  获取点击审批状态事件的值
+        bus.$on('van-button--normal-zt',data=> {
+          this.status = data;
+          //alert('status===='+data);
+          bus.$on('van-button--normal',data=> {
+            this.workflowId = data;
+            //alert('workflowId===='+data);
+            this.GetDoWorkflowList();
+          });
+        });
+
+      },
 
 // 获取我已审批页列表数据-拼接url，发送请求获取待办流程列表数据
-    GetDoWorkflowList(){
-      // debugger
-      this.userId=236807;
-      //debugger
-      if(this.status != null && this.status == '1'){//审批完成
-        var url = 'http://whjjgc.r93535.com/YiDoWorkflowListPCServlet?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
-      }else{//审批中
-        var url = 'http://whjjgc.r93535.com/DoWorkflowListPCServlet?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
-      }
+      GetDoWorkflowList(){
+        // debugger
+        this.userId=236807;
+        //debugger
+        if(this.status != null && this.status == '1'){//审批完成
+          var url = 'http://tljjgxt.r93535.com/YiDoWorkflowListPCServlet?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
+        }else{//审批中
+          var url = 'http://tljjgxt.r93535.com/DoWorkflowListPCServlet?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
+        }
 //      alert(url);
-      console.log(url);
+        console.log(url);
         axios.get(url)
           .then(response => {
             var data = response.data
@@ -183,9 +183,9 @@ export default {
         this.userId=236807;
         this.pageNo = 1;
         if(status != null && status == '1'){//审批完成
-          var url = 'http://whjjgc.r93535.com/YiDoWorkflowListPCServlet?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
+          var url = 'http://tljjgxt.r93535.com/YiDoWorkflowListPCServlet?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
         }else{//审批中
-          var url = 'http://whjjgc.r93535.com/DoWorkflowListPCServlet?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
+          var url = 'http://tljjgxt.r93535.com/DoWorkflowListPCServlet?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
         }
         vm.$http.get(url).then((response) => {
           // debugger
@@ -207,8 +207,8 @@ export default {
       },
 
 
-  }
-};
+    }
+  };
 
 </script>
 

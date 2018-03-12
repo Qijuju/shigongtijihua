@@ -16,8 +16,10 @@
           <h3>{{ name.count }}</h3>
         </van-col>
         <van-col span="4">
-          <van-button type="default" @click="getDayPlanDetail(name.date,index,true)" v-show="!(index===showmum)"><van-icon name="add" /></van-button>
-          <van-button type="default" @click="getDayPlanDetail(name.date,index,false)" v-show="index===showmum"><van-icon name="clear" /></van-button>
+          <img src="../../assets/images/icon/more_unfold.png" @click="getDayPlanDetail(name.date,index,true)" v-show="!(index===showmum)" style="height:25px;width:25px">
+          <img src="../../assets/images/icon/less.png"  @click="getDayPlanDetail(name.date,index,false)" v-show="index===showmum" style="height:25px;width:25px">
+          <!--<van-button type="default" @click="getDayPlanDetail(name.date,index,true)" v-show="!(index===showmum)"><van-icon name="add" /></van-button>
+          <van-button type="default" @click="getDayPlanDetail(name.date,index,false)" v-show="index===showmum"><van-icon name="clear" /></van-button>-->
         </van-col>
         <div v-show="index===showmum">
           <van-steps direction="vertical"  active-color="#f60" v-waterfall-lower="loadMore(index)"
@@ -25,11 +27,13 @@
                      waterfall-offset="400">
             <!--<van-pull-refresh v-model="isLoading">-->
             <van-step v-for="(plan, index) in DayPlanDetail" >
-              <h3>{{ "序号："+(index+1)}}</h3>
-              <p>{{ "开始时间："+plan.kssjd}}</p>
-              <p>{{ "项目名称："+plan.xmmc }}</p>
-              <p>{{ "项目地点："+plan.sgdd }}</p>
-              <p>{{ "结束时间："+plan.jssjd }}</p>
+              <div @click="goDetail(plan)">
+                <h3>{{ "序号："+(index+1)}}</h3>
+                <p>{{ "开始时间："+plan.kssjd}}</p>
+                <p>{{ "项目名称："+plan.xmmc }}</p>
+                <p>{{ "项目地点："+plan.sgdd }}</p>
+                <p>{{ "结束时间："+plan.jssjd }}</p>
+              </div>
             </van-step>
             <!--</van-pull-refresh>-->
           </van-steps>
@@ -84,12 +88,14 @@
       $route: function (route) {
         /*debugger*/
         var data = route.query;
-        this.xmmc=data.xmmc
-        this.dj=data.dj
-        this.mc=data.mc
-        this.sgksrq=data.sgksrq
-        this.sgjsrq=data.sgjsrq
-        this.getCount()
+        if(data.length>0) {
+          this.xmmc = data.xmmc
+          this.dj = data.dj
+          this.mc = data.mc
+          this.sgksrq = data.sgksrq
+          this.sgjsrq = data.sgjsrq
+          this.getCount()
+        }
       },
     },
     /*created(){
@@ -100,9 +106,9 @@
       loadMore(index){
         /*debugger*/
         if(this.count>this.DayPlanDetail.length&&index===this.showmum){
-          var url='http://whjjgc.r93535.com/NonBusinessDayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&page='+this.page+'&baseuserid=102300&sgjsrq='+this.currenttime
-          /*var url='http://whjjgc.r93535.com/DayPlanDetailNearbySearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&page=1&sgjsrq='+this.currenttime+'&baseuserid=236000&xb='+this.xingbie+'&lb='+this.sglx*/
-          /*var url='http://whjjgc.r93535.com/DayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&dj='+this.dj+'&xingbie='+this.xingbie+'&sglx='+this.sglx+'&page='+this.page+'&sglc='+this.sglc+'&baseuserid=236210&kssjd=&sgjsrq='+this.currenttime*/
+          var url='http://tljjgxt.r93535.com/NonBusinessDayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&page='+this.page+'&baseuserid=102300&sgjsrq='+this.currenttime
+          /*var url='http://tljjgxt.r93535.com/DayPlanDetailNearbySearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&page=1&sgjsrq='+this.currenttime+'&baseuserid=236000&xb='+this.xingbie+'&lb='+this.sglx*/
+          /*var url='http://tljjgxt.r93535.com/DayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&dj='+this.dj+'&xingbie='+this.xingbie+'&sglx='+this.sglx+'&page='+this.page+'&sglc='+this.sglc+'&baseuserid=236210&kssjd=&sgjsrq='+this.currenttime*/
           /*debugger*/
           axios.get(url)
             .then(response => {
@@ -128,7 +134,7 @@
         this.sglx=data.sglx
         this.sgksrq=data.sgksrq
         this.sgjsrq=data.sgjsrq*/
-        var url='http://whjjgc.r93535.com/DayPlanCountServlet?baseuserid=102300&xmmc='+this.xmmc+'&type=3&sgksrq='+this.sgksrq+'&sgjsrq='+this.sgjsrq+'&dj=&xingbie=&sglx=&sglc=&kssjd=&page=0'
+        var url='http://tljjgxt.r93535.com/DayPlanCountServlet?baseuserid=102300&xmmc='+this.xmmc+'&type=3&sgksrq='+this.sgksrq+'&sgjsrq='+this.sgjsrq+'&dj=&xingbie=&sglx=&sglc=&kssjd=&page=0'
         axios.get(url)
           .then(response => {
             /*debugger*/
@@ -140,9 +146,9 @@
       getDayPlanDetail(data,index,flag) {
         if(this.hasopen==false&&flag==true){
           this.currenttime=data
-          var url='http://whjjgc.r93535.com/NonBusinessDayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&page='+this.page+'&baseuserid=102300&sgjsrq='+this.currenttime
-          //var url='http://whjjgc.r93535.com/DayPlanDetailNearbySearchServlet?xmmc='+this.xmmc+'&sgksrq='+data+'&page=1&sgjsrq='+data+'&baseuserid=236000&xb='+this.xingbie+'&lb='+this.sglx
-          /*var url='http://whjjgc.r93535.com/DayPlanDetailSearchServlet?xmmc='
+          var url='http://tljjgxt.r93535.com/NonBusinessDayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&page='+this.page+'&baseuserid=102300&sgjsrq='+this.currenttime
+          //var url='http://tljjgxt.r93535.com/DayPlanDetailNearbySearchServlet?xmmc='+this.xmmc+'&sgksrq='+data+'&page=1&sgjsrq='+data+'&baseuserid=236000&xb='+this.xingbie+'&lb='+this.sglx
+          /*var url='http://tljjgxt.r93535.com/DayPlanDetailSearchServlet?xmmc='
             +this.xmmc+'&sgksrq='+data+'&dj='+this.dj+'&xingbie='+this.xingbie+'&sglx='+this.sglx+'&page='+1+
             '&sglc='+this.sglc+'&baseuserid=236210&kssjd=&sgjsrq='+data*/
           /*debugger*/
@@ -165,9 +171,9 @@
             this.DayPlanDetail=[]
             this.count=0
             this.page=1
-            var url='http://whjjgc.r93535.com/NonBusinessDayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&page='+this.page+'&baseuserid=102300&sgjsrq='+this.currenttime
-            //var url='http://whjjgc.r93535.com/DayPlanDetailNearbySearchServlet?xmmc='+this.xmmc+'&sgksrq='+data+'&page=1&sgjsrq='+data+'&baseuserid=236000&xb='+this.xingbie+'&lb='+this.sglx
-            /*var url='http://whjjgc.r93535.com/DayPlanDetailSearchServlet?xmmc='
+            var url='http://tljjgxt.r93535.com/NonBusinessDayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&page='+this.page+'&baseuserid=102300&sgjsrq='+this.currenttime
+            //var url='http://tljjgxt.r93535.com/DayPlanDetailNearbySearchServlet?xmmc='+this.xmmc+'&sgksrq='+data+'&page=1&sgjsrq='+data+'&baseuserid=236000&xb='+this.xingbie+'&lb='+this.sglx
+            /*var url='http://tljjgxt.r93535.com/DayPlanDetailSearchServlet?xmmc='
               +this.xmmc+'&sgksrq='+data+'&dj='+this.dj+'&xingbie='+this.xingbie+'&sglx='+this.sglx+'&page='+this.page+
               '&sglc='+this.sglc+'&baseuserid=236210&kssjd=&sgjsrq='+data*/
             axios.get(url)
@@ -194,6 +200,9 @@
       },
       onClickLeft() {
         this.$router.push({path: '/NonBusinessLine/NonBusinessLineSearch'});
+      },
+      goDetail(val){
+        this.$router.push({path: '/NonBusinessLine/NonBusinessLineSearchDetailList',query:{id:val.id}}); // 路由信息传值
       }
     }
   }
