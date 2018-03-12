@@ -115,7 +115,7 @@
         }
         this.getDayPlanCount()
 
-        
+
       },
     },
     methods: {
