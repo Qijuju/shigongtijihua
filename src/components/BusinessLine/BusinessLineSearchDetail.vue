@@ -114,6 +114,8 @@
           this.sgjsrq=data.sgjsrq
         }
         this.getDayPlanCount()
+
+        
       },
     },
     methods: {
