@@ -127,6 +127,10 @@
           value:[y,m,d], //  打开的日历默认选中的时间
           lunar:true, //显示农历
           select:(value)=>{ // 当选中日历上的某一天时，触发的事件
+            console.log("选中的某一天："+JSON.stringify(value));
+            this.sgrq = value[0]+'-'+value[1]+'-'+value[2];
+            this.getList(); // 选择完日期重新请求数据
+            console.log("组合日期："+this.sgrq);
             value.pop(); // 删除‘天’\
             this.setStore(value); // 将选中的日期存储到store中
             this.calendar.show=false;

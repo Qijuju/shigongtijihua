@@ -141,5 +141,8 @@
   .van-tabbar{
     z-index: 8;
   }
+  .mint-tabbar a{
+    color: #ccc;
+  }
 
 </style>

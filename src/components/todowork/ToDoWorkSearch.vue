@@ -1,5 +1,5 @@
 <template>
-  <div class="1">
+  <div class="toDoWorkSearch">
     <!-- 施工日计划待我审批搜索-表头-开始 -->
     <van-nav-bar title="待我审批" left-text="返回" @click-left="onClickLeft">
     </van-nav-bar>
@@ -14,7 +14,7 @@
       <!--@cancel="onCancel"-->
     <!--/>-->
      <van-search
-       v-model="value"
+       v-model="qsrxmmc"
        placeholder="请输入项目名称"
        show-action
        @search="onSearch"
@@ -27,33 +27,38 @@
 </template>
 
 <script>
-import $ from "jquery"
+
 import { Toast } from 'vant';
 import Vue from 'vue';
 import axios from 'axios';
 import bus from '../bus';
 
 export default {
-   data() {
+  name:'toDoWorkSearch',
+  data() {
     return {
-
-    };
+      qsrxmmc:'',//请输入项目名称
+      disabled: false,
+    }
   },
   mounted: function() {
-    this.disnone();
-    this.disblock();
+   /* this.disnone();
+    this.disblock();*/
   },
    methods: {
-     disnone(){
+     /*disnone(){
        $("input").focus(function(){
-         $(".mint-tabbar.is-fixed").hide();
+         $(".van-tabbar--fixed").hide();
        });
      },
      disblock(){
        $("input").blur(function(){
-         $(".mint-tabbar.is-fixed").show();
+         setInterval(function () {
+           $(".van-tabbar--fixed").show();
+         },1000);
+
        });
-     },
+     },*/
      // 表头返回按钮事件
     onClickLeft() {
        this.$router.push({path: '/ToDoWork'});
@@ -65,13 +70,14 @@ export default {
     //  点击搜索按钮跳转事件
     onSearch(){
       //向待我审批页面展示-传递流程名称 变量名为v-model
-      bus.$emit('v-model',this.value)
+      bus.$emit('v-model',this.qsrxmmc)
       this.$router.push({path: '/ToDoWork'});
       },
     // 点击取消按钮跳转事件
     onCancel(){
       this.$router.push({path: '/ToDoWork'});
     }
+
    }
 };
 

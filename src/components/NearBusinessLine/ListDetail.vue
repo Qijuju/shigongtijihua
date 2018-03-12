@@ -60,7 +60,7 @@
       <van-row>
         <van-col span="8">结束时间点</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.jjsjd)'>{{totalData.jjsjd}}</span>
+          <span @click='popupClick(totalData.jssjd)'>{{totalData.jssjd}}</span>
         </van-col>
       </van-row>
       <van-row>
@@ -90,7 +90,8 @@
       <van-row>
         <van-col span="8">施工配合通知书照片</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.phtzszp)'>{{totalData.phtzszp}}</span>
+          <img width="50" height="50" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1520405413606&di=076f896cc7aa7a173cdbe7bfecf27b7b&imgtype=0&src=http%3A%2F%2Fimg3.3lian.com%2F2013%2Fc2%2F75%2Fd%2F21.jpg" alt="通知书照片">
+          <!--<span @click='popupClick(totalData.phtzszp)'>{{totalData.phtzszp}}</span>-->
         </van-col>
       </van-row>
       <van-row>
@@ -122,40 +123,41 @@
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
-        <div class="addPhoto" @click='phoneOrPicture()'>+</div>
+        <div class="addPhoto" @click='phoneOrPicture()' v-if="totalData.editStatus===1" >+</div>
       </div>
       <van-row>
         <van-col span="8">计划兑换情况</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.jhdxqk)'>{{totalData.jhdxqk}}</span>
+
+          <input type="text" @click='popupClick(totalData.jhdxqk)'v-model="totalData.jhdxqk" v-if="totalData.editStatus===1">
+          <input type="text" @click='popupClick(totalData.jhdxqk)'v-model="totalData.jhdxqk" v-else readonly>
+
         </van-col>
       </van-row>
       <br>
       <van-row>
-        <van-col span="8">现场照片</van-col>
-        <van-col span="16">
-          <span @click='popupClick(totalData.xczp)'>{{totalData.xczp}}</span>
-        </van-col>
+        <van-col span="24">现场照片</van-col>
       </van-row>
       <div class="img">
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
         <img class="photo" src="../../assets/images/icon/date.png" alt="">
-        <div class="addPhoto" @click='phoneOrPicture()'>+</div>
+        <div class="addPhoto" @click='phoneOrPicture()' v-if="totalData.editStatus===1" >+</div>
       </div>
       <van-row>
         <van-col span="8">签到时间</van-col>
         <van-col span="16">
           <span @click='popupClick(totalData.qdsj)'>{{totalData.qdsj}}</span>
+          <button @click="getCurrentTime()" v-if="totalData.editStatus===1">获取当前时间</button>
         </van-col>
       </van-row>
       <van-row>
         <van-col span="8">签到地点</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.qddd)'>{{totalData.qddd}}</span>
 
-          <button>获取</button>
-          <button>刷新</button>
+          <span @click='popupClick(totalData.qddd)'>{{totalData.qddd}}</span>
+          <button @click="getCurrentPositionInfo()" v-if="totalData.editStatus===1">获取当前位置</button>
+
         </van-col>
       </van-row>
       <!--弹出层-->
@@ -170,6 +172,9 @@
         v-model="sheetVisible"
       >
       </mt-actionsheet>
+
+      <div id="save">保存</div>
+
     </div>
   </div>
 </template>
@@ -233,9 +238,7 @@
       getData(){
         let vm = this;
         let url = 'http://whjjgc.r93535.com/LJYYXDayUniquePlanServlet?id='+vm.id+'&baseuserId='+vm.baseuserid;
-        debugger;
-
-
+        console.log("邻近营业线详情页请求的url："+url);
         vm.$http.get(url).then((response) => {
           console.log("详情页面的数据：" + JSON.stringify(response.data));
           vm.totalData = response.data;
@@ -260,6 +263,27 @@
 </script>
 
 <style scoped>
+  /* input */
+  input{
+    display: inline-block;
+    width:100%;
+    height:100%;
+    border:0;
+    padding:5px;
+  }
+
+  #save{
+    position: fixed;
+    left:0px;
+    bottom:50px;
+    width:100%;
+    height:30px;
+    text-align: center;
+    line-height:30px;
+    background: #2196F3;
+    color:#fff;
+    border-radius:4px 4px 0 0;
+  }
   /* 设置头部 style start */
   .van-nav-bar{
     background: #2196F3;
@@ -303,6 +327,7 @@
   }
   .content{
     margin-top:44px;
+    margin-bottom:81px;
   }
 
   /* 修改栅格样式 */

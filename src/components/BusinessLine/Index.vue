@@ -48,7 +48,7 @@
                       <span class="jssjd">{{planItem.jssjd}}</span>
                       <span class="rjhh">{{planItem.rjhh}}</span>
                     </p>
-                    <p>{{planItem.xmmc}}-{{planItem.id}}</p>
+                    <p>{{planItem.xmmc}}</p>
                     <p>{{planItem.dd}}</p>
                   </div>
                 </van-step>
@@ -71,6 +71,7 @@
 </template>
 
 <script>
+
   import $ from "jquery"
   import axios from 'axios';
   import Header from '../Common/Header'
@@ -125,11 +126,17 @@
           value:[y,m,d], //  打开的日历默认选中的时间
           lunar:true, //显示农历
           select:(value)=>{ // 当选中日历上的某一天时，触发的事件
+            console.log("选中的某一天："+JSON.stringify(value));
+            this.sgrq = value[0]+'-'+value[1]+'-'+value[2];
+            this.getList(); // 选择完日期重新请求数据
+            console.log("组合日期："+this.sgrq);
             value.pop(); // 删除‘天’\
             this.setStore(value); // 将选中的日期存储到store中
             this.calendar.show=false;
             this.calendar.value=value;
             this.calendar.display=value.join("/");
+
+
           }
         }
       }
@@ -191,11 +198,15 @@
       // 获取列表首页数据
       getList(){
         let vm = this;
+        vm.sgrq='2018-02-28';
         let url = 'http://whjjgc.r93535.com/DayPlanDetailServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq;
 
+        console.log("营业线首页数据源请求url："+url);
         vm.$http.get(url).then((response) => {
 
           vm.listdata = response.data;
+
+          console.log("营业线首页列表数据："+JSON.stringify(vm.listdata));
 
           if (response.data.thiscount< 10){
             this.infiniteLoading =  true;

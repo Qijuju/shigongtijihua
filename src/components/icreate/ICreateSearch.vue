@@ -1,5 +1,5 @@
 <template>
-  <div class="1">
+  <div class="iCreateSearch">
  <!-- 施工日计划我发起的搜索-表头-开始 -->
     <van-nav-bar title="我发起的" left-text="返回" @click-left="onClickLeft">
     </van-nav-bar>
@@ -14,7 +14,7 @@
       <!--@cancel="onCancel"-->
     <!--/>-->
      <van-search
-       v-model="value"
+       v-model="qsrxmmc"
        placeholder="请输入项目名称"
        show-action
        @search="onSearch"
@@ -32,7 +32,32 @@ import axios from 'axios';
 import bus from '../bus';
 
 export default {
+  name:'iCreateSearch',
+  data() {
+    return {
+
+      qsrxmmc:'',//请输入项目名称
+      disabled: false,
+    }
+  },
+  mounted: function() {
+   /* this.disnone();
+    this.disblock();*/
+  },
    methods: {
+    /* disnone(){
+       $("input").focus(function(){
+         $(".van-tabbar--fixed").hide();
+       });
+     },
+     disblock(){
+       $("input").blur(function(){
+         setInterval(function () {
+           $(".van-tabbar--fixed").show();
+         },1000);
+
+       });
+     },*/
      // 表头返回按钮事件
     onClickLeft() {
         // Toast('返回');
@@ -45,7 +70,7 @@ export default {
     //  点击搜索按钮跳转事件
     onSearch(){
       //向我发起的页面展示-传递流程名称
-      bus.$emit('v-model',this.value)
+      bus.$emit('v-model',this.qsrxmmc)
       this.$router.push({path: '/DoWork'});
       },
     // 点击取消按钮跳转事件
