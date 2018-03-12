@@ -389,7 +389,6 @@
         this.$router.push({path: '/NearBusinessLine'});
       },
       phoneOrPicture() { // 拍照或从相册中选择
-        console.log("拍照或从相册中选择--点击事件进来了吗？");
         this.sheetVisible = true;
       },
       popupClick(txt) { // popup弹出层点击事件

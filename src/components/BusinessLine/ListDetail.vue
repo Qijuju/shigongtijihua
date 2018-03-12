@@ -217,10 +217,8 @@
 
           <!--照片的展示-->
         <div v-for="path in picturesArr" class="photoBox">
-          <img class="photo" v-bind:src="path" alt="logo" width="90%" height="80%" style="margin-left: 5%;" v-on:click="showBigImage($event)"/>
+          <img class="photo" v-bind:src="path" alt="logo" v-on:click="showBigImage($event)"/>
         </div>
-
-          <!--<img class="photo" v-bind:src="testImgSrc3" alt="logo3" width="90%" height="80%" style="margin-left: 5%;" v-on:click="showBigImage($event)"/>-->
 
 
         <!--编辑权限code-->
@@ -230,11 +228,6 @@
 
       </div>
       </van-row>
-
-      <van-row>
-        <van-col span="24">{{xczp}}</van-col>
-      </van-row>
-
 
       <van-row>
         <van-col span="8">签到时间</van-col>
@@ -299,13 +292,6 @@
           // 从照片中选择照片
           paramsCount:'',
 
-          testImgSrc:'',
-
-          testSrc:'',
-          testImgSrc1:'',
-          testImgSrc2:'',
-          testImgSrc3:'',
-
           jhpfqkImgArr:[], // 计划批复情况
           ryqdqkImgArr:[], // 人员签到情况图片集合
           picturesArr:[], // 现场照片
@@ -350,20 +336,18 @@
 
           switch (index){
             case '1':
-              this.testImgSrc1 =s;
               this.jhpfqkImgArr.push(s);
               break;
             case '2':
-              this.testImgSrc2 =s;
               this.ryqdqkImgArr.push(s);
               break;
             case '3':
-              this.testImgSrc3 =s;
               this.picturesArr.push(s);
               break;
             default:
               break;
           }
+
           // 将这张图片追加到数组中便于保存所有图片
           var obj={};
           obj.imgType = imageType; // 图片类型
@@ -398,13 +382,8 @@
                 break;
             }
 
-            this.picturesArr.push(imgUrl);
-
             this.xczp.push(obj);
           }
-
-//          this.imgLength = this.picturesArr.length;
-//          this.$store.commit('setBusinessLineSearch',{imgCount:this.imgLength});
 
           this.paramsCount =a.length;
 
