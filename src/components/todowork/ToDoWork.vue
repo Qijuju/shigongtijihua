@@ -78,9 +78,9 @@ export default {
       requestName:'',//流程名称
       baseuserId:'',//基础平台用户id
       pageNo:'1',//页数
-      workflowTypeId:'15',//流程分类id  15代表施工日计划
+      workflowTypeId:'18',//流程分类id  15代表施工日计划
       pageSize:'100',//每页条数
-      workflowId:'',//流程类型id  51营业线 52临近营业线 53非营业线
+      workflowId:'59',//流程类型id  51营业线 52临近营业线 53非营业线
       disabled: false,
       searchTab1:false,
       searchTab2:false,
@@ -109,7 +109,7 @@ export default {
 // GetToDoWorkflowCount(data) {
 //         // debugger;
 //          this.baseuserId=236807;
-//            var url = 'http://tljjgxt.r93535.com/GetToDoWorkflowCount?baseuserId='+this.baseuserId+'&workflowTypeId='+this.workflowTypeId+'&workflowId='+this.workflowId
+//            var url = 'http://whjjgc.r93535.com/GetToDoWorkflowCount?baseuserId='+this.baseuserId+'&workflowTypeId='+this.workflowTypeId+'&workflowId='+this.workflowId
 //         // alert(url);
 //           axios.get(url)
 //             .then(response => {
@@ -165,7 +165,7 @@ GetToDoWorkflowList(){
         let vm = this;
         this.baseuserId=102300;
         this.pageNo = 1;
-        var url = 'http://tljjgxt.r93535.com/GetToDoWorkflowList?baseuserId='+this.baseuserId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
+        var url = 'http://whjjgc.r93535.com/GetToDoWorkflowList?baseuserId='+this.baseuserId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
         // alert(url);
         vm.$http.get(url).then((response) => {
           vm.ToDoWorkflowList = response.data.slice(0,10);
@@ -188,7 +188,7 @@ GetToDoWorkflowList(){
         let vm = this;
         this.baseuserId=102300;
         this.pageNo = 1;
-        var url = 'http://tljjgxt.r93535.com/GetToDoWorkflowList?baseuserId='+this.baseuserId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
+        var url = 'http://whjjgc.r93535.com/GetToDoWorkflowList?baseuserId='+this.baseuserId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
         vm.$http.get(url).then((response) => {
           // debugger
           vm.counter++;

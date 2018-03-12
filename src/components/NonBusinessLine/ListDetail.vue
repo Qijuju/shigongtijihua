@@ -127,7 +127,7 @@
         // 获取详情数据
         getData(){
           let vm = this;
-          let url = 'http://tljjgxt.r93535.com/FYYXDayUniquePlanServlet?id='+ vm.id+'&baseuserId='+this.baseuserid;
+          let url = 'http://whjjgc.r93535.com/FYYXDayUniquePlanServlet?id='+ vm.id+'&baseuserId='+this.baseuserid;
           vm.$http.get(url).then((response) => {
 
             // 请求成功返回数据
@@ -156,6 +156,10 @@
 </script>
 
 <style scoped>
+  /* 设置表格title*/
+  .getHeight{
+    font-weight:bold;
+  }
   /* 设置头部 style start */
   .van-nav-bar{
     background: #2196F3;

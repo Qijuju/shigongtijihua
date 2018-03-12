@@ -7,19 +7,16 @@ import BusinessLine from '../components/BusinessLine/Index'
 import BusinessDetail from '../components/BusinessLine/ListDetail'
 import BusinessLineSearch from '../components/BusinessLine/BusinessLineSearch'
 import BusinessLineSearchDetail from '../components/BusinessLine/BusinessLineSearchDetail'
-import BusinessLineSearchDetailList from '../components/BusinessLine/BusinessLineSearchDetailList'
 // 邻近营业线
 import NearIndex from '../components/NearBusinessLine/Index'
 import NearListDetail from '../components/NearBusinessLine/ListDetail'
 import NearBusinessLineSearch from '../components/NearBusinessLine/NearBusinessLineSearch'
 import NearBusinessLineSearchDetail from '../components/NearBusinessLine/NearBusinessLineSearchDetail'
-import NearBusinessLineSearchDetailList from '../components/NearBusinessLine/NearBusinessLineSearchDetailList'
 // 非营业线
 import NonBusinessLine from '../components/NonBusinessLine/Index'
 import NonListDetail from '../components/NonBusinessLine/ListDetail'
 import NonBusinessLineSearch from '../components/NonBusinessLine/NonBusinessLineSearch'
 import NonBusinessLineSearchDetail from '../components/NonBusinessLine/NonBusinessLineSearchDetail'
-import NonBusinessLineSearchDetailList from '../components/NonBusinessLine/NonBusinessLineSearchDetailList'
 // 统计
 import Statistics from '../components/Statistics/Statistics'
 // 待办流程
@@ -53,10 +50,6 @@ const router = new VueRouter({
 		component: BusinessLine
     },
     {
-      path: '/BusinessLine/BusinessLineSearchDetailList',
-      name: 'BusinessLineSearchDetailList',
-      component: BusinessLineSearchDetailList
-    },{
       path: '/BusinessLine/BusinessLineSearchDetail',
       name: 'BusinessLineSearchDetail',
       component: BusinessLineSearchDetail
@@ -100,10 +93,6 @@ const router = new VueRouter({
       path: '/NearBusinessLine/NonListDetail',
       name: 'NonListDetail',
       component: NonListDetail
-    },{
-      path: '/NearBusinessLine/NearBusinessLineSearchDetailList',
-      name: 'NearBusinessLineSearchDetailList',
-      component: NearBusinessLineSearchDetailList
     },
     {
       path: '/NonBusinessLine/NonBusinessLineSearch',
@@ -113,10 +102,6 @@ const router = new VueRouter({
       path: '/NonBusinessLine/NonBusinessLineSearchDetail',
       name: 'NonBusinessLineSearchDetail',
       component: NonBusinessLineSearchDetail
-    },{
-      path: '/NonBusinessLine/NonBusinessLineSearchDetailList',
-      name: 'NonBusinessLineSearchDetailList',
-      component: NonBusinessLineSearchDetailList
     },
     // 统计
     {

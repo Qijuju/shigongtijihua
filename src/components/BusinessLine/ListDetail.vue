@@ -9,7 +9,7 @@
     <!--内容-->
     <div class="content">
       <van-row>
-        <van-col span="8">本系统日计划号</van-col>
+        <van-col span="8">日计划号</van-col>
         <van-col span="16" >
           <span @click='popupClick(totalData.rjhh)'>{{totalData.rjhh}}</span>
         </van-col>
@@ -151,13 +151,22 @@
         <van-col span="24">计划批复情况</van-col>
       </van-row>
       <div class="img">
-        <!--jhpfqktp 图片的id,根据id区接口那图片路径-->
-        <img class="photo" src="../../assets/images/icon/timg.jpg" alt="">
+        <!--绑定动态图片资源-->
+        <div v-for="path in jhpfqkImgArr" class="photoBox">
+          <img class="photo" v-bind:src="path" alt="logo"  v-on:click="showBigImage($event)"/>
+        </div>
+
+        <!-- 根据 editStatus的值判断账户是否有编辑权限-->
+        <!--<div class="addPhoto" @click='takePictureE()' v-if="totalData.editStatus===1">+</div>-->
+
+        <!-- 测试JSAPI用 : 调取手机摄像头，进行拍照-->
+        <div class="addPhoto" @click='takePictureE(1)'>+</div>
       </div>
       <van-row>
         <van-col span="8">计划批复情况描述</van-col>
         <van-col span="16">
           <span @click='popupClick(totalData.jhpfqk)'>{{totalData.jhpfqk}}</span>
+
         </van-col>
       </van-row>
       <br>
@@ -166,16 +175,16 @@
       </van-row>
       <div class="img">
 
-        <img class="photo" src="../../assets/images/icon/qdb.jpg" alt="pictures">
-
-
-        <!-- 将拍照或者相册中显示的图片添加进来-->
+        <!--绑定动态图片资源-->
+        <div v-for="path in ryqdqkImgArr" class="photoBox">
+          <img class="photo" v-bind:src="path" alt="logo" width="50%" height="50%"  v-on:click="showBigImage($event)"/>
+        </div>
 
         <!-- 根据 editStatus的值判断账户是否有编辑权限-->
-        <div class="addPhoto" @click='phoneOrPicture()' v-if="totalData.editStatus===1">+</div>
+        <!--<div class="addPhoto" @click='takePictureE()' v-if="totalData.editStatus===1">+</div>-->
 
         <!-- 测试JSAPI用 : 调取手机摄像头，进行拍照-->
-        <!--<div class="addPhoto" @click='takePicture()'>+</div>-->
+        <div class="addPhoto" @click='takePictureE(2)'>+</div>
 
       </div>
 
@@ -201,21 +210,25 @@
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="24">现场照片{{}}</van-col>
+        <van-col span="24">现场照片</van-col>
       </van-row>
       <van-row>
         <div class="img" style="height: 170px;">
 
-        <div v-for="path in picturesStr" class="photoBox">
-          <img class="photo" :src="path" alt="logo">
+          <!--照片的展示-->
+        <div v-for="path in picturesArr" class="photoBox">
+          <img class="photo" v-bind:src="path" alt="logo" v-on:click="showBigImage($event)"/>
         </div>
 
-        <!--<div class="addPhoto" @click='takePicture()' v-if="totalData.editStatus===1" >+</div>-->
-        <div class="addPhoto" @click='takePicture()'v-if="picturesStr.length<9">+</div>
-        <div class="addPhoto" @click='takePicture()' v-if="picturesStr.length>=9" disabled="disabled">+</div>
+
+        <!--编辑权限code-->
+        <!--<div class="addPhoto" @click='takePictureE()' v-if="totalData.editStatus===1" >+</div>-->
+        <!-- 测试用 -->
+        <div class="addPhoto" @click='takePictureE(3)'>+</div>
 
       </div>
       </van-row>
+
       <van-row>
         <van-col span="8">签到时间</van-col>
         <van-col span="16">
@@ -227,20 +240,17 @@
         <van-col span="8">签到地点</van-col>
         <van-col span="16">
           <span @click='popupClick(totalData.qddd)'>{{totalData.qddd}}</span>
-          <!-- 根据 editStatus的值判断账户是否有编辑权限-->
-          <!--<button @click="getCurrentPositionInfo()" v-if="totalData.editStatus===1">获取当前位置</button>-->
-
-          <!-- 测试JSAPI用 : 获取当前位置-->
-          <button @click="getCurrentPositionInfo()">获取当前位置</button>
-
+          <button @click="getCurrentPositionInfo()" v-if="totalData.editStatus===1">获取当前位置</button>
         </van-col>
       </van-row>
+
       <!--弹出层-->
       <mt-popup
         v-model="popupVisible"
         popup-transition="popup-fade">
         <p>{{popupTxt}}</p>
       </mt-popup>
+
       <!--相册、拍照选择-->
       <mt-actionsheet
         :actions="actions"
@@ -249,7 +259,16 @@
       </mt-actionsheet>
 
       <div id="save" @click="save()">保存</div>
-      <p hidden>{{imgCount}}</p>
+      <!--<p hidden>{{imgCount}}</p>-->
+
+       <!--预览图片的盒子-->
+      <div id="showBigImage" v-if="showBigImage" @click="showBigImageBox($event)" v-bind:style="{height:setHeight+'px'}">
+        <!--<img  src="../../assets/images/sgrjhImages/search.png" alt="">-->
+        <!--<img  v-bind:src="previewPicSrc" alt=""  :style="{width:previewPicWidth+'px',height:previewPicHeight+'px'}">-->
+        <img  v-bind:src="previewPicSrc" alt="" style="width:100%;"/>
+
+      </div>
+
     </div>
   </div>
 </template>
@@ -258,7 +277,7 @@
   import Header from '../Common/Header'
   import $ from 'jquery'
   import { Dialog } from 'vant';
-//  import axios from 'axios';
+  import axios from 'axios';
 
     export default {
       name: "listDetail",
@@ -271,12 +290,23 @@
           // 拍照
           callBackParams:'',
           imgUrl:'',
+
           // 从照片中选择照片
           paramsCount:'',
-          picturesStr:[],
-          xczp:[],// 现场照片：拍照和相册中选择的照片存放的数组
-          imgLength:'',
 
+          jhpfqkImgArr:[], // 计划批复情况
+          ryqdqkImgArr:[], // 人员签到情况图片集合
+          picturesArr:[], // 现场照片
+
+          previewPicSrc:'', // 预览图片的src
+          previewPicWidth:'', // 预览图片的宽
+          previewPicHeight:'', // 预览图片的高
+
+          testW:'',
+          setHeight:window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,/// 设置预览图片的盒子的高度=屏幕可视区域的高度
+
+
+          xczp:[],// 现场照片：拍照和相册中选择的照片存放的数组
 
           checked: true,
           baseuserid:102300,
@@ -285,59 +315,51 @@
           popupVisible:false,
           popupTxt:'',
           sheetVisible:false, // 隐藏拍照、相册选择框
-          actions:[
-            {
-              name:'拍照',
-              method :function () {
-                console.log("拍照事件");
-                // 调取JSAPI拍照事件,参数：1 表示原始照片；2 带水印照片
-                RPM.takePicture(1);
-              }
-            },
-            {
-              name:'从相册中选择',
-              method :function () {
-
-                // 调取 JSAPI 从相册中选择照片事件
-                // 最多还可以选择多少张照片
-//                let storeImgCount=this.$store.getters.businessLineSearch.imgCount;
-
-//                console.log("每次从相册中选择事件--"+storeImgCount );
-
-//                var num = 9 - storeImgCount;
-                RPM.selectPhotos(9);
-              }
-            }
-          ]
-        }
-      },
-
-      computed: {
-        imgCount() { //businessLineSelectProjectName
-//           = this.$store.getters.businessLineSearch.imgCount;
-
-//          return this.picturesStr.length// 时时获取选中项目的名称
+          actions:[]
         }
       },
       methods:{
+        // 预览图片
+        showBigImageBox(event){
+          var el = event.currentTarget;
+          $(el).hide();
+        },
+        showBigImage(event){
+          var el = event.currentTarget;   //获取点击对象
+          this.previewPicSrc =$(el).attr("src");  // 当前点击图片的src
 
+          this.previewPicWidth = $(el).width();// 当前点击图片的宽
+          this.previewPicHeight = $(el).height();// 当前点击图片的高
+
+          $('#showBigImage').show(); // 显示box
+        },
         // 获取位置信息的回调函数（ios、android和js交互）
         RPMPositionCallBack:function (params) {
           this.totalData.qddd=params;
         },
 
         // 拍照的原始图片的回调函数，
-        RPMOriginalImageCallBack:function (params,imageType) {
+        RPMImageCallBack:function (params,imageType,index) { // 参数一：base64;参数二：图片类型；参数三：标识位
 
-//          this.imgUrl ="data:image/"+imageType+";base64,"+params;
-          var imgSrc="data:image/"+imageType+";base64,"+params;
+          let s="data:image/"+imageType+";base64,"+params;
 
-          // 追加一张图片
-          this.picturesStr.push(imgSrc);
+//          var img = new Image();
+//          img.src = s;
+//          this.testW = img.width;
 
-          this.imgLength = this.picturesStr.length;
-
-          this.$store.commit('setBusinessLineSearch',{imgCount:this.imgLength});
+          switch (index){
+            case '1':
+              this.jhpfqkImgArr.push(s);
+              break;
+            case '2':
+              this.ryqdqkImgArr.push(s);
+              break;
+            case '3':
+              this.picturesArr.push(s);
+              break;
+            default:
+              break;
+          }
 
           // 将这张图片追加到数组中便于保存所有图片
           var obj={};
@@ -347,14 +369,9 @@
 
           this.callBackParams = imageType;
 
-          /*function selectPhotosMethod() {
-            var num = 9 - this.imgLength;
-            RPM.selectPhotos(num);
-          }*/
-
         },
         // 从相册中选择照片的回调函数
-        RPMSelectPhotosCallBack:function (params) {
+        RPMSelectPhotosCallBack:function (params,index) {
           var a = params.split(',');
 
           for (var i=0;i<a.length;i++){
@@ -364,56 +381,75 @@
 
             var imgUrl ="data:image/"+obj.imgType+";base64,"+obj.base64;
 
-            this.picturesStr.push(imgUrl);
+            switch (index){
+              case '1':
+                this.jhpfqkImgArr.push(imgUrl);
+                break;
+              case '2':
+                this.ryqdqkImgArr.push(imgUrl);
+                break;
+              case '3':
+                this.picturesArr.push(imgUrl);
+                break;
+              default:
+                break;
+            }
 
             this.xczp.push(obj);
           }
 
-          this.imgLength = this.picturesStr.length;
-          this.$store.commit('setBusinessLineSearch',{imgCount:this.imgLength});
-
           this.paramsCount =a.length;
 
-         /* function selectPhotosMethod() {
-            var num = 9 - this.imgLength;
-            RPM.selectPhotos(num);
-          }*/
-
         },
-        // JSAPI 函数调用  获取位置信息的
+        // JSAPI 函数调用  获取位置信息
         getCurrentPositionInfo(){
           RPM.getCurrentPositionInfo();
         },
         // JSAPI 函数调用 拍照或拍照或从相册中
-        takePicture() { // 拍照或从相册中选择
-          console.log("拍照或从相册中选择--点击事件进来了吗？");
-
-          this.sheetVisible = true;
+        takePictureE(index) {
+          this.sheetVisible = true; // 拍照或从相册中选择项目显示
+          this.actions = [
+            {
+              name:'拍照',
+              method :function () {
+                // 调取JSAPI拍照事件,参数：1 表示原始照片；2 带水印照片
+                RPM.takePicture(2,index); // 参数一：表示获取原始图片JSAPI约定；参数二：点击的方法的标识位
+              }
+            },
+            {
+              name:'从相册中选择',
+              method :function () {
+                RPM.selectPhotos(9,index);
+              }
+            }
+          ];
         },
         save(){
-          console.log("邻近营业线保存接口调用");
           let vm = this;
+
           vm.id=28;
           vm.qdsj='2018-03-08';
 
-          let url = 'http://tljjgxt.r93535.com/DayplanPhSaveServlet';
+          let url = 'http://whjjgc.r93535.com/DayplanPhSaveServlet';
 
           var obj={
             id:vm.id,
-            qdsj:vm.qdsj,
-            xczp:vm.xczp,
             ryqdb:'',
+            dcryqk:'',
+            xczp:vm.xczp,
+            jhsfdx:'',
             jhdxqk:'',
+            qdsj:'',
             qddd:'',
             jwd:''
-          }
+          };
           axios.post(url, obj, {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded'
             }
           })
             .then(function (response) {
-              console.log("post请求成功"+JSON.stringify(response));
+              console.log("post111请求成功"+JSON.stringify(response));
             })
             .catch(function (error) {
               console.log(error);
@@ -438,7 +474,7 @@
         },
         getData(){
           let vm = this;
-          let url = 'http://tljjgxt.r93535.com/YYXDayPlanUniqueServlet?id='+vm.id+'&baseuserId='+vm.baseuserid;
+          let url = 'http://whjjgc.r93535.com/YYXDayPlanUniqueServlet?id='+vm.id+'&baseuserId='+vm.baseuserid;
           vm.$http.get(url).then((response) => {
             console.log("详情页面的数据：" + JSON.stringify(response.data));
             vm.totalData = response.data;
@@ -453,10 +489,10 @@
       },
       mounted:function () {
         // 绑定获取位置信息的回调函数
-        window.RPMPositionCallback = this.RPMPositionCallback;
+        window.RPMPositionCallBack = this.RPMPositionCallBack;
 
         // 绑定拍照的回调函数
-        window.RPMOriginalImageCallBack = this.RPMOriginalImageCallBack;
+        window.RPMImageCallBack = this.RPMImageCallBack;
 
         // 绑定选择照片的回调函数
         window.RPMSelectPhotosCallBack = this.RPMSelectPhotosCallBack;
@@ -479,9 +515,9 @@
   /* 禁用按钮button*/
   /* 照片的样式 */
   .photoBox{
-    width:18%;
+    /*width:18%;*/
     margin-left:1%;
-    height:70px;
+    /*height:70px;*/
     margin-top:10px;
     float: left;
     -webkit-border-radius: 4px;
@@ -489,8 +525,8 @@
     border-radius: 4px;
   }
   .photoBox >img.photo{
-    width:100%;
-    height:100%;
+    /*width:100%;*/
+    /*height:100%;*/
     /*height:50px;*/
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;

@@ -65,9 +65,9 @@ export default {
       requestName:'',//流程名称
       userId:'',//基础平台用户id
       pageNo:'1',//页数
-      workflowTypeId:'15',//流程分类id  15代表施工日计划
+      workflowTypeId:'18',//流程分类id  15代表施工日计划
       pageSize:'10',//每页条数
-      workflowId:'',//流程类型id  51营业线 52临近营业线 53非营业线
+      workflowId:'59',//流程类型id  51营业线 52临近营业线 53非营业线
       status:'1', // 0审批中 ，1审批完成
       disabled: false,
       searchTab1:false,
@@ -148,9 +148,9 @@ export default {
       this.userId=236807;
       //debugger
       if(this.status != null && this.status == '1'){//审批完成
-        var url = 'http://tljjgxt.r93535.com/YiDoWorkflowListPCServlet?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
+        var url = 'http://whjjgc.r93535.com/YiDoWorkflowListPCServlet?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
       }else{//审批中
-        var url = 'http://tljjgxt.r93535.com/DoWorkflowListPCServlet?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
+        var url = 'http://whjjgc.r93535.com/DoWorkflowListPCServlet?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
       }
 //      alert(url);
       console.log(url);
@@ -183,9 +183,9 @@ export default {
         this.userId=236807;
         this.pageNo = 1;
         if(status != null && status == '1'){//审批完成
-          var url = 'http://tljjgxt.r93535.com/YiDoWorkflowListPCServlet?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
+          var url = 'http://whjjgc.r93535.com/YiDoWorkflowListPCServlet?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
         }else{//审批中
-          var url = 'http://tljjgxt.r93535.com/DoWorkflowListPCServlet?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
+          var url = 'http://whjjgc.r93535.com/DoWorkflowListPCServlet?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
         }
         vm.$http.get(url).then((response) => {
           // debugger
