@@ -17,6 +17,7 @@ const store = new Vuex.Store({
       songList: [],
       songIndex: 0
     },
+
     test:'我是初始化数据',
     daysObj:[],
     scrollLeft:0, // 左边的位移
@@ -32,7 +33,9 @@ const store = new Vuex.Store({
       sgksrq:'',
       sgjsrq:'',
       daysIndex:0 ,// 当前选中对象('哪一天')的下标
-      infiniteLoading:false // 是否加载中状态设置
+      infiniteLoading:false, // 是否加载中状态设置
+      imgCount:'',
+      selectProObj:{}
     },
     nearBusinessLineSearch: {
       xmmc:'',
@@ -40,13 +43,15 @@ const store = new Vuex.Store({
       xingbie:'',
       sglx:'',
       sgksrq:'',
-      sgjsrq:''
+      sgjsrq:'',
+      selectProObj:{}
     },
 
     nonBusinessLineSearch: {
       xmmc:'',
       sgksrq:'',
-      sgjsrq:''
+      sgjsrq:'',
+      selectProObj:{}
     }
   },
   getters: {
@@ -73,7 +78,17 @@ const store = new Vuex.Store({
       state.listInfo.songList = list
       state.listInfo.songIndex = index
     },
-    setBusinessLineSearch: (state, { xmmc, dj, xingbie, sglc, sglx, sgksrq, sgjsrq}) => {
+
+    setInfiniteLoading:(state,{infiniteLoading}) =>{
+      state.businessLineSearch.infiniteLoading = infiniteLoading
+    },
+
+    setDaysIndex:(state,{daysIndex})=>{ // 一个月的天数选中的那天
+
+      state.businessLineSearch.daysIndex = daysIndex
+    },
+    // 营业线
+    setBusinessLineSearch: (state, { xmmc, dj, xingbie, sglc, sglx, sgksrq, sgjsrq,imgCount,selectProObj}) => {
       state.businessLineSearch.xmmc = xmmc
       state.businessLineSearch.dj = dj
       state.businessLineSearch.xingbie = xingbie
@@ -81,17 +96,14 @@ const store = new Vuex.Store({
       state.businessLineSearch.sglx = sglx
       state.businessLineSearch.sgksrq = sgksrq
       state.businessLineSearch.sgjsrq = sgjsrq
-    },
-    setInfiniteLoading:(state,{infiniteLoading}) =>{
-      state.businessLineSearch.infiniteLoading = infiniteLoading
-    },
+      state.businessLineSearch.imgCount = imgCount
 
-    setDaysIndex:(state,{daysIndex})=>{ // 一个月的天数选中的那天
-      console.log("显得Freud："+daysIndex);
-      state.businessLineSearch.daysIndex = daysIndex
-    },
+      console.log("营业线store存储的选中项目对象为：" + JSON.stringify(selectProObj));
+      state.businessLineSearch.selectProObj = selectProObj
 
-    setNearBusinessLineSearch: (state, { xmmc, dj, xingbie, /*sglc,*/ sglx, sgksrq, sgjsrq}) => {
+    },
+    // 邻近营业线
+    setNearBusinessLineSearch: (state, { xmmc, dj, xingbie, /*sglc,*/ sglx, sgksrq, sgjsrq,selectProObj}) => {
       state.nearBusinessLineSearch.xmmc = xmmc
       state.nearBusinessLineSearch.dj = dj
       state.nearBusinessLineSearch.xingbie = xingbie
@@ -99,15 +111,23 @@ const store = new Vuex.Store({
       state.nearBusinessLineSearch.sglx = sglx
       state.nearBusinessLineSearch.sgksrq = sgksrq
       state.nearBusinessLineSearch.sgjsrq = sgjsrq
+
+      console.log("邻近营业线store存储的选中项目对象为：" + JSON.stringify(selectProObj));
+      state.nearBusinessLineSearch.selectProObj = selectProObj
+
     },
-    setNonBusinessLineSearch: (state, { xmmc, /*dj, xingbie, /!*sglc,*!/ sglx,*/ sgksrq, sgjsrq}) => {
-      state.nearBusinessLineSearch.xmmc = xmmc
+    // 非营业线
+    setNonBusinessLineSearch: (state, { xmmc,sgksrq, sgjsrq, selectProObj}) => {
+      state.nonBusinessLineSearch.xmmc = xmmc
       /*state.nearBusinessLineSearch.dj = dj
             state.nearBusinessLineSearch.xingbie = xingbie
             /!*state.nearBusinessLineSearch.sglc = sglc*!/
             state.nearBusinessLineSearch.sglx = sglx*/
-      state.nearBusinessLineSearch.sgksrq = sgksrq
-      state.nearBusinessLineSearch.sgjsrq = sgjsrq
+      state.nonBusinessLineSearch.sgksrq = sgksrq
+      state.nonBusinessLineSearch.sgjsrq = sgjsrq
+      console.log("store存储的选中项目对象为：" + JSON.stringify(selectProObj));
+      state.nonBusinessLineSearch.selectProObj = selectProObj
+
     },
 
     // 选中的项目对象

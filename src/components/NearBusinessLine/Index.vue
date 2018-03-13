@@ -7,7 +7,7 @@
     <div class="search">
       <van-row>
         <van-col span="6" ><span v-on:click="goSearchPage(calendar.value,selectProjectObj.id,selectProjectObj.xmmc)">搜索</span></van-col>
-        <van-col span="12">{{selectProjectObj.xmmc}}</van-col>
+        <van-col span="12">{{projectName}}</van-col>
         <van-col span="6" class="chooseBtn">
           <van-button type="primary">
             <div class="flex">
@@ -18,7 +18,6 @@
       </van-row>
       <!--日历-->
       <div class="days_box">
-        <!--<Days></Days>-->
         <div id="wrap">
           <div id="innerWrap" :style="{'width':days2.length*66+'px'}">
             <div class="scroll" v-for="(item ,index) in days2" @click="dayClick(index,item)">
@@ -64,9 +63,21 @@
         项目
       </div>
       <div id="projectList">
-        <SelectProject v-if="projects" :projects="projects" :count="projects.length"></SelectProject>
+
+        <div id="wrapProject">
+          <div id="innerWrapProject" :style="{'width':width+'px'}">
+            <div class="scrollProject bg" @click="getAllData($event)">
+              全部
+            </div>
+            <div class="scrollProject" v-for="item in projects" @click="changeItem($event,item)">
+              {{item.xmmc}}
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
+    <p hidden>{{selectProjectObj}}</p>
   </div>
 </template>
 
@@ -116,8 +127,9 @@
         pageStart : 0, // 开始页数
         pageEnd : 0, // 结束页数
         listdata: [], // 下拉更新数据存放数组
-        projectName:'武汉铁路局',
-        width: 15 * 56, // 设置滚动日历最外层盒子的宽度为屏幕宽度
+        projectName:'全部', // 选中
+        xmmcId:'',
+//        width: 15 * 56, // 设置滚动日历最外层盒子的宽度为屏幕宽度
         projects:[],
         calendar:{
           display:dateS,//默认显示当天日期
@@ -141,8 +153,22 @@
       }
     },
     computed:{
-      selectProjectObj() { //businessLineSelectProjectName
-        return this.$store.getters.selectProjectObj// 时时获取选中项目的名称
+      width(){
+        return (this.projects.length+1)*130 // 动态设置宽度
+      },
+      selectProjectObj() {
+        var name= this.$store.getters.nearBusinessLineSearch.selectProObj.xmmc;
+
+        if (name == undefined || name == '' ||name == null){
+          this.xmmcId ='';
+          this.projectName='全部'
+        }else {
+          this.xmmcId =this.$store.getters.nearBusinessLineSearch.selectProObj.id;
+          this.projectName=name;
+        }
+        this.getList();
+
+        return this.$store.getters.nearBusinessLineSearch.selectProObj// 时时获取选中项目的名称
       },
       daysIndex(){
         var date=new Date();
@@ -190,6 +216,32 @@
 //      this.$store.commit('setInfiniteLoading',{infiniteLoading:this.infiniteLoading });
     },
     methods:{
+
+      // 获取全部项目的列表数据
+      getAllData(e){
+        // 将项目id置空。获取全部数据
+        this.xmmcId='';
+        this.getList();
+
+        // 修改store中的存值
+        var item={
+          id:'',
+          xmmc:'全部'
+        };
+        this.$store.commit('setNearBusinessLineSearch',{selectProObj:item});
+
+        // 修改样式
+        $(e.target).addClass("bg").siblings().removeClass("bg");
+      },
+
+      changeItem(e,item) { // 点击项目的触发函数
+        // 改变背景色
+        $(e.target).addClass("bg").siblings().removeClass("bg");
+
+        // 修改，将选中的项目的名称和 id 保存的 store 中
+        this.$store.commit('setNearBusinessLineSearch',{selectProObj:item});
+
+      },
       setStore(value){
         this.$store.commit('setProjectCount',{count:getDaysInOneMonth(value[0],value[1]),year: value[0],month: value[1],day:value[2]})
       },
@@ -197,7 +249,8 @@
       // 获取列表首页数据
       getList(){
         let vm = this;
-        let url = 'http://whjjgc.r93535.com/DayPlanDetailNearbyServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq;
+        let url = 'http://whjjgc.r93535.com/DayPlanDetailNearbyServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq+'&xmmc='+vm.xmmcId;
+
         vm.$http.get(url).then((response) => {
           vm.listdata = response.data;
           console.log("邻近营业线列表数据："+JSON.stringify(vm.listdata));
@@ -349,7 +402,6 @@
         for(var i=0;i<this.days.length;i++){
           this.days[i].showBg = i===index?true:false;
         }
-
       }
     }
   }

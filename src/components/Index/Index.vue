@@ -73,7 +73,7 @@
     data () {
       return {
         ToDoWorkflowCount:'',//存放获取待办流程条数
-        workflowTypeId:18,
+        workflowTypeId:15,
         charts: '',
         mywidth:document.body.clientWidth + 'px',
         today:'2018-01-01',
@@ -180,6 +180,7 @@
             subtext: subtext,
             x:'center'
           },
+          color:['red','green','#5cc8b0'],
           tooltip : {
             trigger: 'item',
             formatter: "{a} <br/>{b} : {c} ({d}%)"

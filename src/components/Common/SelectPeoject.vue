@@ -15,12 +15,7 @@
   import $ from 'jquery'
 
   // 文档加载完成后设置元素的宽度
-  $(function () {
-    var screenW = $(window).width(); // 获取屏幕的宽度
-    $("#wrapProject").width(screenW);// 设置外层盒子宽度==屏幕宽度
-    $("#innerWrapProject").addClass('bg');
 
-  })
 
   export default {
     props:{

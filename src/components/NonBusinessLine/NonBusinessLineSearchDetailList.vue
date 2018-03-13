@@ -97,62 +97,62 @@
   import $ from 'jquery'
   import { Dialog } from 'vant';
 
-    export default {
-      name: "listDetail",
-      data(){
-        return{
-          baseuserid:102300, // 基础平台登录人员id
-          id:this.$route.query.id,// 获取通过路由传的值
-          totalData:[], // 数据源
-          popupVisible:false, // 弹出层显示隐藏控制
-          popupTxt:'', // 弹出层内容
+  export default {
+    name: "listDetail",
+    data(){
+      return{
+        baseuserid:102300, // 基础平台登录人员id
+        id:this.$route.query.id,// 获取通过路由传的值
+        totalData:[], // 数据源
+        popupVisible:false, // 弹出层显示隐藏控制
+        popupTxt:'', // 弹出层内容
 
-        }
+      }
+    },
+    mounted:function () {
+      this.getData();
+    },
+    methods:{
+      // 返回事件
+      onClickLeft(){
+        this.$router.push({path: '/NonBusinessLine/NonBusinessLineSearchDetail'});
       },
-      mounted:function () {
-        this.getData();
+
+      // popup弹出层点击事件
+      popupClick(txt) {
+        this.popupVisible = true;
+        this.popupTxt = txt;
       },
-      methods:{
-        // 返回事件
-        onClickLeft(){
-          this.$router.push({path: '/NonBusinessLine/NonBusinessLineSearchDetail'});
-        },
 
-        // popup弹出层点击事件
-        popupClick(txt) {
-          this.popupVisible = true;
-          this.popupTxt = txt;
-        },
+      // 获取详情数据
+      getData(){
+        let vm = this;
+        let url = 'http://tljjgxt.r93535.com/FYYXDayUniquePlanServlet?id='+ vm.id+'&baseuserId='+this.baseuserid;
+        vm.$http.get(url).then((response) => {
 
-        // 获取详情数据
-        getData(){
-          let vm = this;
-          let url = 'http://tljjgxt.r93535.com/FYYXDayUniquePlanServlet?id='+ vm.id+'&baseuserId='+this.baseuserid;
-          vm.$http.get(url).then((response) => {
+          // 请求成功返回数据
+          vm.totalData = response.data;
 
-            // 请求成功返回数据
-            vm.totalData = response.data;
+          /* 表格渲染:动态设置第二列的高度 */
+          this.$nextTick(function(){
+            console.log("$nextTick监听数据渲染完成之后的回调函数");
+            var obj = $(".getHeight");
+            for(var i=0;i<obj.length;i++){
+              var h=$(obj[i]).height();
+              $(obj[i]).siblings().css({
+                'height':h+'px',
+                'lineHeight':h+'px'
+              });
+            }
+          })
 
-            /* 表格渲染:动态设置第二列的高度 */
-            this.$nextTick(function(){
-              console.log("$nextTick监听数据渲染完成之后的回调函数");
-              var obj = $(".getHeight");
-              for(var i=0;i<obj.length;i++){
-                var h=$(obj[i]).height();
-                $(obj[i]).siblings().css({
-                  'height':h+'px',
-                  'lineHeight':h+'px'
-                });
-              }
-            })
+        }, (response) => {
+          console.log('error');
+        });
 
-          }, (response) => {
-            console.log('error');
-          });
-
-        }
       }
     }
+  }
 </script>
 
 <style scoped>
