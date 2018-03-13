@@ -109,6 +109,8 @@
         this.sgksrq=data.sgksrq
         this.sgjsrq=data.sgjsrq
         this.getDayPlanCount()
+
+
       },
     },
     methods: {

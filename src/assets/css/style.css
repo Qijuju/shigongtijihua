@@ -247,7 +247,7 @@
 
 /* 供选择项目的style end */
 
-/* 图片预览 start */
+/* 图片预览 style start */
 #showBigImage{
   position: fixed;
   top:0px;
@@ -258,12 +258,14 @@
   background: rgba(0,0,0,.5);
 }
 #showBigImage > img{
-  /*width:100%;*/
-  /*height:50%;*/
-  /*background: #f30;*/
-  /*margin-top:50%;*/
+  position: absolute;
+  top:0px;
+  bottom:0px;
+  left:0px;
+  right:0px;
+  margin:auto;
 }
-/* 点击放大图片 end  */
+/* 图片预览 style end  */
 
 
 
