@@ -20,6 +20,7 @@ import NonBusinessLineSearchDetail from '../components/NonBusinessLine/NonBusine
 // 统计
 import Statistics from '../components/Statistics/Statistics'
 // 待办流程
+import Detail from '../components/todowork/Detail'
 import ToDoWork from '../components/todowork/ToDoWork'
 import ToDoWorkSearch from '../components/todowork/ToDoWorkSearch'
 import ToDoWorkScreen from '../components/todowork/ToDoWorkScreen'
@@ -111,6 +112,11 @@ const router = new VueRouter({
     },
     // 待办流程
     {
+      path: '/Detail',
+      name: 'Detail',
+      component: Detail
+    },
+    {
       path: '/ToDoWork',
       name: 'ToDoWork',
       component: ToDoWork
@@ -158,7 +164,7 @@ const router = new VueRouter({
       component: ICreateSearch
     },{
 		path: '*',
-    redirect: '/BusinessLine'
+    redirect: '/Index'
 	}]
 })
 

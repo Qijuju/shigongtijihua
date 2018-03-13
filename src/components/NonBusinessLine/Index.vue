@@ -1,24 +1,23 @@
 <template>
   <div class="index">
-    <!-- title -->
-    <van-nav-bar title="非营业线施工日计划"></van-nav-bar>
-    <!--<Header title="非营业线施工日计划"></Header>-->
+
+    <van-nav-bar title="非营业线施工日计划" fixed></van-nav-bar>
+
     <!--搜索栏-->
     <div class="search">
       <van-row>
         <van-col span="6" ><span v-on:click="goSearchPage(calendar.value,selectProjectObj.id,selectProjectObj.xmmc)">搜索</span></van-col>
-        <van-col span="12">{{selectProjectObj.xmmc}}</van-col>
+        <van-col span="12">{{projectName}}</van-col>
         <van-col span="6" class="chooseBtn">
           <van-button type="primary">
             <div class="flex">
-              <input type="text"  @click="openByDrop($event)" v-model="calendar.display">
+              <input type="text"  @click="openByDrop($event)" v-model="calendar.display" readonly>
             </div>
           </van-button>
         </van-col>
       </van-row>
       <!--日历-->
       <div class="days_box">
-        <!--<Days></Days>-->
         <div id="wrap">
           <div id="innerWrap" :style="{'width':days2.length*66+'px'}">
             <div class="scroll" v-for="(item ,index) in days2" @click="dayClick(index,item)">
@@ -40,7 +39,7 @@
 
     <!--<transition name="fade">-->
     <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite" :infiniteLoading='infiniteLoading' :loading ='loading'>
-      <div class="list" >
+      <div class="list">
         <div v-for="item in listdata.data" >
           <p>{{item.kssjd}}</p>
           <van-steps direction="vertical">
@@ -64,9 +63,19 @@
         项目
       </div>
       <div id="projectList">
-        <SelectProject v-if="projects" :projects="projects" :count="projects.length"></SelectProject>
+        <div id="wrapProject">
+          <div id="innerWrapProject" :style="{'width':width+'px'}">
+            <div class="scrollProject bg" @click="getAllData($event)">
+             全部
+            </div>
+            <div class="scrollProject" v-for="item in projects" @click="changeItem($event,item)">
+              {{item.xmmc}}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+    <p hidden>{{selectProjectObj}}</p>
   </div>
 </template>
 
@@ -76,9 +85,15 @@
   import Header from '../Common/Header'
   import SearchIndex from '../Common/SearchIndex.vue'
   import calendar from '../Common/calendar'
-  import Days from '../Common/Days'
-  import SelectProject from '../Common/SelectPeoject'
+
   import Scroll from '../Common/PullRefresh';
+
+  $(function () {
+    var screenW = $(window).width(); // 获取屏幕的宽度
+    $("#wrapProject").width(screenW);// 设置外层盒子宽度==屏幕宽度
+    $("#innerWrapProject").addClass('bg');
+
+  })
 
   var date=new Date();
   var y = date.getFullYear();
@@ -93,8 +108,6 @@
       SearchIndex,
       Header,
       calendar,
-      Days,
-      SelectProject,
       'v-scroll': Scroll
     },
     data(){
@@ -116,8 +129,9 @@
         pageStart : 0, // 开始页数
         pageEnd : 0, // 结束页数
         listdata: [], // 下拉更新数据存放数组
-        projectName:'武汉铁路局',
-        width: 15 * 56, // 设置滚动日历最外层盒子的宽度为屏幕宽度
+        projectName:'',
+        xmmcId:'', // 选择项目的id
+//        width: 15 * 56, // 设置滚动日历最外层盒子的宽度为屏幕宽度
         projects:[],
         calendar:{
           display:dateS,//默认显示当天日期
@@ -127,6 +141,10 @@
           value:[y,m,d], //  打开的日历默认选中的时间
           lunar:true, //显示农历
           select:(value)=>{ // 当选中日历上的某一天时，触发的事件
+            console.log("选中的某一天："+JSON.stringify(value));
+            this.sgrq = value[0]+'-'+value[1]+'-'+value[2];
+            this.getList(); // 选择完日期重新请求数据
+            console.log("组合日期："+this.sgrq);
             value.pop(); // 删除‘天’\
             this.setStore(value); // 将选中的日期存储到store中
             this.calendar.show=false;
@@ -137,8 +155,22 @@
       }
     },
     computed:{
+      width(){
+        return (this.projects.length+1)*130 // 动态设置宽度
+      },
       selectProjectObj() {
-        return this.$store.getters.selectProjectObj// 时时获取选中项目的名称
+        var name= this.$store.getters.nonBusinessLineSearch.selectProObj.xmmc;
+
+        if (name == undefined || name == '' ||name == null){
+          this.xmmcId ='';
+          this.projectName='全部'
+        }else {
+          this.xmmcId =this.$store.getters.nonBusinessLineSearch.selectProObj.id;
+          this.projectName=name;
+        }
+        this.getList();
+
+        return this.$store.getters.nonBusinessLineSearch.selectProObj// 时时获取选中项目的名称
       },
       daysIndex(){
         var date=new Date();
@@ -186,16 +218,39 @@
       this.$store.commit('setBusinessLineSelectProjectCount',{count:this.projects.length });
     },
     methods:{
+      getAllData(e){
+        // 将项目id置空。获取全部数据
+        this.xmmcId='';
+        this.getList();
+
+        // 修改store中的存值
+        var item={
+          id:'',
+          xmmc:'全部'
+        };
+        this.$store.commit('setNonBusinessLineSearch',{selectProObj:item});
+
+        // 修改样式
+        $(e.target).addClass("bg").siblings().removeClass("bg");
+      },
+      changeItem(e,item) { // 点击项目的触发函数
+        // 改变背景色
+        $(e.target).addClass("bg").siblings().removeClass("bg");
+
+        // 修改，将选中的项目的名称和 id 保存的 store 中
+        this.$store.commit('setNonBusinessLineSearch',{selectProObj:item});
+
+      },
+
       setStore(value){
         this.$store.commit('setProjectCount',{count:getDaysInOneMonth(value[0],value[1]),year: value[0],month: value[1],day:value[2]})
       },
       getList(){
         let vm = this;
-        var url='http://whjjgc.r93535.com/NonBusinessDayPlanDetailServlet?sgrq='+vm.sgrq+'&page='+vm.page+'&baseuserid='+this.baseuserid;
-        console.log("非营业线的请求列表数据url："+url);
+        var url='http://whjjgc.r93535.com/NonBusinessDayPlanDetailServlet?sgrq='+vm.sgrq+'&page='+vm.page+'&baseuserid='+this.baseuserid+'&xmmc='+vm.xmmcId;
+
         vm.$http.get(url).then((response) => {
           vm.listdata = response.data;
-          console.log("非营业线的列表数据为："+JSON.stringify(response.data));
 
           if (response.data.thiscount< 10){
             this.infiniteLoading =  true;
@@ -246,12 +301,13 @@
         this.$router.push({path: '/NearBusinessLine/NonListDetail',query:{id:planItem.id}}); // 路由信息传值
       },
 
-      // 获取可选项目列表数据
+      // 获取项目列表数据
       getProjects(){
-        axios.get('http://whjjgc.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid)
+        let url='http://whjjgc.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid;
+        axios.get(url)
           .then(response => {
-            // 接收响应数据
             this.projects = response.data;
+
           }).catch(err => {
           console.error(err.message)
         })
@@ -260,14 +316,22 @@
       // 底部'项目'的显示和隐藏
       selectProShowOrHidden(){
         var isOpen=false;
-        $('#project').click(function () {
+        var projectAnimation = document.getElementById("projectAnimation");
+
+        projectAnimation.addEventListener("click", function(){
           isOpen =!isOpen;
           if(isOpen){ // 打开时
+            this.className = 'animated jello';
             $('#projectList').height('100px');
           }else { // 关闭时
+            this.className = 'animated jello';
             $('#projectList').height('0px');
           }
-        });
+        }, false);
+
+        projectAnimation.addEventListener("webkitAnimationEnd", function(){ //动画结束时事件
+          this.className ='';
+        }, false);
       },
 
       //日历控件的事件
@@ -276,7 +340,10 @@
         this.calendar.left=0;
         this.calendar.top=91;
         this.calendar.zIndex=6; // 设置显示层级
-        this.calendar.height=document.body.clientHeight-120;
+
+        var h=document.documentElement.clientHeight-140;
+
+        this.calendar.height=h;
 
         e.stopPropagation();
         window.setTimeout(()=>{
@@ -326,7 +393,6 @@
         for(var i=0;i<this.days.length;i++){
           this.days[i].showBg = i===index?true:false;
         }
-
       }
     }
   }
@@ -341,7 +407,6 @@
 </script>
 
 <style scoped>
-
   /* 设置头部 style start */
   .van-nav-bar{
     background: #2196F3;
@@ -448,9 +513,9 @@
   }
 
   /* 修改tabbar和内容显示区域的显示层级 */
-  .van-tabbar--fixed{
-    z-index: 2;
-  }
+  /*.van-tabbar--fixed{*/
+    /*z-index: 2;*/
+  /*}*/
   /* 栅格样式 */
   .van-col{
     height: 44px;
@@ -545,13 +610,12 @@
 
   /*下拉框*/
   .calendar-dropdown{
-    background: #ccc;
+    background:rgba(0,0,0,.5);
     position: absolute;
     left:0;
     top:0;
     border: 1px solid #eee;
     border-radius: 2px;
-    /*控制日期表格显示的宽度=100%*/
     width:100%;
     height:800px;
   }
@@ -618,10 +682,8 @@
   }
   p.dateDetail{
     width:100%;
-    /*height:22px;*/
     height:44px;
     text-align: center;
-    /*line-height:22px;*/
     line-height:44px;
     padding:3px;
     color: #2196F3;
@@ -644,6 +706,5 @@
     height:2px;
     background: #2196F3;
   }
-
 
 </style>

@@ -1,9 +1,7 @@
 <template>
   <div class="1">
   <!-- 施工日计划我发起的列表-表头-开始 -->
-  <van-nav-bar title="我发起的" left-text="返回" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
-    <van-icon name="arrow-left" slot="left" />
-    <van-icon name="close" slot="right" />
+  <van-nav-bar title="我发起的" left-text="返回" @click-left="onClickLeft">
   </van-nav-bar>
   <!-- 施工日计划我已审批列表-表头-结束 -->
 <!-- 施工日计划我发起的筛选-类型标题 -->
@@ -71,7 +69,17 @@ margin: 10px 0px 0px 10px;
 }
 /* 施工日计划我发起的筛选-类型标题-样式 */
  h1{
-   font: 0.4em sans-serif;
+   /*font: 0.4em sans-serif;*/
+   font: 0.9em sans-serif;
    margin: 10px 0px 0px 20px;
  }
+/* 设置头部 style start */
+.van-nav-bar{
+  background: #2196F3;
+  color: #fff;
+}
+.van-nav-bar .van-icon{
+  color: #fff;
+}
+/* 设置头部 style end */
 </style>

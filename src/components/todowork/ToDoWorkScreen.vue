@@ -1,9 +1,7 @@
 <template>
   <div class="1">
     <!-- 施工日计划待我审批筛选-表头-开始 -->
-    <van-nav-bar title="待我审批" left-text="返回" left-arrow @click-left="onClickLeft" @click-right="onClickRight">
-      <van-icon name="arrow-left" slot="left" />
-      <van-icon name="close" slot="right" />
+    <van-nav-bar title="待我审批" left-text="返回" @click-left="onClickLeft">
     </van-nav-bar>
     <!-- 施工日计划待我审批筛选-表头-结束 -->
 <!-- 施工日计划待我审批筛选-类型标题 -->
@@ -60,19 +58,29 @@ export default {
         bus.$emit('van-button--normal',typeId)
         this.$router.push({path: '/ToDoWork'});
       },
-   
+
    }
 };
 </script>
 
 <style scoped>
+  /* 设置头部 style start */
+  .van-nav-bar{
+    background: #2196F3;
+    color: #fff;
+  }
+  .van-nav-bar .van-icon{
+    color: #fff;
+  }
+  /* 设置头部 style end */
 /* 施工日计划待我审批筛选-选择条件-样式 */
  .van-button--default {
   margin: 10px 0px 0px 10px;
 }
 /* 施工日计划待我审批筛选-类型标题-样式 */
  h1{
-   font: 1.0em sans-serif;
+   /*font: 1.0em sans-serif;*/
+   font: 0.9em sans-serif;
    margin: 10px 0px 0px 20px;
  }
 </style>

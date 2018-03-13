@@ -2,23 +2,22 @@
   <div class="index">
     <!-- title -->
     <!--<Header title="邻近营业线施工日计划"></Header>-->
-    <van-nav-bar title="邻近营业线施工日计划"></van-nav-bar>
+    <van-nav-bar title="邻近营业线施工日计划" fixed></van-nav-bar>
     <!--搜索栏-->
     <div class="search">
       <van-row>
         <van-col span="6" ><span v-on:click="goSearchPage(calendar.value,selectProjectObj.id,selectProjectObj.xmmc)">搜索</span></van-col>
-        <van-col span="12">{{selectProjectObj.xmmc}}</van-col>
+        <van-col span="12">{{projectName}}</van-col>
         <van-col span="6" class="chooseBtn">
           <van-button type="primary">
             <div class="flex">
-              <input type="text"  @click="openByDrop($event)" v-model="calendar.display">
+              <input type="text"  @click="openByDrop($event)" v-model="calendar.display" readonly>
             </div>
           </van-button>
         </van-col>
       </van-row>
       <!--日历-->
       <div class="days_box">
-        <!--<Days></Days>-->
         <div id="wrap">
           <div id="innerWrap" :style="{'width':days2.length*66+'px'}">
             <div class="scroll" v-for="(item ,index) in days2" @click="dayClick(index,item)">
@@ -64,9 +63,21 @@
         项目
       </div>
       <div id="projectList">
-        <SelectProject v-if="projects" :projects="projects" :count="projects.length"></SelectProject>
+
+        <div id="wrapProject">
+          <div id="innerWrapProject" :style="{'width':width+'px'}">
+            <div class="scrollProject bg" @click="getAllData($event)">
+              全部
+            </div>
+            <div class="scrollProject" v-for="item in projects" @click="changeItem($event,item)">
+              {{item.xmmc}}
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
+    <p hidden>{{selectProjectObj}}</p>
   </div>
 </template>
 
@@ -116,8 +127,9 @@
         pageStart : 0, // 开始页数
         pageEnd : 0, // 结束页数
         listdata: [], // 下拉更新数据存放数组
-        projectName:'武汉铁路局',
-        width: 15 * 56, // 设置滚动日历最外层盒子的宽度为屏幕宽度
+        projectName:'全部', // 选中
+        xmmcId:'',
+//        width: 15 * 56, // 设置滚动日历最外层盒子的宽度为屏幕宽度
         projects:[],
         calendar:{
           display:dateS,//默认显示当天日期
@@ -127,6 +139,10 @@
           value:[y,m,d], //  打开的日历默认选中的时间
           lunar:true, //显示农历
           select:(value)=>{ // 当选中日历上的某一天时，触发的事件
+            console.log("选中的某一天："+JSON.stringify(value));
+            this.sgrq = value[0]+'-'+value[1]+'-'+value[2];
+            this.getList(); // 选择完日期重新请求数据
+            console.log("组合日期："+this.sgrq);
             value.pop(); // 删除‘天’\
             this.setStore(value); // 将选中的日期存储到store中
             this.calendar.show=false;
@@ -137,8 +153,22 @@
       }
     },
     computed:{
-      selectProjectObj() { //businessLineSelectProjectName
-        return this.$store.getters.selectProjectObj// 时时获取选中项目的名称
+      width(){
+        return (this.projects.length+1)*130 // 动态设置宽度
+      },
+      selectProjectObj() {
+        var name= this.$store.getters.nearBusinessLineSearch.selectProObj.xmmc;
+
+        if (name == undefined || name == '' ||name == null){
+          this.xmmcId ='';
+          this.projectName='全部'
+        }else {
+          this.xmmcId =this.$store.getters.nearBusinessLineSearch.selectProObj.id;
+          this.projectName=name;
+        }
+        this.getList();
+
+        return this.$store.getters.nearBusinessLineSearch.selectProObj// 时时获取选中项目的名称
       },
       daysIndex(){
         var date=new Date();
@@ -186,6 +216,32 @@
 //      this.$store.commit('setInfiniteLoading',{infiniteLoading:this.infiniteLoading });
     },
     methods:{
+
+      // 获取全部项目的列表数据
+      getAllData(e){
+        // 将项目id置空。获取全部数据
+        this.xmmcId='';
+        this.getList();
+
+        // 修改store中的存值
+        var item={
+          id:'',
+          xmmc:'全部'
+        };
+        this.$store.commit('setNearBusinessLineSearch',{selectProObj:item});
+
+        // 修改样式
+        $(e.target).addClass("bg").siblings().removeClass("bg");
+      },
+
+      changeItem(e,item) { // 点击项目的触发函数
+        // 改变背景色
+        $(e.target).addClass("bg").siblings().removeClass("bg");
+
+        // 修改，将选中的项目的名称和 id 保存的 store 中
+        this.$store.commit('setNearBusinessLineSearch',{selectProObj:item});
+
+      },
       setStore(value){
         this.$store.commit('setProjectCount',{count:getDaysInOneMonth(value[0],value[1]),year: value[0],month: value[1],day:value[2]})
       },
@@ -193,7 +249,8 @@
       // 获取列表首页数据
       getList(){
         let vm = this;
-        let url = 'http://whjjgc.r93535.com/DayPlanDetailNearbyServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq;
+        let url = 'http://whjjgc.r93535.com/DayPlanDetailNearbyServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq+'&xmmc='+vm.xmmcId;
+
         vm.$http.get(url).then((response) => {
           vm.listdata = response.data;
           console.log("邻近营业线列表数据："+JSON.stringify(vm.listdata));
@@ -268,14 +325,22 @@
       // 底部'项目'的显示和隐藏
       selectProShowOrHidden(){
         var isOpen=false;
-        $('#project').click(function () {
+        var projectAnimation = document.getElementById("projectAnimation");
+
+        projectAnimation.addEventListener("click", function(){
           isOpen =!isOpen;
           if(isOpen){ // 打开时
+            this.className = 'animated jello';
             $('#projectList').height('100px');
           }else { // 关闭时
+            this.className = 'animated jello';
             $('#projectList').height('0px');
           }
-        });
+        }, false);
+
+        projectAnimation.addEventListener("webkitAnimationEnd", function(){ //动画结束时事件
+          this.className ='';
+        }, false);
       },
 
       //日历控件的事件
@@ -284,7 +349,10 @@
         this.calendar.left=0;
         this.calendar.top=91;
         this.calendar.zIndex=6; // 设置显示层级
-        this.calendar.height=document.body.clientHeight-120;
+
+        var h=document.documentElement.clientHeight-140;
+
+        this.calendar.height=h;
 
         e.stopPropagation();
         window.setTimeout(()=>{
@@ -334,7 +402,6 @@
         for(var i=0;i<this.days.length;i++){
           this.days[i].showBg = i===index?true:false;
         }
-
       }
     }
   }
@@ -453,9 +520,9 @@
   }
 
   /* 修改tabbar和内容显示区域的显示层级 */
-  .van-tabbar--fixed{
-    z-index: 2;
-  }
+  /*.van-tabbar--fixed{*/
+    /*z-index: 2;*/
+  /*}*/
   /* 栅格样式 */
   .van-col{
     height: 44px;
@@ -550,7 +617,7 @@
 
   /*下拉框*/
   .calendar-dropdown{
-    background: #ccc;
+    background: rgba(0,0,0,.5);
     position: absolute;
     left:0;
     top:0;

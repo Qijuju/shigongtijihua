@@ -6,6 +6,264 @@
 .van-nav-bar__text{
   color: #fff !important;
 }
+.van-nav-bar--fixed{
+  z-index: 99 !important;
+}
+
+/* 修改选择器的头背景色及固定选择器的位置*/
+.van-picker__toolbar{
+  background: #E5F2FA;
+}
+.van-picker {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 55px;
+}
+
+/*果冻效果 */
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+@-webkit-keyframes jello {
+  from, 11.1%, to {
+    -webkit-transform: none;
+    transform: none;
+  }
+
+  22.2% {
+    -webkit-transform: translateY(-12.5px);
+    transform: translateY(-12.5px);
+  }
+
+  33.3% {
+    -webkit-transform: translateY(6.25px);
+    transform: translateY(6.25px);
+  }
+
+  /*44.4% {*/
+    /*-webkit-transform: translateY(-3.125px);*/
+    /*transform: translateY(-3.125px);*/
+  /*}*/
+
+  /*55.5% {*/
+    /*-webkit-transform: translateY(1.5625px);*/
+    /*transform: translateY(1.5625px);*/
+  /*}*/
+
+  66.6% {
+    -webkit-transform: translateY(-0.78125px);
+    transform: translateY(-0.78125px);
+  }
+
+  77.7% {
+    -webkit-transform:  translateY(0.390625px);
+    transform:  translateY(0.390625px);
+  }
+
+  88.8% {
+    -webkit-transform:translateY(-0.1953125px);
+    transform:  translateY(-0.1953125px);
+  }
+}
+
+@keyframes jello {
+  from, 11.1%, to {
+    -webkit-transform: none;
+    transform: none;
+  }
+
+  22.2% {
+    -webkit-transform: translateY(-12.5px);
+    transform: translateY(-12.5px);
+  }
+
+  33.3% {
+    -webkit-transform: translateY(6.25px);
+    transform: translateY(6.25px);
+  }
+
+  /*44.4% {*/
+    /*-webkit-transform:  translateY(-3.125px);*/
+    /*transform:  translateY(-3.125px);*/
+  /*}*/
+
+  /*55.5% {*/
+    /*-webkit-transform:  translateY(1.5625px);*/
+    /*transform:  translateY(1.5625px);*/
+  /*}*/
+
+  66.6% {
+    -webkit-transform: translateY(-0.78125px);
+    transform:  translateY(-0.78125px);
+  }
+
+  77.7% {
+    -webkit-transform:  translateY(0.390625px);
+    transform:  translateY(0.390625px);
+  }
+
+  88.8% {
+    -webkit-transform:translateY(-0.1953125px);
+    transform:  translateY(-0.1953125px);
+  }
+}
+
+@-webkit-keyframes jello {
+  from, 11.1%, to {
+    -webkit-transform: none;
+    transform: none;
+  }
+
+  22.2% {
+    -webkit-transform: translateY(-12.5px);
+    transform: translateY(-12.5px);
+  }
+
+  33.3% {
+    -webkit-transform: translateY(6.25px);
+    transform: translateY(6.25px);
+  }
+
+  /*44.4% {*/
+  /*-webkit-transform: translateY(-3.125px);*/
+  /*transform: translateY(-3.125px);*/
+  /*}*/
+
+  /*55.5% {*/
+  /*-webkit-transform: translateY(1.5625px);*/
+  /*transform: translateY(1.5625px);*/
+  /*}*/
+
+  66.6% {
+    -webkit-transform: translateY(-0.78125px);
+    transform: translateY(-0.78125px);
+  }
+
+  77.7% {
+    -webkit-transform:  translateY(0.390625px);
+    transform:  translateY(0.390625px);
+  }
+
+  88.8% {
+    -webkit-transform:translateY(-0.1953125px);
+    transform:  translateY(-0.1953125px);
+  }
+}
+
+@keyframes jello {
+  from, 11.1%, to {
+    -webkit-transform: none;
+    transform: none;
+  }
+
+  22.2% {
+    -webkit-transform: translateY(-12.5px);
+    transform: translateY(-12.5px);
+  }
+
+  33.3% {
+    -webkit-transform: translateY(6.25px);
+    transform: translateY(6.25px);
+  }
+
+  /*44.4% {*/
+  /*-webkit-transform:  translateY(-3.125px);*/
+  /*transform:  translateY(-3.125px);*/
+  /*}*/
+
+  /*55.5% {*/
+  /*-webkit-transform:  translateY(1.5625px);*/
+  /*transform:  translateY(1.5625px);*/
+  /*}*/
+
+  66.6% {
+    -webkit-transform: translateY(-0.78125px);
+    transform:  translateY(-0.78125px);
+  }
+
+  77.7% {
+    -webkit-transform:  translateY(0.390625px);
+    transform:  translateY(0.390625px);
+  }
+
+  88.8% {
+    -webkit-transform:translateY(-0.1953125px);
+    transform:  translateY(-0.1953125px);
+  }
+}
+
+.jello {
+  -webkit-animation-name: jello;
+  animation-name: jello;
+  -webkit-transform-origin: center;
+  transform-origin: center;
+}
+/* 修改tabbar和内容显示区域的显示层级 */
+.van-tabbar--fixed{
+  z-index: 5;
+}
+.mint-tabbar.is-fixed{
+  z-index: 5;
+}
+
+/* 供选择项目的style start */
+#wrapProject{
+  position: relative;
+  top: 0px;
+  left:0;
+  /*width:100%;*/
+  height:100px;
+  margin:0 auto;
+  overflow: scroll;
+  z-index: 99;
+  overflow: scroll;
+  background: #E5F2FA;
+}
+#innerWrapProject{
+  height:100%;
+}
+#innerWrapProject .scrollProject{
+  float: left;
+  width:120px;
+  height:90px;
+  text-align: center;
+  margin:0 5px;
+  padding:5px;
+  border-radius:10px;
+  color: #fff;
+  background: #59C13A
+}
+#innerWrapProject .scrollProject.bg{
+  background-color: #FF4A58;
+}
+/* 隐藏滚动条 */
+::-webkit-scrollbar{
+  display:none;
+}
+
+/* 供选择项目的style end */
+
+/* 图片预览 start */
+#showBigImage{
+  position: fixed;
+  top:0px;
+  left:0px;
+  display: none;
+  z-index: 999;
+  width:100%;
+  background: rgba(0,0,0,.5);
+}
+#showBigImage > img{
+  /*width:100%;*/
+  /*height:50%;*/
+  /*background: #f30;*/
+  /*margin-top:50%;*/
+}
+/* 点击放大图片 end  */
 
 
 

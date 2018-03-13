@@ -2,7 +2,6 @@
 
 <template>
   <div id="app">
-
     <div class="main">
       <keep-alive>
         <router-view></router-view>

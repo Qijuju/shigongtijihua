@@ -60,7 +60,7 @@
       <van-row>
         <van-col span="8">结束时间点</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.jjsjd)'>{{totalData.jjsjd}}</span>
+          <span @click='popupClick(totalData.jssjd)'>{{totalData.jssjd}}</span>
         </van-col>
       </van-row>
       <van-row>
@@ -90,7 +90,8 @@
       <van-row>
         <van-col span="8">施工配合通知书照片</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.phtzszp)'>{{totalData.phtzszp}}</span>
+          <!--<img width="90%" height="80%" style="margin-left: 5%;" v-bind:src="totalData.phtzszp" alt="通知书照片">-->
+          <img width="90%" height="80%" style="margin-left: 5%;" src="" alt="通知书照片" v-on:click="showBigImage($event)"/>
         </van-col>
       </van-row>
       <van-row>
@@ -112,52 +113,77 @@
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">人员签到情况</van-col>
-        <van-col span="16">
-          <span @click='popupClick(totalData.ryqdb)'>{{totalData.ryqdb}}</span>
-        </van-col>
+        <van-col span="24">人员签到情况</van-col>
+        <!--<van-col span="16">-->
+          <!--<span @click='popupClick(totalData.ryqdb)'>{{totalData.ryqdb}}</span>-->
+        <!--</van-col>-->
       </van-row>
       <div class="img">
-        <img class="photo" src="../../assets/images/icon/date.png" alt="">
-        <img class="photo" src="../../assets/images/icon/date.png" alt="">
-        <img class="photo" src="../../assets/images/icon/date.png" alt="">
-        <img class="photo" src="../../assets/images/icon/date.png" alt="">
-        <div class="addPhoto" @click='phoneOrPicture()'>+</div>
+
+        <!--写死的数据-->
+        <!--<img class="photo" src="../../assets/images/icon/qdb.jpg" alt="pictures" width="90%" height="80%" style="margin-left: 5%;" v-on:click="showBigImage($event)"/>-->
+
+        <!--绑定动态图片资源-->
+        <div v-for="path in ryqdqkImgArr" class="photoBox">
+          <img class="photo" :src="path" alt="logo" v-on:click="showBigImage($event)"/>
+        </div>
+        <!--编辑权限问题 -->
+        <!--<div class="addPhoto" @click='phoneOrPicture()' v-if="totalData.editStatus===1" >+</div>-->
+        <!--测试用-->
+        <div class="addPhoto" @click='takePicture(1)' >+</div>
       </div>
       <van-row>
         <van-col span="8">计划兑换情况</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.jhdxqk)'>{{totalData.jhdxqk}}</span>
+
+          <input type="text" @click='popupClick(totalData.jhdxqk)'v-model="totalData.jhdxqk" v-if="totalData.editStatus===1">
+          <input type="text" @click='popupClick(totalData.jhdxqk)'v-model="totalData.jhdxqk" v-else readonly>
+
         </van-col>
       </van-row>
       <br>
       <van-row>
-        <van-col span="8">现场照片</van-col>
-        <van-col span="16">
-          <span @click='popupClick(totalData.xczp)'>{{totalData.xczp}}</span>
-        </van-col>
+        <van-col span="24">现场照片</van-col>
       </van-row>
       <div class="img">
-        <img class="photo" src="../../assets/images/icon/date.png" alt="">
-        <img class="photo" src="../../assets/images/icon/date.png" alt="">
-        <img class="photo" src="../../assets/images/icon/date.png" alt="">
-        <div class="addPhoto" @click='phoneOrPicture()'>+</div>
+        <!--写死的数据-->
+        <!--<img class="photo" src="../../assets/images/icon/timg.jpg" alt="pictures" width="90%" height="80%" style="margin-left: 5%;" v-on:click="showBigImage($event)"/>-->
+
+        <!--绑定动态图片资源-->
+        <div v-for="path in xczpImgArr" class="photoBox">
+          <img class="photo" :src="path" alt="logo"  v-on:click="showBigImage($event)"/>
+        </div>
+
+        <!--编辑权限-->
+        <!--<div class="addPhoto" @click='phoneOrPicture()' v-if="totalData.editStatus===1" >+</div>-->
+        <!--测试用-->
+        <div class="addPhoto" @click='takePicture(2)' >+</div>
       </div>
       <van-row>
         <van-col span="8">签到时间</van-col>
         <van-col span="16">
           <span @click='popupClick(totalData.qdsj)'>{{totalData.qdsj}}</span>
+          <!--权限-->
+          <!--<button @click="getCurrentTime()" v-if="totalData.editStatus===1">获取当前时间</button>-->
+          <!--无权限-->
+          <button @click="getCurrentTime()">获取当前时间</button>
         </van-col>
       </van-row>
       <van-row>
         <van-col span="8">签到地点</van-col>
         <van-col span="16">
+
           <span @click='popupClick(totalData.qddd)'>{{totalData.qddd}}</span>
 
-          <button>获取</button>
-          <button>刷新</button>
+          <!--权限-->
+          <!--<button @click="getCurrentPositionInfo()" v-if="totalData.editStatus===1">获取当前位置</button>-->
+
+          <!--没有权限-->
+          <button @click="getCurrentPositionInfo()">获取当前位置</button>
+
         </van-col>
       </van-row>
+
       <!--弹出层-->
       <mt-popup
         v-model="popupVisible"
@@ -170,7 +196,16 @@
         v-model="sheetVisible"
       >
       </mt-actionsheet>
+
+      <div id="save" @click="save()">保存</div>
     </div>
+
+    <!--预览图片的盒子-->
+    <div id="showBigImage" v-if="showBigImage" @click="showBigImageBox($event)" v-bind:style="{height:setHeight+'px'}">
+      <!--<img  src="../../assets/images/sgrjhImages/search.png" alt="">-->
+      <img  v-bind:src="previewPicSrc" alt="">
+    </div>
+
   </div>
 </template>
 <script>
@@ -178,7 +213,7 @@
   import Header from '../Common/Header'
   import $ from 'jquery'
   import { Dialog } from 'vant';
-  //  import axios from 'axios';
+    import axios from 'axios';
 
   export default {
     name: "listDetail",
@@ -187,35 +222,173 @@
     },
     data(){
       return{
+
         checked: true,
         baseuserid:102300,
         id:this.$route.query.id,// 获取通过路由传的值
         totalData:[],
         popupVisible:false,
         popupTxt:'',
+
+        xczp:[],
+        ryqdqkImgArr:[], // 人员签到情况图片集合
+        xczpImgArr:[],  // 现场照片集合
+
+        previewPicSrc:'', // 预览图片的src
+        setHeight:window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,/// 设置预览图片的盒子的高度=屏幕可视区域的高度
+
         sheetVisible:false, // 隐藏拍照、相册选择框
         actions:[
+//          {
+//            name:'拍照',
+//            method :function () {
+//              console.log("拍照事件")
+//            }
+//          },
+//          {
+//            name:'从相册中选择',
+//            method :function () {
+//              console.log("从相册中选择事件")
+//            }
+//          }
+        ]
+      }
+    },
+    methods:{
+      // JSAPI 函数调用  获取位置信息
+      getCurrentPositionInfo(){
+        RPM.getCurrentPositionInfo();
+      },
+      // 获取位置信息的回调函数（ios、android和js交互）
+      RPMPositionCallBack:function (params) {
+        this.totalData.qddd=params;
+      },
+      // 预览图片
+      showBigImageBox(event){
+        var el = event.currentTarget;
+        $(el).hide();
+      },
+      showBigImage(event){
+        //获取点击对象
+        var el = event.currentTarget;
+
+        // 当前点击的src
+        this.previewPicSrc =$(el).attr("src");
+
+        // 显示box
+        $('#showBigImage').show();
+
+      },
+//      调取手机摄像头或相册
+      takePicture(index) { // 拍照或从相册中选择
+
+        this.sheetVisible = true; // 展示
+
+        this.actions = [
           {
             name:'拍照',
             method :function () {
-              console.log("拍照事件")
+              console.log("拍照事件");
+              // 调取JSAPI拍照事件,参数：1 表示原始照片；2 带水印照片
+              RPM.takePicture(2,index); // 参数一：表示获取原始图片JSAPI约定；参数二：点击的方法的标识位
             }
           },
           {
             name:'从相册中选择',
             method :function () {
-              console.log("从相册中选择事件")
+              RPM.selectPhotos(9,index);
             }
           }
-        ]
-      }
-    },
-    methods:{
+
+        ];
+
+      },
+      // 拍照的原始图片的回调函数，
+      RPMImageCallBack:function (params,imageType,index) { // 参数一：base64;参数二：图片类型；参数三：标识位
+        var imgSrc="data:image/"+imageType+";base64,"+params;
+
+        switch (index){
+          case '1':
+            this.ryqdqkImgArr.push(imgSrc);
+            break;
+          case '2':
+            this.xczpImgArr.push(imgSrc);
+            break;
+          default:
+            break;
+        }
+        // 将这张图片追加到数组中便于保存所有图片
+        var obj={};
+        obj.imgType = imageType; // 图片类型
+        obj.base64 =  params; // 图片的base64
+        this.xczp.push(obj);
+
+        this.callBackParams = imageType;
+
+      },
+      // 从相册中选择照片的回调函数
+      RPMSelectPhotosCallBack:function (params,index) {
+        var a = params.split(',');
+
+        for (var i=0;i<a.length;i++){
+          var obj={};
+          obj.imgType = a[i].split('|')[0]; // 图片类型
+          obj.base64 =  a[i].split('|')[1]; // 图片的base64
+
+          var imgUrl ="data:image/"+obj.imgType+";base64,"+obj.base64;
+
+          switch (index){
+            case '1':
+              this.ryqdqkImgArr.push(imgUrl);
+              break;
+            case '2':
+              this.xczpImgArr.push(imgUrl);
+              break;
+            default:
+              break;
+          }
+          this.xczp.push(obj);
+        }
+
+        this.paramsCount =a.length;
+
+      },
+
+      // 保存可编辑字段
+      save(){
+        console.log("邻近营业线保存接口调用");
+        let vm = this;
+        vm.id=29;
+        vm.qdsj='2018-03-08';
+
+        let url = 'http://whjjgc.r93535.com/NearDayplanPhSaveServlet';
+
+        var obj={
+          id:vm.id,
+          ryqdb:'',
+          xczp:'',
+          jhdxqk:'',
+          qdsj:'',
+          qddd:'',
+          jwd:''
+        };
+        axios.post(url,obj,{
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        })
+          .then(function (response) {
+            console.log("post请求成功"+JSON.stringify(response));
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+      },
       onClickLeft(){
         this.$router.push({path: '/NearBusinessLine'});
       },
       phoneOrPicture() { // 拍照或从相册中选择
-        console.log("拍照或从相册中选择--点击事件进来了吗？");
         this.sheetVisible = true;
       },
       popupClick(txt) { // popup弹出层点击事件
@@ -233,19 +406,24 @@
       getData(){
         let vm = this;
         let url = 'http://whjjgc.r93535.com/LJYYXDayUniquePlanServlet?id='+vm.id+'&baseuserId='+vm.baseuserid;
-        debugger;
-
-
+        console.log("邻近营业线详情页请求的url："+url);
         vm.$http.get(url).then((response) => {
           console.log("详情页面的数据：" + JSON.stringify(response.data));
           vm.totalData = response.data;
         }, (response) => {
           console.log('error');
         });
-
       }
     },
     mounted:function () {
+      // 绑定获取位置信息的回调函数
+      window.RPMPositionCallBack = this.RPMPositionCallBack;
+
+      // 绑定拍照的回调函数
+      window.RPMImageCallBack = this.RPMImageCallBack;
+
+      // 绑定选择照片的回调函数
+      window.RPMSelectPhotosCallBack = this.RPMSelectPhotosCallBack;
       this.getData(),
         $('.van-col.van-col-8').each(function (i) {
           var txtL=$($('.van-col.van-col-8')[i]).text().length;
@@ -260,6 +438,28 @@
 </script>
 
 <style scoped>
+
+  /* input */
+  input{
+    display: inline-block;
+    width:100%;
+    height:100%;
+    border:0;
+    padding:5px;
+  }
+
+  #save{
+    position: fixed;
+    left:0px;
+    bottom:50px;
+    width:100%;
+    height:40px;
+    text-align: center;
+    line-height:40px;
+    background: #2196F3;
+    color:#fff;
+    border-radius:4px;
+  }
   /* 设置头部 style start */
   .van-nav-bar{
     background: #2196F3;
@@ -278,8 +478,8 @@
   /* 照片 */
   .img{
     width:100%;
-    height:100px;
-    background: #a3f8ff;
+    /*height:100px;*/
+    /*background: #a3f8ff;*/
   }
   img.photo{
     width: 50px;
@@ -303,6 +503,7 @@
   }
   .content{
     margin-top:44px;
+    margin-bottom:91px;
   }
 
   /* 修改栅格样式 */
