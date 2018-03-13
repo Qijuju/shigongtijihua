@@ -147,7 +147,7 @@
     },
     data() {
       return {
-        baseuserid:102300,
+        baseuserid:this._GLOBAL.baseUserId,
         //项目名称相关
         xmmc:'',
         xmmc_id:'',
@@ -221,7 +221,7 @@
         }
       },
       getXiangmuServlet(){
-        let url='http://whjjgc.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid;
+        let url='http://tljjgxt.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this._GLOBAL.baseUserId;
 
         axios.get(url)
           .then(response => {

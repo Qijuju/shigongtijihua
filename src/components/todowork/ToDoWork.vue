@@ -76,7 +76,7 @@ export default {
       ToDoWorkflowCount:'',//存放获取待办流程条数
       ToDoWorkflowList:[],//存放获取待办流程列表
       requestName:'',//流程名称
-      baseuserId:'',//基础平台用户id
+      baseuserId:this._GLOBAL.baseUserId,//基础平台用户id
       pageNo:'1',//页数
       workflowTypeId:'15',//流程分类id  15代表施工日计划
       pageSize:'100',//每页条数
@@ -180,7 +180,7 @@ GetToDoWorkflowList(){
         let vm = this;
         // this.baseuserId=102300;
         this.pageNo = 1;
-        var url = 'http://tljjgxt.r93535.com/GetToDoWorkflowList?baseuserId='+this.baseuserId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
+        var url = 'http://tljjgxt.r93535.com/GetToDoWorkflowList?baseuserId='+this._GLOBAL.baseUserId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
         // alert(url);
         vm.$http.get(url).then((response) => {
           vm.ToDoWorkflowList = response.data.slice(0,10);
@@ -203,7 +203,7 @@ GetToDoWorkflowList(){
         let vm = this;
         // this.baseuserId=102300;
         this.pageNo = 1;
-        var url = 'http://tljjgxt.r93535.com/GetToDoWorkflowList?baseuserId='+this.baseuserId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
+        var url = 'http://tljjgxt.r93535.com/GetToDoWorkflowList?baseuserId='+this._GLOBAL.baseUserId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
         vm.$http.get(url).then((response) => {
           // debugger
           vm.counter++;

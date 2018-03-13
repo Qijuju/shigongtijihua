@@ -61,7 +61,7 @@ export default {
       ICreateflowCount:[],//存放获取待办流程条数
       ICreateflowList:[],//存放获取待办流程列表
       requestName:'',//流程名称
-      userId:'',//基础平台用户id
+      userId:this._GLOBAL.baseUserId,//基础平台用户id
       pageNo:'1',//页数
       workflowTypeId:'15',//流程分类id  15代表施工日计划
       pageSize:'10',//每页条数
@@ -75,13 +75,13 @@ export default {
 //打开页面是调用此方法，获取代办流程列表数据
   mounted: function() {
 
-    console.log(this.$route.query);
+   /* console.log(this.$route.query);
     var data = this.$route.query;
     if(data != null && data != ''){
       //debugger
       this.userId=data.userIdValue;
       //this.loadMore()
-    }
+    }*/
 
   // 施工日计划我发起的搜索-获取流程名称值
       this.GetOnSearch();
@@ -171,7 +171,7 @@ export default {
           // debugger
       this.pageNo = 1;
       // this.userId=236807;
-        var url = 'http://tljjgxt.r93535.com/MyWorkflowRequestList?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
+        var url = 'http://tljjgxt.r93535.com/MyWorkflowRequestList?userId='+this._GLOBAL.baseUserId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
         // alert(url);
         axios.get(url)
           .then(response => {
@@ -201,7 +201,7 @@ export default {
         let vm = this;
         // this.userId=236807;
         this.pageNo = 1;
-        var url = 'http://tljjgxt.r93535.com/MyWorkflowRequestList?userId='+this.userId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
+        var url = 'http://tljjgxt.r93535.com/MyWorkflowRequestList?userId='+this._GLOBAL.baseUserId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
         vm.$http.get(url).then((response) => {
           // debugger
           vm.counter++;

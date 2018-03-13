@@ -247,7 +247,7 @@
       },
       getList(){
         let vm = this;
-        var url='http://whjjgc.r93535.com/NonBusinessDayPlanDetailServlet?sgrq='+vm.sgrq+'&page='+vm.page+'&baseuserid='+this.baseuserid+'&xmmc='+vm.xmmcId;
+        var url='http://tljjgxt.r93535.com/NonBusinessDayPlanDetailServlet?sgrq='+vm.sgrq+'&page='+vm.page+'&baseuserid='+this._GLOBAL.baseUserId+'&xmmc='+vm.xmmcId;
 
         vm.$http.get(url).then((response) => {
           vm.listdata = response.data;
@@ -267,7 +267,7 @@
       onInfinite(done) {
         let vm = this;
         vm.counter++;
-        let url = 'http://whjjgc.r93535.com/NonBusinessDayPlanDetailServlet?sgrq='+vm.sgrq+'&page='+ vm.counter +'&baseuserid='+this.baseuserid;
+        let url = 'http://tljjgxt.r93535.com/NonBusinessDayPlanDetailServlet?sgrq='+vm.sgrq+'&page='+ vm.counter +'&baseuserid='+this._GLOBAL.baseUserId;
 
         vm.$http.get(url).then((response) => {
           vm.pageEnd = vm.num * vm.counter;

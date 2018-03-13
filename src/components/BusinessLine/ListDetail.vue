@@ -309,7 +309,7 @@
           xczp:[],// 现场照片：拍照和相册中选择的照片存放的数组
 
           checked: true,
-          baseuserid:102300,
+          baseuserid:this._GLOBAL.baseUserId,
           id:this.$route.query.id,// 获取通过路由传的值
           totalData:[],
           popupVisible:false,
@@ -430,7 +430,7 @@
           vm.id=28;
           vm.qdsj='2018-03-08';
 
-          let url = 'http://whjjgc.r93535.com/DayplanPhSaveServlet';
+          let url = 'http://tljjgxt.r93535.com/DayplanPhSaveServlet';
 
           var obj={
             id:vm.id,
@@ -474,7 +474,7 @@
         },
         getData(){
           let vm = this;
-          let url = 'http://whjjgc.r93535.com/YYXDayPlanUniqueServlet?id='+vm.id+'&baseuserId='+vm.baseuserid;
+          let url = 'http://tljjgxt.r93535.com/YYXDayPlanUniqueServlet?id='+vm.id+'&baseuserId='+this._GLOBAL.baseUserId;
           vm.$http.get(url).then((response) => {
             console.log("详情页面的数据：" + JSON.stringify(response.data));
             vm.totalData = response.data;

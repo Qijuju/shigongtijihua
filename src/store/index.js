@@ -4,7 +4,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import config from '../config'
+
 Vue.use(Vuex)
+
+Vue.prototype._GLOBAL = config
 
 const store = new Vuex.Store({
   state: {

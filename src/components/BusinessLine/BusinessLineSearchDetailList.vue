@@ -438,7 +438,7 @@
         },
         getData(){
           let vm = this;
-          let url = 'http://tljjgxt.r93535.com/YYXDayPlanUniqueServlet?id='+vm.id+'&baseuserId='+vm.baseuserid;
+          let url = 'http://tljjgxt.r93535.com/YYXDayPlanUniqueServlet?id='+vm.id+'&baseuserId='+this._GLOBAL.baseUserId;
           vm.$http.get(url).then((response) => {
             console.log("详情页面的数据：" + JSON.stringify(response.data));
             vm.totalData = response.data;

@@ -127,7 +127,7 @@
         // 获取详情数据
         getData(){
           let vm = this;
-          let url = 'http://whjjgc.r93535.com/FYYXDayUniquePlanServlet?id='+ vm.id+'&baseuserId='+this.baseuserid;
+          let url = 'http://tljjgxt.r93535.com/FYYXDayUniquePlanServlet?id='+ vm.id+'&baseuserId='+this._GLOBAL.baseUserId;
           vm.$http.get(url).then((response) => {
 
             // 请求成功返回数据

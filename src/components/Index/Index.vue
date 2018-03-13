@@ -58,7 +58,7 @@
 
     </div>
 
-    <iframe style="margin-top:46px;width:100%;height:1000px;display:none;" :src="sessionUrl"></iframe>
+    <iframe style="margin-top:46px;width:100%;height:1000px;display:none;" :src="this._GLOBAL.sessionUrl"></iframe>
   </div>
 </template>
 
@@ -80,15 +80,15 @@
         today:'2018-01-01',
         tomorrow:'2018-12-31',
         nextweek:'2018-01-01',
-        baseuserId:'',
+        baseuserId:this._GLOBAL.baseUserId,
         type:2,
         today_detail:[],
         today_statistics:[],
         detail:[],
         /*tomorrow_detail:[],*/
         tomorrow_statistics:[],
-        sessionId:'',//sessionId
-        sessionUrl:''//sessionUrl
+        sessionId:this._GLOBAL.sessionId,//sessionId
+        sessionUrl:this._GLOBAL.sessionUrl//sessionUrl
       }
     },
     components:{
@@ -96,10 +96,26 @@
     },
     mounted:function () {
 // debugger
-     this.sessionId = this.getQueryVariable('sessionid');
+     /*this.sessionId = this.getQueryVariable('sessionid');
      this.baseuserId = this.getQueryVariable('userid');
       console.log("sessionId===="+this.sessionId+'baseuserId===='+this.baseuserId)
-      this.sessionUrl = 'http://tljjgxt.r93535.com:89/verifyLogin.do?loginid='+this.sessionId;
+      this.sessionUrl = 'http://tljjgxt.r93535.com:89/verifyLogin.do?loginid='+this.sessionId;*/
+      if(window.location.search!=''){
+        var sessionid = this.getQueryVariable('sessionid');
+        if(!this._GLOBAL.isEmptyObject(sessionid)){
+          this._GLOBAL.setSessionId(sessionid)
+          this._GLOBAL.setSessionUrl('http://tljjgxt.r93535.com:89/verifyLogin.do?loginid='+sessionid)
+        }
+        var userid=this.getQueryVariable('userid')
+        if(!this._GLOBAL.isEmptyObject(userid)){
+          this._GLOBAL.setBaseUserId(userid)
+        /*  this.GetToDoWorkflowCount(userid)
+          this.getdata(userid);*/
+        }
+        console.log("sessionId===="+this.sessionId+'baseuserId===='+this.baseuserId)
+        console.log("sessionId2===="+this._GLOBAL.sessionId+'baseuserId2===='+this._GLOBAL.baseUserId)
+      }
+
 
       this.GetToDoWorkflowCount();
       this.$nextTick(function() {
@@ -108,9 +124,10 @@
         this.nextweek = this.getDay(6, '-')
         /*this.today = '2018-02-28'*/
         /*this.tomorrow='2018-02-28'*/
-        this.getdata(this.baseuserId, this.type, this.today, this.today, 0);
-        this.getdata(this.baseuserId, this.type, this.tomorrow, this.tomorrow, 1)
-        this.getdata(this.baseuserId, this.type, this.today, this.nextweek, 2)
+        // debugger
+        this.getdata(this._GLOBAL.baseUserId, this.type, this.today, this.today, 0);
+        this.getdata(this._GLOBAL.baseUserId, this.type, this.tomorrow, this.tomorrow, 1)
+        this.getdata(this._GLOBAL.baseUserId, this.type, this.today, this.nextweek, 2)
       });
     },
    /* watch: {
@@ -262,7 +279,7 @@
       GetToDoWorkflowCount() {
         // debugger
         // this.baseuserId=102300;
-        var url = 'http://tljjgxt.r93535.com/GetToDoWorkflowCount?baseuserId='+this.baseuserId+'&workflowTypeId='+this.workflowTypeId;
+        var url = 'http://tljjgxt.r93535.com/GetToDoWorkflowCount?baseuserId='+this._GLOBAL.baseUserId+'&workflowTypeId='+this.workflowTypeId;
         axios.get(url)
           .then(response => {
             this.ToDoWorkflowCount  = response.data;

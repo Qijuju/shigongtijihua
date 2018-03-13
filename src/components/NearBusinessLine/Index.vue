@@ -249,7 +249,7 @@
       // 获取列表首页数据
       getList(){
         let vm = this;
-        let url = 'http://whjjgc.r93535.com/DayPlanDetailNearbyServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq+'&xmmc='+vm.xmmcId;
+        let url = 'http://tljjgxt.r93535.com/DayPlanDetailNearbyServlet?page='+vm.page+'&baseuserid='+this._GLOBAL.baseUserId+'&sgrq='+vm.sgrq+'&xmmc='+vm.xmmcId;
 
         vm.$http.get(url).then((response) => {
           vm.listdata = response.data;
@@ -273,7 +273,7 @@
       onInfinite(done) {
         let vm = this;
         vm.counter++;
-        let url ='http://whjjgc.r93535.com/DayPlanDetailNearbyServlet?page='+ vm.counter +'&baseuserid='+this.baseuserid+'&sgrq='+vm.sgrq;
+        let url ='http://tljjgxt.r93535.com/DayPlanDetailNearbyServlet?page='+ vm.counter +'&baseuserid='+this._GLOBAL.baseUserId+'&sgrq='+vm.sgrq;
         vm.$http.get(url).then((response) => {
 
           vm.pageEnd = vm.num * vm.counter;
@@ -313,7 +313,7 @@
 
       // 获取可选项目列表数据
       getProjects(){
-        axios.get('http://whjjgc.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid)
+        axios.get('http://tljjgxt.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this._GLOBAL.baseUserId)
           .then(response => {
             // 接收响应数据
             this.projects = response.data;
