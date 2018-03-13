@@ -260,6 +260,7 @@
       },
       //获取待我审批列表中的总条数
       GetToDoWorkflowCount() {
+        // debugger
         // this.baseuserId=102300;
         var url = 'http://tljjgxt.r93535.com/GetToDoWorkflowCount?baseuserId='+this.baseuserId+'&workflowTypeId='+this.workflowTypeId;
         axios.get(url)
