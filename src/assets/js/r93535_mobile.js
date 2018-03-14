@@ -13,19 +13,20 @@
         isiOS?loadURL("scanClick:scanClick"):androidObject.scan();
     };
 
-    e.takePicture=function (num,index,bo,url) { // 调相机实现拍照功能
+    e.takePicture=function (num,index,bo,url,arrL) { // 调相机实现拍照功能
       console.log("jsApi拍照函数被调用："+ num +'-'+index);
-        isiOS? loadURL("takePicture:takePicture:"+num+":"+index+':'+bo+':'+url):androidObject.photo(num,index,bo,url);
+        isiOS? loadURL("takePicture:takePicture:"+num+":"+index+':'+bo+':'+url+':'+arrL):androidObject.photo(num,index,bo,url,arrL);
     };
+
     // 获取位置信息
     e.getCurrentPositionInfo=function () {
-      console.log("获取位置信息调取方法");
+
       isiOS? loadURL("getCurrentPositionInfo:getCurrentPositionInfo:39.992520,116.336170,描述0;39.992520,116.336170,描述1;39.998293,116.352343,描述2;40.0040871,16.348904,描述3;40.001442, 116.353915,描述4;39.989105,116.353915,描述5;43.989105,119.353915,描述6"):androidObject.getCurrentPositionInfo();
     };
 
-    e.selectPhotos=function (num,index,bo,url) { // 从相册中选择照片
+    e.selectPhotos=function (num,index,bo,url,arrL) { // 从相册中选择照片
       console.log("jsApi从相册中选择照片函数被调用："+ num +'-'+index);
-        isiOS? loadURL("selectPhotos:selectPhotos:"+num+":"+index+':'+bo+':'+url):androidObject.selectPhoto(num,index,bo,url);
+        isiOS? loadURL("selectPhotos:selectPhotos:"+num+":"+index+':'+bo+':'+url+':'+arrL):androidObject.selectPhoto(num,index,bo,url,arrL);
     };
 
     function loadURL(url) {

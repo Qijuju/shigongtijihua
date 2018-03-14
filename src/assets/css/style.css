@@ -170,16 +170,6 @@
     transform: translateY(6.25px);
   }
 
-  /*44.4% {*/
-  /*-webkit-transform:  translateY(-3.125px);*/
-  /*transform:  translateY(-3.125px);*/
-  /*}*/
-
-  /*55.5% {*/
-  /*-webkit-transform:  translateY(1.5625px);*/
-  /*transform:  translateY(1.5625px);*/
-  /*}*/
-
   66.6% {
     -webkit-transform: translateY(-0.78125px);
     transform:  translateY(-0.78125px);
@@ -255,7 +245,7 @@
   display: none;
   z-index: 999;
   width:100%;
-  background: rgba(0,0,0,.5);
+  background: rgb(0,0,0);
 }
 #showBigImage > img{
   position: absolute;
@@ -266,6 +256,61 @@
   margin:auto;
 }
 /* 图片预览 style end  */
+/* 图片九宫格 style start */
+.imgBox{
+  padding:4%;
+}
+.imgnow{
+  /*width: 32%;*/
+  width:100px;
+  height:100px;
+
+  display: inline-block;
+  position: relative;
+  margin-bottom: 5px;
+  margin-right:5px;
+}
+.imgnow img{
+  width: 100%;
+  height:100%;
+}
+.imgnow .van-icon-checked,
+.imgnow .van-icon-clear{
+  position: absolute;
+  top: 5px;
+  right: 6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  /*background-color: #fff;*/
+  color: rgb(51, 163, 60);
+  text-align: center;
+  line-height: 19px;
+  font-size: 18px;
+}
+.imgnow .van-icon-clear{
+  color: red;
+}
+.imgnow .van-icon-delete{
+  position: absolute;
+  right: 6px;
+  bottom: 5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  color: #fff;
+  text-align: center;
+  line-height: 19px;
+  font-size: 18px;
+}
+
+/* 图片九宫格 style end */
+/* 单选按钮*/
+div.van-radio{
+  width:30% !important;
+  float: left;
+
+}
 
 
 

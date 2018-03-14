@@ -150,14 +150,7 @@
       <van-row>
         <van-col span="24" class="getHeight">计划批复情况</van-col>
       </van-row>
-      <div class="img">
-        <!--绑定动态图片资源-->
-        <!--没有权限-->
-        <!--<div v-for="path in jhpfqkImgArr" class="photoBox">-->
-          <!--<img class="photo" v-bind:src="path" alt="logo"  v-on:click="showBigImage($event)"/>-->
-        <!--</div>-->
 
-      </div>
       <van-row>
         <van-col span="8" class="getHeight">计划批复情况描述</van-col>
         <van-col span="16">
@@ -168,14 +161,21 @@
       <van-row>
         <van-col span="24" class="getHeight">人员签到情况</van-col>
       </van-row>
-      <div class="img">
 
-        <!--绑定动态图片资源-->
-        <div v-for="path in ryqdqkImgArr" class="photoBox">
-          <img class="photo" v-bind:src="path" alt="logo" width="50%" height="50%"  v-on:click="showBigImage($event)"/>
+      <div class="imgBox">
+
+        <div class="imgnow" v-for="(item ,index) in ryqdqkImgArr" >
+          <img v-bind:src="item.s" :alt="index" v-on:click="showBigImage($event)">
+          <van-icon name="checked"  v-show="item.isShow==true" />
+          <van-icon name="clear"  v-show="item.isShow==false"/>
+          <van-icon name="delete" @click="onDelete(1,index)" />
         </div>
 
-        <div class="addPhoto" @click='takePictureE(2,true,"http://www.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")' v-if="totalData.editStatus==1">+</div>
+        <!--权限-->
+        <div class="addPhoto" @click='takePictureE(1,true,"http://www.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")' v-if="totalData.editStatus==1">+</div>
+
+
+        <!--<div class="addPhoto" @click='takePictureE(1,true,"http://www.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")'>+</div>-->
 
       </div>
 
@@ -190,8 +190,10 @@
       <van-row>
         <van-col span="8" class="getHeight">计划兑现情况</van-col>
         <van-col span="16">
-          <van-switch v-model="totalData.jhsfdx" v-if="totalData.editStatus==1"/>
-          <van-switch v-model="totalData.jhsfdx" v-else disabled  />
+
+          <span v-html="totalData.jhsfdx" v-if="totalData.editStatus==1" @click="changeValue($event)"></span>
+          <span v-html="totalData.jhsfdx" v-else></span>
+
         </van-col>
       </van-row>
 
@@ -207,53 +209,28 @@
         <van-col span="24" class="getHeight">现场照片</van-col>
       </van-row>
 
-      <van-row>
-        <van-col span="24">
-          <div class="imgBox">
-            <div class="imgnow">
-              <img src="../../assets/images/sgrjhImages/fyyxg.png" alt="" v-on:click="showBigImage($event)">
-              <van-icon name="checked" />
-            </div>
-            <div class="imgnow">
-              <img src="../../assets/images/sgrjhImages/homeg.png"  v-on:click="showBigImage($event)">
-              <van-icon name="clear" />
-            </div>
-            <div class="imgnow">
-              <img src="../../assets/images/sgrjhImages/searchg.png" alt="" v-on:click="showBigImage($event)">
-              <van-icon name="delete" @click="onDelete()" />
-            </div>
-            <div class="imgnow">
-              <img src="../../assets/images/sgrjhImages/homeg.png" alt="" v-on:click="showBigImage($event)">
-            </div>
-            <div class="addPhoto" @click='takePictureE(1,true,"http://www.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")'>+</div>
-          </div>
-          <!--<div class="img">-->
-          <!--<div class="testBox" v-for="(item ,index) in testImgIdUrlData">-->
-            <!--<img v-bind:id="item.id" v-bind:src="item.imgUrl" v-bind:alt="index">-->
-            <!--<span @click="reduceFn(index)">-</span>-->
-          <!--</div>-->
+      <div class="imgBox">
+        <div class="imgnow" v-for="(item ,index) in zczpArr" >
+          <img v-bind:src="item.s" :alt="index" v-on:click="showBigImage($event)">
+          <van-icon name="checked"  v-show="item.isShow==true" />
+          <van-icon name="clear"  v-show="item.isShow==false"/>
+          <van-icon name="delete" @click="onDelete(2,index)" />
+        </div>
 
-          <!--<div class="testBox">-->
-            <!--&lt;!&ndash;参数：参1：标识位；参2：是否下载图片; 参3：下载图片的url地址&ndash;&gt;-->
-            <!--<div class="testBox1" @click='takePictureE(3,true,"http://www.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")' >+</div>-->
-          <!--</div>-->
+        <!--权限-->
+        <div class="addPhoto" @click='takePictureE(2,true,"http://www.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")' v-if="totalData.editStatus==1">+</div>
 
-          <div v-for="path in picturesArr" class="photoBox">
-          <img class="photo" v-bind:src="path" alt="logo" v-on:click="showBigImage($event)"/>
-          </div>
-
-          <!--参数：参1：标识位；参2：是否下载图片; 参3：下载图片的url地址-->
-          <div class="testBox addPhoto" @click='takePictureE(3,true,"http://www.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")' v-if="totalData.editStatus==1" >+</div>
-
-          <!--</div>-->
-        </van-col>
-      </van-row>
+        <!--<div class="addPhoto" @click='takePictureE(2,true,"http://www.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")'>+</div>-->
+      </div>
 
       <van-row>
         <van-col span="8" class="getHeight">签到时间</van-col>
         <van-col span="16">
           <span @click='popupClick(totalData.qdsj)' v-html="totalData.qdsj"></span>
+          <!--权限-->
           <button class="refreshBtn" @click="getCurrentPositionInfo()" v-if="totalData.editStatus==1">刷新</button>
+          <!--<button class="refreshBtn" @click="getCurrentPositionInfo()">刷新</button>-->
+
         </van-col>
       </van-row>
       <van-row>
@@ -277,12 +254,10 @@
       >
       </mt-actionsheet>
 
-      <div id="save" @click="save()">保存</div>
+      <div id="save" @click="save()" v-if="totalData.editStatus==1">保存</div>
 
        <!--预览图片的盒子-->
       <div id="showBigImage" v-if="showBigImage" @click="showBigImageBox($event)" v-bind:style="{height:setHeight+'px'}">
-        <!--<img  src="../../assets/images/sgrjhImages/search.png" alt="">-->
-        <!--<img  v-bind:src="previewPicSrc" alt=""  :style="{width:previewPicWidth+'px',height:previewPicHeight+'px'}">-->
         <img  v-bind:src="previewPicSrc" alt="" style="width:100%;"/>
       </div>
     </div>
@@ -291,6 +266,7 @@
 </template>
 <script>
   // 引入组件
+  import {Toast  } from 'vant';
   import Header from '../Common/Header'
   import $ from 'jquery'
   import { Dialog } from 'vant';
@@ -299,26 +275,15 @@
     export default {
       name: "listDetail",
       components: {
-        Header
+        Header,Toast
       },
       data(){
         return{
-          baseuserid:'222441',
           domainName:'tljjgxt.r93535.com', // 域名
 
           longitude:'', // 经度
           latitude:'', // 纬度
 
-          // 测试图片删除功能数据
-          testImgIdUrlData:[
-            {id:'1',imgUrl:'../../assets/images/sgrjhImages/fqd.png'},
-            {id:'2',imgUrl:'../../assets/images/sgrjhImages/fyyxg.png'},
-            {id:'3',imgUrl:'../../assets/images/sgrjhImages/homeg.png'},
-            {id:'4',imgUrl:'../../assets/images/sgrjhImages/ljyyxg.png'},
-            {id:'5',imgUrl:'../../assets/images/sgrjhImages/searchg.png'},
-            {id:'6',imgUrl:'../../assets/images/sgrjhImages/fqd.png'}
-
-          ],
           testTxt:'',
           // 拍照
           callBackParams:'',
@@ -330,7 +295,7 @@
 
           jhpfqkImgArr:[], // 计划批复情况
           ryqdqkImgArr:[], // 人员签到情况图片集合
-          picturesArr:[], // 现场照片
+          zczpArr:[], // 现场照片
 
           previewPicSrc:'', // 预览图片的src
           previewPicWidth:'', // 预览图片的宽
@@ -362,17 +327,43 @@
         },
       },
       methods:{
-        // 图片元素的删除功能
-        reduceFn(index){//删除当前选中对象
-          this.testImgIdUrlData.splice(index,1);
+
+        changeValue(event){
+
+          console.log('改变了数值');
+          var el = event.currentTarget;
+
+          var s=el.innerText=='是'?'否':'是';
+
+          this.totalData.jhsfdx= s;
+
         },
+        // 图片删除函数
+        onDelete(num,index){
+          Dialog.confirm({
+            title: '删除',
+            message: '确定删除此图片吗？'
+          }).then(() => {
+            // 删除图片的方法
+            if (num==1){
+
+              this.ryqdqkImgArr.splice(index,1);
+            }
+            if (num==2){
+              this.zczpArr.splice(index,1);
+            }
+
+          }).catch(() => {
+            console.log("点击取消按钮")
+          });
+        },
+
         // 预览图片
         showBigImageBox(event){
           var el = event.currentTarget;
           $(el).hide();
         },
         showBigImage(event){
-
           var el = event.currentTarget;   //获取点击对象
           this.previewPicSrc =$(el).attr("src");  // 当前点击图片的src
 
@@ -380,14 +371,13 @@
           this.previewPicHeight = $(el).height();// 当前点击图片的高
 
           $('#showBigImage').show(); // 显示box
+
         },
 
         // 获取位置信息的回调函数（ios、android和js交互）
         RPMPositionCallBack:function (params) { // '位置,经度,纬度'
-
           var arr =params.split(',');
           this.totalData.qddd=arr[0]; //当前位置
-
         },
 
         // 拍照的原始图片的回调函数，
@@ -395,15 +385,18 @@
 
           let s="data:image/"+imageType+";base64,"+params;
 
+          let imgObj={};
+          imgObj.s = s;
+          imgObj.x=x;
+          imgObj.y=y;
+          imgObj.isShow=false;
+
           switch (x){
             case '1':
-              this.jhpfqkImgArr.push(s);
+              this.ryqdqkImgArr.push(imgObj);
               break;
             case '2':
-              this.ryqdqkImgArr.push(s);
-              break;
-            case '3':
-              this.picturesArr.push(s);
+              this.zczpArr.push(imgObj);
               break;
             default:
               break;
@@ -417,9 +410,12 @@
 
           this.callBackParams = imageType;
         },
+
         // 从相册中选择照片的回调函数
         RPMSelectPhotosCallBack:function (params,x,y) {
+
           var a = params.split(',');
+          var idArr = y.split(',');
 
           for (var i=0;i<a.length;i++){
             var obj={};
@@ -428,15 +424,18 @@
 
             var imgUrl ="data:image/"+obj.imgType+";base64,"+obj.base64;
 
+            let imgObj={};
+            imgObj.s=imgUrl;
+            imgObj.x=x;
+            imgObj.y=idArr[i];
+            imgObj.isShow=false;
+
             switch (x){
               case '1':
-                this.jhpfqkImgArr.push(imgUrl);
+                this.ryqdqkImgArr.push(imgObj);
                 break;
               case '2':
-                this.ryqdqkImgArr.push(imgUrl);
-                break;
-              case '3':
-                this.picturesArr.push(imgUrl);
+                this.zczpArr.push(imgObj);
                 break;
               default:
                 break;
@@ -446,8 +445,45 @@
           }
 
           this.paramsCount =a.length;
-
         },
+
+        // android回传图片id的回调函数
+        RPMImageIdCallBack(dataId,x,y){
+
+          console.log("ndroid回传图片id，接收到的参数为：" + dataId+":"+x+':'+y);
+          // 首先判断id是否为空。 为空时，显示叉号，非空时，显示对号。
+          if (dataId !==''){ // 非空
+
+            switch (x){
+              case '1':
+                // 将对应的图片的标识修改为true,图片的右上角显示对号
+                this.ryqdqkImgArr[y-1].isShow = true;
+                break;
+              case '2':
+                // 将对应的图片的标识修改为true,图片的右上角显示对号
+                this.zczpArr[y-1].isShow = true;
+                break;
+              default:
+                break;
+            }
+
+          }else {
+
+            switch (x){
+              case '1':
+                // 将对应的图片的标识修改为true,图片的右上角显示对号
+                this.ryqdqkImgArr[y-1].isShow = false;
+                break;
+              case '2':
+                // 将对应的图片的标识修改为true,图片的右上角显示对号
+                this.zczpArr[y-1].isShow = false;
+                break;
+              default:
+                break;
+            }
+          }
+        },
+
         // JSAPI 函数调用  获取位置信息
         getCurrentPositionInfo(){
           // 获取当前时间
@@ -458,27 +494,41 @@
           // 调取获取当前位置的JSAPI
           RPM.getCurrentPositionInfo();
         },
+
         // JSAPI 函数调用 拍照或拍照或从相册中
         takePictureE(index,bo,url) {
+
+          let  arrL;
+          if(index==1){
+            arrL = this.ryqdqkImgArr.length;
+          }
+
+          if (index==2){
+            arrL = this.zczpArr.length;
+          }
+
           this.sheetVisible = true; // 拍照或从相册中选择项目显示
           this.actions = [
             {
               name:'拍照',
               method :function () {
+
                 // 调取JSAPI拍照事件,参数：1 表示原始照片；2 带水印照片
-                RPM.takePicture(2,index,bo,url); // 参数一：表示获取原始图片JSAPI约定；参数二：点击的方法的标识位
+                RPM.takePicture(2,index,bo,url,arrL); // 参数一：表示获取原始图片JSAPI约定；参数二：点击的方法的标识位
               }
             },
             {
               name:'从相册中选择',
               method :function () {
-                RPM.selectPhotos(9,index,bo,url);
+                RPM.selectPhotos(9,index,bo,url,arrL);
               }
             }
           ];
         },
         save(){
-          let vm = this;
+
+           Toast(`保存成功`);
+          /*let vm = this;
           let url = 'http://'+vm.domainName+'/DayplanPhSaveServlet';
 
           var obj={
@@ -502,11 +552,26 @@
             })
             .catch(function (error) {
               console.log(error);
-            });
+            });*/
 
         },
         onClickLeft(){
+          // 清空历史数据，再次进入重新获取数据
+          this.totalData.qddd='';
+          this.totalData.qdsj='';
+          this.totalData.jhdxqk='';
+          this.totalData.jhsfdx='';
+          this.totalData.dcryqk='';
+          this.ryqdqkImgArr  =[];
+          this.zczpArr  =[];
+
+
+
+          // 跳转页面，返回首页
           this.$router.push({path: '/BusinessLine'});
+
+
+
         },
 
         popupClick(txt) { // popup弹出层点击事件
@@ -528,7 +593,7 @@
             console.log("详情页面的数据：" + JSON.stringify(response.data));
             vm.totalData = response.data;
 
-            vm.totalData.jhsfdx = vm.totalData.jhsfdx == '1'?true:false;
+            vm.totalData.jhsfdx = vm.totalData.jhsfdx == '1'?'是':'否';
 
             this.$nextTick(function(){
               console.log("$nextTick监听数据渲染完成之后的回调函数");
@@ -544,11 +609,6 @@
           }, (response) => {
             console.log('error');
           });
-        },
-
-        // android回传图片id的回调函数
-        RPMImageIdCallBack(dataId,x,y){
-          console.log("ndroid回传图片id，接收到的参数为：" + dataId+":"+x+':'+y);
         }
       },
       mounted:function () {
@@ -565,12 +625,59 @@
         window.RPMImageIdCallBack = this.RPMImageIdCallBack;
 
         this.getData();
-
       }
     }
 </script>
 
 <style scoped>
+  .van-col.van-col-16{
+    height:40px;
+    line-height:40px;
+
+  }
+  .van-col.van-col-16>button.refreshBtn{
+    width:50px;
+    height:30px;
+    text-align: center;
+    line-height:30px;
+    border:none;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background: #2196F3;
+    color: #fff;
+  }
+  .van-col.van-col-16>button.refreshBtn:active{
+    background: #1771f3;
+  }
+  /*添加工作内容*/
+  .workcontent{
+    padding: 10px 15px;
+  }
+  textarea{
+    border: 1px solid #ccc;
+    margin-left: 6%;
+    width: 88%;
+    border-radius: 5px;
+  }
+  .addPhoto{
+    display: inline-block;
+    width:18%;
+    margin-left:10px;
+    margin-top:10px;
+    height:70px;
+    text-align: center;
+    line-height:70px;
+    /*background: #ccc;*/
+    color: #333;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    font-size:30px;
+
+    border:1px dashed #9c9c9c;
+  }
+
   /* 照片test*/
   .testBox{
     width:32%;
