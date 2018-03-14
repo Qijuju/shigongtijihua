@@ -215,7 +215,7 @@
         }
       },
       getXiangmuServlet(){
-        let url='http://'+this.domainName+'/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid;
+        let url='http://tljjgxt.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this._GLOBAL.baseUserId;
 
         axios.get(url)
           .then(response => {

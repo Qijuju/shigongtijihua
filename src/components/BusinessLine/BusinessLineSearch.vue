@@ -147,7 +147,7 @@
     },
     data() {
       return {
-        baseuserid:102300,
+        baseuserid:this._GLOBAL.baseUserId,
         domainName:'tljjgxt.r93535.com', // 域名
 //
         //项目名称相关

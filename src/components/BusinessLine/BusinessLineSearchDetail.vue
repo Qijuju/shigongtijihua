@@ -60,7 +60,6 @@
     name: "day-plan-detail",
     data() {
       return {
-        baseuserId:'102300',
         domainName:'tljjgxt.r93535.com', // 域名
 
         isLoading: false,
@@ -157,7 +156,7 @@
           this.currenttime=data
           var url='http://tljjgxt.r93535.com/DayPlanDetailSearchServlet?xmmc='
             +this.xmmc+'&sgksrq='+data+'&dj='+this.dj+'&xingbie='+this.xingbie+'&sglx='+this.sglx+'&page='+1+
-            '&sglc='+this.sglc+'&baseuserid=102300&kssjd=&sgjsrq='+data
+            '&sglc='+this.sglc+'&baseuserid='+this._GLOBAL.baseUserId+'&kssjd=&sgjsrq='+data
           axios.get(url)
             .then(response => {
               this.DayPlanDetail  = response.data.data
@@ -179,7 +178,7 @@
             this.page=1
             var url='http://tljjgxt.r93535.com/DayPlanDetailSearchServlet?xmmc='
               +this.xmmc+'&sgksrq='+data+'&dj='+this.dj+'&xingbie='+this.xingbie+'&sglx='+this.sglx+'&page='+this.page+
-              '&sglc='+this.sglc+'&baseuserid=102300&kssjd=&sgjsrq='+data
+              '&sglc='+this.sglc+'&baseuserid='+this._GLOBAL.baseUserId+'&kssjd=&sgjsrq='+data
             axios.get(url)
               .then(response => {
                 this.DayPlanDetail  = response.data.data

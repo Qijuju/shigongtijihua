@@ -58,6 +58,7 @@
 
     </div>
 
+    <iframe style="margin-top:46px;width:100%;height:1000px;display:none;" :src="this._GLOBAL.sessionUrl"></iframe>
   </div>
 </template>
 
@@ -75,38 +76,83 @@
         domainName:'tljjgxt.r93535.com', // 域名
 
         ToDoWorkflowCount:'',//存放获取待办流程条数
-        workflowTypeId:15,
+        workflowTypeId:15,//流程分类id  15代表施工日计划
         charts: '',
         mywidth:document.body.clientWidth + 'px',
         today:'2018-01-01',
         tomorrow:'2018-12-31',
         nextweek:'2018-01-01',
-        baseuserid:102298,
+        baseuserId:this._GLOBAL.baseUserId,
         type:2,
         today_detail:[],
         today_statistics:[],
         detail:[],
         /*tomorrow_detail:[],*/
-        tomorrow_statistics:[]
+        tomorrow_statistics:[],
+        sessionId:this._GLOBAL.sessionId,//sessionId
+        sessionUrl:this._GLOBAL.sessionUrl//sessionUrl
       }
     },
     components:{
       Header
     },
     mounted:function () {
-      this.GetToDoWorkflowCount();
+// debugger
+     /*this.sessionId = this.getQueryVariable('sessionid');
+     this.baseuserId = this.getQueryVariable('userid');
+      console.log("sessionId===="+this.sessionId+'baseuserId===='+this.baseuserId)
+      this.sessionUrl = 'http://tljjgxt.r93535.com:89/verifyLogin.do?loginid='+this.sessionId;*/
+
+      if(window.location.search!=''){
+        var sessionid = this.getQueryVariable('sessionid');
+        if(!this._GLOBAL.isEmptyObject(sessionid)){
+          this._GLOBAL.setSessionId(sessionid)
+          this._GLOBAL.setSessionUrl('http://tljjgxt.r93535.com:89/verifyLogin.do?loginid='+sessionid)
+        }
+        var userid=this.getQueryVariable('userid')
+        if(!this._GLOBAL.isEmptyObject(userid)){
+          this._GLOBAL.setBaseUserId(userid)
+          this.GetToDoWorkflowCount();
+        /*  this.GetToDoWorkflowCount(userid)
+          this.getdata(userid);*/
+        }
+        console.log("sessionId===="+this.sessionId+'baseuserId===='+this.baseuserId)
+        console.log("sessionId2===="+this._GLOBAL.sessionId+'baseuserId2===='+this._GLOBAL.baseUserId)
+      }
+
+
       this.$nextTick(function() {
         this.today = this.getDay(0, '-')
         this.tomorrow = this.getDay(1, '-')
         this.nextweek = this.getDay(6, '-')
         /*this.today = '2018-02-28'*/
         /*this.tomorrow='2018-02-28'*/
-        this.getdata(this.baseuserId, this.type, this.today, this.today, 0);
-        this.getdata(this.baseuserId, this.type, this.tomorrow, this.tomorrow, 1)
-        this.getdata(this.baseuserId, this.type, this.today, this.nextweek, 2)
-      })
+        // debugger
+        this.getdata(this._GLOBAL.baseUserId, this.type, this.today, this.today, 0);
+        this.getdata(this._GLOBAL.baseUserId, this.type, this.tomorrow, this.tomorrow, 1)
+        this.getdata(this._GLOBAL.baseUserId, this.type, this.today, this.nextweek, 2)
+      });
     },
+   /* watch: {
+      $route: function (to, from) {
+        console.log("watch函数............")
+        if(to.path==='/Detail'){
+          var data = to.query;
+          this.url=data.url
+        }
+      }
+    },*/
     methods:{
+      getQueryVariable(variable){
+        // debugger
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+          var pair = vars[i].split("=");
+          if(pair[0] == variable){return pair[1];}
+        }
+        return('');
+      },
       getdata(baseuserid,type,sgksrq,sgjsrq,date){
         var url='http://'+this.domainName+'/DayplanAllProjectnewServlet?baseuserid='+baseuserid+'&type='+type+'&sgksrq='+sgksrq+'&sgjsrq='+sgjsrq
         axios.get(url)
@@ -213,20 +259,30 @@
       },
       todowork(){
         //跳转到待我审批页面展示
-        this.$router.push({path: '/ToDoWork'});
+        var query = {
+          userIdValue:this.baseuserId,
+        }
+        this.$router.push({path: '/ToDoWork',query: query});
       },
       dowork(){
+        var query = {
+          userIdValue:this.baseuserId,
+        }
         //跳转到我已审批页面展示
-        this.$router.push({path: '/DoWork'});
+        this.$router.push({path: '/DoWork',query: query});
       },
       icrate(){
+        var query = {
+          userIdValue:this.baseuserId,
+        }
         //跳转到我已审批页面展示
-        this.$router.push({path: '/ICreate'});
+        this.$router.push({path: '/ICreate',query: query});
       },
       //获取待我审批列表中的总条数
       GetToDoWorkflowCount() {
-        this.baseuserId=102300;
-        var url = 'http://'+this.domainName+'/GetToDoWorkflowCount?baseuserId='+this.baseuserId+'&workflowTypeId='+this.workflowTypeId;
+        // debugger
+        // this.baseuserId=102300;
+        var url = 'http://tljjgxt.r93535.com/GetToDoWorkflowCount?baseuserId='+this._GLOBAL.baseUserId+'&workflowTypeId='+this.workflowTypeId;
         axios.get(url)
           .then(response => {
             this.ToDoWorkflowCount  = response.data;

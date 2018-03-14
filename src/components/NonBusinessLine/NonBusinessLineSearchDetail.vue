@@ -108,9 +108,9 @@
       loadMore(index){
         /*debugger*/
         if(this.count>this.DayPlanDetail.length&&index===this.showmum){
-          var url='http://tljjgxt.r93535.com/NonBusinessDayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&page='+this.page+'&baseuserid=102300&sgjsrq='+this.currenttime
-          /*var url='http://tljjgxt.r93535.com/DayPlanDetailNearbySearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&page=1&sgjsrq='+this.currenttime+'&baseuserid=236000&xb='+this.xingbie+'&lb='+this.sglx*/
-          /*var url='http://tljjgxt.r93535.com/DayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&dj='+this.dj+'&xingbie='+this.xingbie+'&sglx='+this.sglx+'&page='+this.page+'&sglc='+this.sglc+'&baseuserid=236210&kssjd=&sgjsrq='+this.currenttime*/
+          var url='http://tljjgxt.r93535.com/NonBusinessDayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&page='+this.page+'&baseuserid='+this._GLOBAL.baseUserId+'&sgjsrq='+this.currenttime
+          /*var url='http://whjjgc.r93535.com/DayPlanDetailNearbySearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&page=1&sgjsrq='+this.currenttime+'&baseuserid=236000&xb='+this.xingbie+'&lb='+this.sglx*/
+          /*var url='http://whjjgc.r93535.com/DayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&dj='+this.dj+'&xingbie='+this.xingbie+'&sglx='+this.sglx+'&page='+this.page+'&sglc='+this.sglc+'&baseuserid=236210&kssjd=&sgjsrq='+this.currenttime*/
           /*debugger*/
           axios.get(url)
             .then(response => {
@@ -136,7 +136,7 @@
         this.sglx=data.sglx
         this.sgksrq=data.sgksrq
         this.sgjsrq=data.sgjsrq*/
-        var url='http://tljjgxt.r93535.com/DayPlanCountServlet?baseuserid=102300&xmmc='+this.xmmc+'&type=3&sgksrq='+this.sgksrq+'&sgjsrq='+this.sgjsrq+'&dj=&xingbie=&sglx=&sglc=&kssjd=&page=0'
+        var url='http://tljjgxt.r93535.com/DayPlanCountServlet?baseuserid='+this._GLOBAL.baseUserId+'&xmmc='+this.xmmc+'&type=3&sgksrq='+this.sgksrq+'&sgjsrq='+this.sgjsrq+'&dj=&xingbie=&sglx=&sglc=&kssjd=&page=0'
         axios.get(url)
           .then(response => {
             /*debugger*/
@@ -148,9 +148,9 @@
       getDayPlanDetail(data,index,flag) {
         if(this.hasopen==false&&flag==true){
           this.currenttime=data
-          var url='http://tljjgxt.r93535.com/NonBusinessDayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&page='+this.page+'&baseuserid=102300&sgjsrq='+this.currenttime
-          //var url='http://tljjgxt.r93535.com/DayPlanDetailNearbySearchServlet?xmmc='+this.xmmc+'&sgksrq='+data+'&page=1&sgjsrq='+data+'&baseuserid=236000&xb='+this.xingbie+'&lb='+this.sglx
-          /*var url='http://tljjgxt.r93535.com/DayPlanDetailSearchServlet?xmmc='
+          var url='http://tljjgxt.r93535.com/NonBusinessDayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&page='+this.page+'&baseuserid='+this._GLOBAL.baseUserId+'&sgjsrq='+this.currenttime
+          //var url='http://whjjgc.r93535.com/DayPlanDetailNearbySearchServlet?xmmc='+this.xmmc+'&sgksrq='+data+'&page=1&sgjsrq='+data+'&baseuserid=236000&xb='+this.xingbie+'&lb='+this.sglx
+          /*var url='http://whjjgc.r93535.com/DayPlanDetailSearchServlet?xmmc='
             +this.xmmc+'&sgksrq='+data+'&dj='+this.dj+'&xingbie='+this.xingbie+'&sglx='+this.sglx+'&page='+1+
             '&sglc='+this.sglc+'&baseuserid=236210&kssjd=&sgjsrq='+data*/
           /*debugger*/
@@ -173,9 +173,9 @@
             this.DayPlanDetail=[]
             this.count=0
             this.page=1
-            var url='http://tljjgxt.r93535.com/NonBusinessDayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&page='+this.page+'&baseuserid=102300&sgjsrq='+this.currenttime
-            //var url='http://tljjgxt.r93535.com/DayPlanDetailNearbySearchServlet?xmmc='+this.xmmc+'&sgksrq='+data+'&page=1&sgjsrq='+data+'&baseuserid=236000&xb='+this.xingbie+'&lb='+this.sglx
-            /*var url='http://tljjgxt.r93535.com/DayPlanDetailSearchServlet?xmmc='
+            var url='http://tljjgxt.r93535.com/NonBusinessDayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&page='+this.page+'&baseuserid='+this._GLOBAL.baseUserId+'&sgjsrq='+this.currenttime
+            //var url='http://whjjgc.r93535.com/DayPlanDetailNearbySearchServlet?xmmc='+this.xmmc+'&sgksrq='+data+'&page=1&sgjsrq='+data+'&baseuserid=236000&xb='+this.xingbie+'&lb='+this.sglx
+            /*var url='http://whjjgc.r93535.com/DayPlanDetailSearchServlet?xmmc='
               +this.xmmc+'&sgksrq='+data+'&dj='+this.dj+'&xingbie='+this.xingbie+'&sglx='+this.sglx+'&page='+this.page+
               '&sglc='+this.sglc+'&baseuserid=236210&kssjd=&sgjsrq='+data*/
             axios.get(url)

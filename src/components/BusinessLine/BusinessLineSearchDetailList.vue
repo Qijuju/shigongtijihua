@@ -206,15 +206,15 @@
       <van-row>
         <div class="img" style="height: 170px;">
 
-          <div v-for="path in picturesStr" class="photoBox">
-            <img class="photo" :src="path" alt="logo">
-          </div>
-
-          <!--<div class="addPhoto" @click='takePicture()' v-if="totalData.editStatus===1" >+</div>-->
-          <div class="addPhoto" @click='takePicture()'v-if="picturesStr.length<9">+</div>
-          <div class="addPhoto" @click='takePicture()' v-if="picturesStr.length>=9" disabled="disabled">+</div>
-
+        <div v-for="path in picturesStr" class="photoBox">
+          <img class="photo" :src="path" alt="logo">
         </div>
+
+        <!--<div class="addPhoto" @click='takePicture()' v-if="totalData.editStatus===1" >+</div>-->
+        <div class="addPhoto" @click='takePicture()'v-if="picturesStr.length<9">+</div>
+        <div class="addPhoto" @click='takePicture()' v-if="picturesStr.length>=9" disabled="disabled">+</div>
+
+      </div>
       </van-row>
       <van-row>
         <van-col span="8">签到时间</van-col>
@@ -258,224 +258,221 @@
   import Header from '../Common/Header'
   import $ from 'jquery'
   import { Dialog } from 'vant';
-  //  import axios from 'axios';
+//  import axios from 'axios';
 
-  export default {
-    name: "BussinessLineSearchDetailList",
-    components: {
-      Header
-    },
-    data(){
-      return{
-        baseuserid:102300,
-        domainName:'tljjgxt.r93535.com', // 域名
-
-        testTxt:'',
-        // 拍照
-        callBackParams:'',
-        imgUrl:'',
-        // 从照片中选择照片
-        paramsCount:'',
-        picturesStr:[],
-        xczp:[],// 现场照片：拍照和相册中选择的照片存放的数组
-        imgLength:'',
+    export default {
+      name: "BussinessLineSearchDetailList",
+      components: {
+        Header
+      },
+      data(){
+        return{
+          testTxt:'',
+          // 拍照
+          callBackParams:'',
+          imgUrl:'',
+          // 从照片中选择照片
+          paramsCount:'',
+          picturesStr:[],
+          xczp:[],// 现场照片：拍照和相册中选择的照片存放的数组
+          imgLength:'',
 
 
-        checked: true,
+          checked: true,
+          baseuserid:102300,
+          id:this.$route.query.id,// 获取通过路由传的值
+          totalData:[],
+          popupVisible:false,
+          popupTxt:'',
+          sheetVisible:false, // 隐藏拍照、相册选择框
+          actions:[
+            {
+              name:'拍照',
+              method :function () {
+                console.log("拍照事件");
+                // 调取JSAPI拍照事件,参数：1 表示原始照片；2 带水印照片
+                RPM.takePicture(1);
+              }
+            },
+            {
+              name:'从相册中选择',
+              method :function () {
 
-        id:this.$route.query.id,// 获取通过路由传的值
-        totalData:[],
-        popupVisible:false,
-        popupTxt:'',
-        sheetVisible:false, // 隐藏拍照、相册选择框
-        actions:[
-          {
-            name:'拍照',
-            method :function () {
-              console.log("拍照事件");
-              // 调取JSAPI拍照事件,参数：1 表示原始照片；2 带水印照片
-              RPM.takePicture(1);
-            }
-          },
-          {
-            name:'从相册中选择',
-            method :function () {
-
-              // 调取 JSAPI 从相册中选择照片事件
-              // 最多还可以选择多少张照片
+                // 调取 JSAPI 从相册中选择照片事件
+                // 最多还可以选择多少张照片
 //                let storeImgCount=this.$store.getters.businessLineSearch.imgCount;
 
 //                console.log("每次从相册中选择事件--"+storeImgCount );
 
 //                var num = 9 - storeImgCount;
-              RPM.selectPhotos(9);
+                RPM.selectPhotos(9);
+              }
             }
-          }
-        ]
-      }
-    },
+          ]
+        }
+      },
 
-    computed: {
-      imgCount() { //businessLineSelectProjectName
+      computed: {
+        imgCount() { //businessLineSelectProjectName
 //           = this.$store.getters.businessLineSearch.imgCount;
 
 //          return this.picturesStr.length// 时时获取选中项目的名称
-      }
-    },
-    methods:{
-
-      // 获取位置信息的回调函数（ios、android和js交互）
-      RPMPositionCallBack:function (params) {
-        this.totalData.qddd=params;
+        }
       },
+      methods:{
 
-      // 拍照的原始图片的回调函数，
-      RPMOriginalImageCallBack:function (params,imageType) {
+        // 获取位置信息的回调函数（ios、android和js交互）
+        RPMPositionCallBack:function (params) {
+          this.totalData.qddd=params;
+        },
+
+        // 拍照的原始图片的回调函数，
+        RPMOriginalImageCallBack:function (params,imageType) {
 
 //          this.imgUrl ="data:image/"+imageType+";base64,"+params;
-        var imgSrc="data:image/"+imageType+";base64,"+params;
+          var imgSrc="data:image/"+imageType+";base64,"+params;
 
-        // 追加一张图片
-        this.picturesStr.push(imgSrc);
+          // 追加一张图片
+          this.picturesStr.push(imgSrc);
 
-        this.imgLength = this.picturesStr.length;
+          this.imgLength = this.picturesStr.length;
 
-        this.$store.commit('setBusinessLineSearch',{imgCount:this.imgLength});
+          this.$store.commit('setBusinessLineSearch',{imgCount:this.imgLength});
 
-        // 将这张图片追加到数组中便于保存所有图片
-        var obj={};
-        obj.imgType = imageType; // 图片类型
-        obj.base64 =  params; // 图片的base64
-        this.xczp.push(obj);
-
-        this.callBackParams = imageType;
-
-        /*function selectPhotosMethod() {
-		  var num = 9 - this.imgLength;
-		  RPM.selectPhotos(num);
-		}*/
-
-      },
-      // 从相册中选择照片的回调函数
-      RPMSelectPhotosCallBack:function (params) {
-        var a = params.split(',');
-
-        for (var i=0;i<a.length;i++){
+          // 将这张图片追加到数组中便于保存所有图片
           var obj={};
-          obj.imgType = a[i].split('|')[0]; // 图片类型
-          obj.base64 =  a[i].split('|')[1]; // 图片的base64
-
-          var imgUrl ="data:image/"+obj.imgType+";base64,"+obj.base64;
-
-          this.picturesStr.push(imgUrl);
-
+          obj.imgType = imageType; // 图片类型
+          obj.base64 =  params; // 图片的base64
           this.xczp.push(obj);
-        }
 
-        this.imgLength = this.picturesStr.length;
-        this.$store.commit('setBusinessLineSearch',{imgCount:this.imgLength});
+          this.callBackParams = imageType;
 
-        this.paramsCount =a.length;
+          /*function selectPhotosMethod() {
+            var num = 9 - this.imgLength;
+            RPM.selectPhotos(num);
+          }*/
 
-        /* function selectPhotosMethod() {
-		   var num = 9 - this.imgLength;
-		   RPM.selectPhotos(num);
-		 }*/
+        },
+        // 从相册中选择照片的回调函数
+        RPMSelectPhotosCallBack:function (params) {
+          var a = params.split(',');
 
-      },
-      // JSAPI 函数调用  获取位置信息的
-      getCurrentPositionInfo(){
-        RPM.getCurrentPositionInfo();
-      },
-      // JSAPI 函数调用 拍照或拍照或从相册中
-      takePicture() { // 拍照或从相册中选择
-        console.log("拍照或从相册中选择--点击事件进来了吗？");
+          for (var i=0;i<a.length;i++){
+            var obj={};
+            obj.imgType = a[i].split('|')[0]; // 图片类型
+            obj.base64 =  a[i].split('|')[1]; // 图片的base64
 
-        this.sheetVisible = true;
-      },
-      save(){
-        console.log("邻近营业线保存接口调用");
-        let vm = this;
-        vm.id=28;
-        vm.qdsj='2018-03-08';
+            var imgUrl ="data:image/"+obj.imgType+";base64,"+obj.base64;
 
-        let url = 'http://tljjgxt.r93535.com/DayplanPhSaveServlet';
+            this.picturesStr.push(imgUrl);
 
-        var obj={
-          id:vm.id,
-          qdsj:vm.qdsj,
-          xczp:vm.xczp,
-          ryqdb:'',
-          jhdxqk:'',
-          qddd:'',
-          jwd:''
-        }
-        axios.post(url, obj, {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            this.xczp.push(obj);
           }
-        })
-          .then(function (response) {
-            console.log("post请求成功"+JSON.stringify(response));
+
+          this.imgLength = this.picturesStr.length;
+          this.$store.commit('setBusinessLineSearch',{imgCount:this.imgLength});
+
+          this.paramsCount =a.length;
+
+         /* function selectPhotosMethod() {
+            var num = 9 - this.imgLength;
+            RPM.selectPhotos(num);
+          }*/
+
+        },
+        // JSAPI 函数调用  获取位置信息的
+        getCurrentPositionInfo(){
+          RPM.getCurrentPositionInfo();
+        },
+        // JSAPI 函数调用 拍照或拍照或从相册中
+        takePicture() { // 拍照或从相册中选择
+          console.log("拍照或从相册中选择--点击事件进来了吗？");
+
+          this.sheetVisible = true;
+        },
+        save(){
+          console.log("邻近营业线保存接口调用");
+          let vm = this;
+          vm.id=28;
+          vm.qdsj='2018-03-08';
+
+          let url = 'http://tljjgxt.r93535.com/DayplanPhSaveServlet';
+
+          var obj={
+            id:vm.id,
+            qdsj:vm.qdsj,
+            xczp:vm.xczp,
+            ryqdb:'',
+            jhdxqk:'',
+            qddd:'',
+            jwd:''
+          }
+          axios.post(url, obj, {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
           })
-          .catch(function (error) {
-            console.log(error);
+            .then(function (response) {
+              console.log("post请求成功"+JSON.stringify(response));
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+
+        },
+        onClickLeft(){
+          this.$router.push({path: '/BusinessLine/BusinessLineSearchDetail'});
+        },
+
+        popupClick(txt) { // popup弹出层点击事件
+          this.popupVisible = true;
+          this.popupTxt = txt;
+        },
+        onInput(checked) {
+          Dialog.confirm({
+            title: '提醒',
+            message: '是否切换开关？'
+          }).then(() => {
+            this.checked = checked;
+          });
+        },
+        getData(){
+          let vm = this;
+          let url = 'http://tljjgxt.r93535.com/YYXDayPlanUniqueServlet?id='+vm.id+'&baseuserId='+this._GLOBAL.baseUserId;
+          vm.$http.get(url).then((response) => {
+            console.log("详情页面的数据：" + JSON.stringify(response.data));
+            vm.totalData = response.data;
+
+            vm.totalData.jhsfdx = vm.totalData.jhsfdx == '1'?true:false;
+
+          }, (response) => {
+            console.log('error');
           });
 
-      },
-      onClickLeft(){
-        this.$router.push({path: '/BusinessLine/BusinessLineSearchDetail'});
-      },
-
-      popupClick(txt) { // popup弹出层点击事件
-        this.popupVisible = true;
-        this.popupTxt = txt;
-      },
-      onInput(checked) {
-        Dialog.confirm({
-          title: '提醒',
-          message: '是否切换开关？'
-        }).then(() => {
-          this.checked = checked;
-        });
-      },
-      getData(){
-        let vm = this;
-        let url = 'http://tljjgxt.r93535.com/YYXDayPlanUniqueServlet?id='+vm.id+'&baseuserId='+vm.baseuserid;
-        vm.$http.get(url).then((response) => {
-          console.log("详情页面的数据：" + JSON.stringify(response.data));
-          vm.totalData = response.data;
-
-          vm.totalData.jhsfdx = vm.totalData.jhsfdx == '1'?true:false;
-
-        }, (response) => {
-          console.log('error');
-        });
-
-      }
-    },
-    mounted:function () {
-      // 绑定获取位置信息的回调函数
-      window.RPMPositionCallback = this.RPMPositionCallback;
-
-      // 绑定拍照的回调函数
-      window.RPMOriginalImageCallBack = this.RPMOriginalImageCallBack;
-
-      // 绑定选择照片的回调函数
-      window.RPMSelectPhotosCallBack = this.RPMSelectPhotosCallBack;
-
-      this.getData();
-
-      $('.van-col.van-col-8').each(function (i) {
-        var txtL=$($('.van-col.van-col-8')[i]).text().length;
-        if(txtL>7){
-          $($('.van-col.van-col-8')[i]).addClass('wordBreak')
-        }else {
-          $($('.van-col.van-col-8')[i]).removeClass('wordBreak')
         }
-      })
+      },
+      mounted:function () {
+        // 绑定获取位置信息的回调函数
+        window.RPMPositionCallback = this.RPMPositionCallback;
+
+        // 绑定拍照的回调函数
+        window.RPMOriginalImageCallBack = this.RPMOriginalImageCallBack;
+
+        // 绑定选择照片的回调函数
+        window.RPMSelectPhotosCallBack = this.RPMSelectPhotosCallBack;
+
+        this.getData();
+
+        $('.van-col.van-col-8').each(function (i) {
+          var txtL=$($('.van-col.van-col-8')[i]).text().length;
+          if(txtL>7){
+            $($('.van-col.van-col-8')[i]).addClass('wordBreak')
+          }else {
+            $($('.van-col.van-col-8')[i]).removeClass('wordBreak')
+          }
+        })
+      }
     }
-  }
 </script>
 
 <style scoped>

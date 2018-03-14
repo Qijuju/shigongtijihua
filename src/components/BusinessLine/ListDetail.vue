@@ -346,6 +346,7 @@
 //          3.12 原始
 //          id:this.$route.query.id,// 获取通过路由传的值
           id:'',
+          baseuserid:this._GLOBAL.baseUserId,
           totalData:[],
           popupVisible:false,
           popupTxt:'',
@@ -522,8 +523,7 @@
         },
         getData(){
           let vm = this;
-          console.log("详情页接收到的项目id为：" +vm.id);
-          let url = 'http://'+vm.domainName+'/YYXDayPlanUniqueServlet?id='+vm.id+'&baseuserId='+vm.baseuserid;
+          let url = 'http://tljjgxt.r93535.com/YYXDayPlanUniqueServlet?id='+vm.id+'&baseuserId='+this._GLOBAL.baseUserId;
           vm.$http.get(url).then((response) => {
             console.log("详情页面的数据：" + JSON.stringify(response.data));
             vm.totalData = response.data;
@@ -552,8 +552,6 @@
         }
       },
       mounted:function () {
-        console.log("当前项目的id："+ this.id);
-
         // 绑定获取位置信息的回调函数
         window.RPMPositionCallBack = this.RPMPositionCallBack;
 

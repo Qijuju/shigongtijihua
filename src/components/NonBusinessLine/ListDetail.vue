@@ -138,16 +138,12 @@
         // 获取详情数据
         getData(){
           let vm = this;
-          let url = 'http://'+this.domainName+'/FYYXDayUniquePlanServlet?id='+ vm.id+'&baseuserId='+this.baseuserid;
-
-          console.log("非-详情数据url："+url);
-
+          let url = 'http://tljjgxt.r93535.com/FYYXDayUniquePlanServlet?id='+ vm.id+'&baseuserId='+this._GLOBAL.baseUserId;
           vm.$http.get(url).then((response) => {
 
             // 请求成功返回数据
             vm.totalData = response.data;
 
-            console.log('非营业线的详情数据：' +JSON.stringify( vm.totalData));
             /* 表格渲染:动态设置第二列的高度 */
             this.$nextTick(function(){
               console.log("$nextTick监听数据渲染完成之后的回调函数");

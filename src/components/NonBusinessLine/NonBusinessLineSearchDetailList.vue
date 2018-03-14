@@ -126,11 +126,11 @@
         this.popupTxt = txt;
       },
 
-      // 获取详情数据
-      getData(){
-        let vm = this;
-        let url = 'http://tljjgxt.r93535.com/FYYXDayUniquePlanServlet?id='+ vm.id+'&baseuserId='+this.baseuserid;
-        vm.$http.get(url).then((response) => {
+        // 获取详情数据
+        getData(){
+          let vm = this;
+          let url = 'http://tljjgxt.r93535.com/FYYXDayUniquePlanServlet?id='+ vm.id+'&baseuserId='+this._GLOBAL.baseUserIds;
+          vm.$http.get(url).then((response) => {
 
           // 请求成功返回数据
           vm.totalData = response.data;

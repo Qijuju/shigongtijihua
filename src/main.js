@@ -13,11 +13,18 @@ import  './assets/js/calendar.js'
 import store from './store/index.js'
 import RPM from './assets/js/r93535_mobile.js'
 
+import config from './config'
+
+Vue.prototype._GLOBAL = config
+
+
+
 Vue.use(Vant)
 Vue.use(mint)
 Vue.use(Resource)
 Vue.use(Vuex)
 Vue.use(RPM)
+// Vue.use(config)
 
 var bus = new Vue({})
 

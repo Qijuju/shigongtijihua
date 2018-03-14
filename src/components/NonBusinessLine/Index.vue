@@ -48,7 +48,7 @@
                 <p class="jssjd_rjhh clearfix">
                   <span class="jssjd">{{planItem.jssjd}}</span>
                 </p>
-                <p>{{planItem.id}}：{{planItem.xmmc}}</p>
+                <p>{{planItem.xmmc}}</p>
                 <p>{{planItem.sgdd}}</p>
               </div>
             </van-step>
@@ -237,7 +237,6 @@
       },
       // 项目的点击事件
       getAllData(e){
-        console.log("哈哈："+e.currentTarget);
         // 将项目id置空。获取全部数据
         this.xmmcId='';
         this.getList();
@@ -252,7 +251,6 @@
         // 修改样式
         $(e.target).addClass("bg").siblings().removeClass("bg");
       },
-
       changeItem(e,item) { // 点击项目的触发函数
         // 改变背景色
         $(e.target).addClass("bg").siblings().removeClass("bg");
@@ -267,12 +265,10 @@
       },
       getList(){
         let vm = this;
-        var url='http://'+this.domainName+'/NonBusinessDayPlanDetailServlet?sgrq='+vm.sgrq+'&page='+vm.page+'&baseuserid='+this.baseuserid+'&xmmc='+vm.xmmcId;
+        var url='http://tljjgxt.r93535.com/NonBusinessDayPlanDetailServlet?sgrq='+vm.sgrq+'&page='+vm.page+'&baseuserid='+this._GLOBAL.baseUserId+'&xmmc='+vm.xmmcId;
 
         vm.$http.get(url).then((response) => {
           vm.listdata = response.data;
-
-          console.log("非营业线列表数据："+JSON.stringify(vm.listdata));
 
           if (response.data.thiscount< 10){
             this.infiniteLoading =  true;
@@ -289,7 +285,7 @@
       onInfinite(done) {
         let vm = this;
         vm.counter++;
-        let url = 'http://'+this.domainName+'/NonBusinessDayPlanDetailServlet?sgrq='+vm.sgrq+'&page='+ vm.counter +'&baseuserid='+this.baseuserid+'&xmmc='+vm.xmmcId;
+        let url = 'http://tljjgxt.r93535.com/NonBusinessDayPlanDetailServlet?sgrq='+vm.sgrq+'&page='+ vm.counter +'&baseuserid='+this._GLOBAL.baseUserId;
 
         vm.$http.get(url).then((response) => {
           vm.pageEnd = vm.num * vm.counter;
