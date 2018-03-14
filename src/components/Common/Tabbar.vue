@@ -38,6 +38,34 @@
         <!--</template>-->
       <!--</van-tabbar-item>-->
     </van-tabbar>
+  <div class="footer">
+    <mt-tabbar v-model="selectedTab" fixed>
+      <mt-tab-item id="首页">
+        <img v-if="selectedTab==='首页'" slot="icon" src="../../assets/images/sgrjhImages/homeg.png" >
+        <img v-else slot="icon" src="../../assets/images/sgrjhImages/home.png" >
+        首页
+      </mt-tab-item>
+      <mt-tab-item id="营业线">
+        <img v-if="selectedTab==='营业线'" slot="icon" src="../../assets/images/sgrjhImages/yyxg.png" >
+        <img v-else slot="icon" src="../../assets/images/sgrjhImages/yyx.png" >
+        营业线
+      </mt-tab-item>
+      <mt-tab-item id="邻近营业线">
+        <img v-if="selectedTab==='邻近营业线'" slot="icon" src="../../assets/images/sgrjhImages/ljyyxg.png" >
+        <img v-else slot="icon" src="../../assets/images/sgrjhImages/ljyyx.png" >
+        邻近营业线
+      </mt-tab-item>
+      <mt-tab-item id="非营业线">
+        <img v-if="selectedTab==='非营业线'" slot="icon" src="../../assets/images/sgrjhImages/fyyxg.png" >
+        <img v-else slot="icon" src="../../assets/images/sgrjhImages/fyyx.png" >
+        非营业线
+      </mt-tab-item>
+      <mt-tab-item id="统计">
+        <img v-if="selectedTab==='统计'" slot="icon" src="../../assets/images/sgrjhImages/tjg.png" >
+        <img v-else slot="icon" src="../../assets/images/sgrjhImages/tj.png" >
+        统计
+      </mt-tab-item>
+    </mt-tabbar>
   </div>
 
 </template>

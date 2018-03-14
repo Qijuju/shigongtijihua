@@ -209,6 +209,24 @@
 
       <van-row>
         <van-col span="24">
+          <div class="imgBox">
+            <div class="imgnow">
+              <img src="../../assets/images/sgrjhImages/fyyxg.png" alt="" v-on:click="showBigImage($event)">
+              <van-icon name="checked" />
+            </div>
+            <div class="imgnow">
+              <img src="../../assets/images/sgrjhImages/homeg.png"  v-on:click="showBigImage($event)">
+              <van-icon name="clear" />
+            </div>
+            <div class="imgnow">
+              <img src="../../assets/images/sgrjhImages/searchg.png" alt="" v-on:click="showBigImage($event)">
+              <van-icon name="delete" @click="onDelete()" />
+            </div>
+            <div class="imgnow">
+              <img src="../../assets/images/sgrjhImages/homeg.png" alt="" v-on:click="showBigImage($event)">
+            </div>
+            <div class="addPhoto" @click='takePictureE(1,true,"http://www.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")'>+</div>
+          </div>
           <!--<div class="img">-->
           <!--<div class="testBox" v-for="(item ,index) in testImgIdUrlData">-->
             <!--<img v-bind:id="item.id" v-bind:src="item.imgUrl" v-bind:alt="index">-->
@@ -266,9 +284,7 @@
         <!--<img  src="../../assets/images/sgrjhImages/search.png" alt="">-->
         <!--<img  v-bind:src="previewPicSrc" alt=""  :style="{width:previewPicWidth+'px',height:previewPicHeight+'px'}">-->
         <img  v-bind:src="previewPicSrc" alt="" style="width:100%;"/>
-
       </div>
-
     </div>
     <p hidden>{{storeXmId}}</p>
   </div>
@@ -355,6 +371,7 @@
           $(el).hide();
         },
         showBigImage(event){
+
           var el = event.currentTarget;   //获取点击对象
           this.previewPicSrc =$(el).attr("src");  // 当前点击图片的src
 
@@ -363,12 +380,12 @@
 
           $('#showBigImage').show(); // 显示box
         },
+
         // 获取位置信息的回调函数（ios、android和js交互）
         RPMPositionCallBack:function (params) { // '位置,经度,纬度'
 
           var arr =params.split(',');
           this.totalData.qddd=arr[0]; //当前位置
-
 
         },
 
@@ -728,4 +745,8 @@
     line-height:22px;
   }
 
+  /*修改样式*/
+  .van-col.wordBreak{
+    line-height: 44px;
+  }
 </style>
