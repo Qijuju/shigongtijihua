@@ -25,12 +25,8 @@
 
     e.selectPhotos=function (num,index,bo,url) { // 从相册中选择照片
       console.log("jsApi从相册中选择照片函数被调用："+ num +'-'+index);
-        isiOS? loadURL("selectPhotos:selectPhotos:"+num+":"+index):androidObject.selectPhoto(num,index);
+        isiOS? loadURL("selectPhotos:selectPhotos:"+num+":"+index+':'+bo+':'+url):androidObject.selectPhoto(num,index,bo,url);
     };
-
-    // e.selectPhotoToLarger=function () { // 放大选中的照片
-    //     isiOS? loadURL("selectPhotoToLarger:selectPhotoToLarger"):androidObject.selectPhoto();
-    // };
 
     function loadURL(url) {
         var iFrame;

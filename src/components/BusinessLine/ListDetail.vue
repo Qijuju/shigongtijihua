@@ -524,10 +524,14 @@
                 });
               }
             })
-
           }, (response) => {
             console.log('error');
           });
+        },
+
+        // android回传图片id的回调函数
+        RPMImageIdCallBack(dataId,x,y){
+          console.log("ndroid回传图片id，接收到的参数为：" + dataId+":"+x+':'+y);
         }
       },
       mounted:function () {
@@ -542,16 +546,11 @@
         // 绑定选择照片的回调函数
         window.RPMSelectPhotosCallBack = this.RPMSelectPhotosCallBack;
 
+        // 绑定获取android回传图片id的回调函数
+        window.RPMImageIdCallBack = this.RPMImageIdCallBack;
+
         this.getData();
 
-//        $('.van-col.van-col-8').each(function (i) {
-//          var txtL=$($('.van-col.van-col-8')[i]).text().length;
-//          if(txtL>7){
-//            $($('.van-col.van-col-8')[i]).addClass('wordBreak')
-//          }else {
-//            $($('.van-col.van-col-8')[i]).removeClass('wordBreak')
-//          }
-//        })
       }
     }
 </script>
