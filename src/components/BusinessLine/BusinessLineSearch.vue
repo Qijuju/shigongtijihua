@@ -148,6 +148,8 @@
     data() {
       return {
         baseuserid:102300,
+        domainName:'tljjgxt.r93535.com', // 域名
+//
         //项目名称相关
         xmmc:'',
         xmmc_id:'',
@@ -221,7 +223,7 @@
         }
       },
       getXiangmuServlet(){
-        let url='http://whjjgc.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid;
+        let url='http://'+this.domainName+'/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid;
 
         axios.get(url)
           .then(response => {

@@ -111,7 +111,9 @@
     data(){
       return{
         infiniteLoading:false,
-        baseuserid:102300,
+        baseuserid:'222441',
+        domainName:'tljjgxt.r93535.com', // 域名
+
         loading:'加载中......',
         page:1,
         sgrq: new Date().getFullYear()+(new Date().getMonth()>=9?"-":"-0")+(new Date().getMonth()+1)+(new Date().getDate()>=9?"-":"-0")+new Date().getDate(),
@@ -249,7 +251,7 @@
       // 获取列表首页数据
       getList(){
         let vm = this;
-        let url = 'http://whjjgc.r93535.com/DayPlanDetailNearbyServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq+'&xmmc='+vm.xmmcId;
+        let url = 'http://'+this.domainName+'/DayPlanDetailNearbyServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq+'&xmmc='+vm.xmmcId;
 
         vm.$http.get(url).then((response) => {
           vm.listdata = response.data;
@@ -273,7 +275,7 @@
       onInfinite(done) {
         let vm = this;
         vm.counter++;
-        let url ='http://whjjgc.r93535.com/DayPlanDetailNearbyServlet?page='+ vm.counter +'&baseuserid='+this.baseuserid+'&sgrq='+vm.sgrq;
+        let url ='http://'+this.domainName+'/DayPlanDetailNearbyServlet?page='+ vm.counter +'&baseuserid='+this.baseuserid+'&sgrq='+vm.sgrq+'&xmmc='+vm.xmmcId;
         vm.$http.get(url).then((response) => {
 
           vm.pageEnd = vm.num * vm.counter;
@@ -308,12 +310,18 @@
 
       // 跳转到详情页
       goDetail(planItem){
-        this.$router.push({path: '/NearBusinessLine/NearListDetail',query:{id:planItem.id}}); // 路由信息传值
+
+        // 将点击的项目的id存放在store
+        this.$store.commit('setNearBusinessLineSearch',{xmId:planItem.id});
+//        this.$router.push({path: '/BusinessLine/Detail',query:{id:planItem.id}}); // 路由信息传值
+        this.$router.push({path: '/NearBusinessLine/NearListDetail'}); // 路由信息传值
+
+//        this.$router.push({path: '/NearBusinessLine/NearListDetail',query:{id:planItem.id}}); // 路由信息传值
       },
 
       // 获取可选项目列表数据
       getProjects(){
-        axios.get('http://whjjgc.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid)
+        axios.get('http://'+this.domainName+'/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid)
           .then(response => {
             // 接收响应数据
             this.projects = response.data;

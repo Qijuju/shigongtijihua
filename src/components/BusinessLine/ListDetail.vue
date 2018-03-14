@@ -9,169 +9,164 @@
     <!--内容-->
     <div class="content">
       <van-row>
-        <van-col span="8">日计划号</van-col>
+        <van-col span="8" class="getHeight">日计划号</van-col>
         <van-col span="16" >
-          <span @click='popupClick(totalData.rjhh)'>{{totalData.rjhh}}</span>
+          <span class="w"  @click='popupClick(totalData.rjhh)' v-html="totalData.rjhh"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">月计划号</van-col>
-        <van-col span="16">
-          <span @click='popupClick(totalData.yjhh)'>{{totalData.yjhh}}</span>
+        <van-col span="8" class="getHeight">月计划号</van-col>
+        <van-col span="16" >
+          <span class="w" @click='popupClick(totalData.yjhh)' v-html="totalData.yjhh"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">项目名称</van-col>
-        <van-col span="16">
-          <span @click='popupClick(totalData.xmmc)'>{{totalData.xmmc}}</span>
+        <van-col span="8" class="getHeight">项目名称</van-col>
+        <van-col span="16" >
+          <span class="w" @click='popupClick(totalData.xmmc)' v-html="totalData.xmmc"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">施工日期</van-col>
-        <van-col span="16">
-          <span @click='popupClick(totalData.sgrq)'>{{totalData.sgrq}}</span>
+        <van-col span="8" class="getHeight">施工日期</van-col>
+        <van-col span="16" >
+          <span class="w" @click='popupClick(totalData.sgrq)' v-html="totalData.sgrq"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">等级</van-col>
+        <van-col span="8" class="getHeight">等级</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.dj)'>{{totalData.dj}}</span>
+          <span class="w" @click='popupClick(totalData.dj)' v-html="totalData.dj"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">线别</van-col>
+        <van-col span="8" class="getHeight">线别</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.xb)'>{{totalData.xb}}</span>
+          <span class="w" @click='popupClick(totalData.xb)' v-html="totalData.xb"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">地点</van-col>
+        <van-col span="8" class="getHeight">地点</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.dd)'>{{totalData.dd}}</span>
+          <span class="w" @click='popupClick(totalData.dd)' v-html="totalData.dd"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">行别</van-col>
+        <van-col span="8" class="getHeight">行别</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.xingbie)'>{{totalData.xingbie}}</span>
+          <span class="w" @click='popupClick(totalData.xingbie)' v-html="totalData.xingbie"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">施工类型</van-col>
+        <van-col span="8" class="getHeight">施工类型</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.sglx)'>{{totalData.sglx}}</span>
+          <span class="w" @click='popupClick(totalData.sglx)' v-html="totalData.sglx"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">施工里程</van-col>
+        <van-col span="8" class="getHeight">施工里程</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.sglc)'>{{totalData.sglc}}</span>
+          <span class="w" @click='popupClick(totalData.sglc)' v-html="totalData.sglc"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">施工项目</van-col>
+        <van-col span="8" class="getHeight">施工项目</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.sgxm)'>{{totalData.sgxm}}</span>
+          <span class="w" @click='popupClick(totalData.sgxm)' v-html="totalData.sgxm"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">开始时间点</van-col>
+        <van-col span="8" class="getHeight">开始时间点</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.kssjd)'>{{totalData.kssjd}}</span>
+          <span  class="w" @click='popupClick(totalData.kssjd)' v-html="totalData.kssjd"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">结束时间点</van-col>
+        <van-col span="8" class="getHeight">结束时间点</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.jssjd)'>{{totalData.jssjd}}</span>
+          <span class="w" @click='popupClick(totalData.jssjd)' v-html="totalData.jssjd"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8" class="wordBreak">施工内容及影响范围</van-col>
+        <van-col span="8" class="getHeight">施工内容及影响范围</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.sgnr)' v-html="totalData.sgnr"></span>
+          <span class="w" @click='popupClick(totalData.sgnr)' v-html="totalData.sgnr"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">限速及行车方式</van-col>
+        <van-col span="8" class="getHeight">限速及行车方式</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.xsjxcfs)' v-html="totalData.xsjxcfs"></span>
+          <span class="w" @click='popupClick(totalData.xsjxcfs)' v-html="totalData.xsjxcfs"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">行车限制卡</van-col>
+        <van-col span="8" class="getHeight">行车限制卡</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.xcxzk)'>{{totalData.xcxzk}}</span>
+          <span class="w" @click='popupClick(totalData.xcxzk)' v-html="totalData.xcxzk"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">路用列车信息</van-col>
+        <van-col span="8" class="getHeight">路用列车信息</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.lylcxx)'>{{totalData.lylcxx}}</span>
+          <span class="w" @click='popupClick(totalData.lylcxx)' v-html="totalData.lylcxx"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">设备变化</van-col>
+        <van-col span="8" class="getHeight">设备变化</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.sbbh)'>{{totalData.sbbh}}</span>
+          <span class="w" @click='popupClick(totalData.sbbh)' v-html="totalData.sbbh"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">运输组织</van-col>
+        <van-col span="8" class="getHeight">运输组织</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.yszz)'>{{totalData.yszz}}</span>
+          <span class="w" @click='popupClick(totalData.yszz)' v-html="totalData.yszz"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">施工单位及负责人</van-col>
+        <van-col span="8" class="getHeight">施工单位及负责人</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.sgdwfzr)'>{{totalData.sgdwfzr}}</span>
+          <span class="w" @click='popupClick(totalData.sgdwfzr)' v-html="totalData.sgdwfzr"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">配合单位</van-col>
+        <van-col span="8" class="getHeight">配合单位</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.phdw)'>{{totalData.phdw}}</span>
+          <span class="w" @click='popupClick(totalData.phdw)' v-html="totalData.phdw"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">外局代码</van-col>
-        <van-col span="16">
-          <span @click='popupClick(totalData.wjdm)'>{{totalData.wjdm}}</span>
+        <van-col span="8" class="getHeight" >外局代码</van-col>
+        <van-col span="16" >
+          <span class="w" @click='popupClick(totalData.wjdm)' v-html="totalData.wjdm"></span>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">备注</van-col>
-        <van-col span="16">
-          <span @click='popupClick(totalData.bz)'>{{totalData.bz}}</span>
+        <van-col span="8" class="getHeight">备注</van-col>
+        <van-col span="16" >
+          <span class="w" @click='popupClick(totalData.bz)' v-html="totalData.bz"></span>
         </van-col>
       </van-row>
       <br>
       <van-row>
-        <van-col span="24">计划批复情况</van-col>
+        <van-col span="24" class="getHeight">计划批复情况</van-col>
       </van-row>
       <div class="img">
         <!--绑定动态图片资源-->
-        <div v-for="path in jhpfqkImgArr" class="photoBox">
-          <img class="photo" v-bind:src="path" alt="logo"  v-on:click="showBigImage($event)"/>
-        </div>
+        <!--没有权限-->
+        <!--<div v-for="path in jhpfqkImgArr" class="photoBox">-->
+          <!--<img class="photo" v-bind:src="path" alt="logo"  v-on:click="showBigImage($event)"/>-->
+        <!--</div>-->
 
-        <!-- 根据 editStatus的值判断账户是否有编辑权限-->
-        <!--<div class="addPhoto" @click='takePictureE()' v-if="totalData.editStatus===1">+</div>-->
-
-        <!-- 测试JSAPI用 : 调取手机摄像头，进行拍照-->
-        <div class="addPhoto" @click='takePictureE(1)'>+</div>
       </div>
       <van-row>
-        <van-col span="8">计划批复情况描述</van-col>
+        <van-col span="8" class="getHeight">计划批复情况描述</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.jhpfqk)'>{{totalData.jhpfqk}}</span>
-
+          <span  class="w" @click='popupClick(totalData.jhpfqk)' v-html="totalData.jhpfqk"></span>
         </van-col>
       </van-row>
-      <br>
+
       <van-row>
-        <van-col span="24">人员签到情况</van-col>
+        <van-col span="24" class="getHeight">人员签到情况</van-col>
       </van-row>
       <div class="img">
 
@@ -180,67 +175,73 @@
           <img class="photo" v-bind:src="path" alt="logo" width="50%" height="50%"  v-on:click="showBigImage($event)"/>
         </div>
 
-        <!-- 根据 editStatus的值判断账户是否有编辑权限-->
-        <!--<div class="addPhoto" @click='takePictureE()' v-if="totalData.editStatus===1">+</div>-->
-
-        <!-- 测试JSAPI用 : 调取手机摄像头，进行拍照-->
-        <div class="addPhoto" @click='takePictureE(2)'>+</div>
+        <div class="addPhoto" @click='takePictureE(2,true,"http://www.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")' v-if="totalData.editStatus==1">+</div>
 
       </div>
 
       <van-row>
         <van-col span="8" class="getHeight">人员签到情况描述</van-col>
         <van-col span="16">
-          <input type="text" @click='popupClick(totalData.dcryqk)'v-model="testTxt" v-if="totalData.editStatus===1">
+          <input type="text" @click='popupClick(totalData.dcryqk)'v-model="testTxt" v-if="totalData.editStatus==1">
           <input type="text" @click='popupClick(totalData.dcryqk)'v-model="testTxt" v-else readonly>
         </van-col>
       </van-row>
+
       <van-row>
-        <van-col span="8">计划兑现情况</van-col>
+        <van-col span="8" class="getHeight">计划兑现情况</van-col>
         <van-col span="16">
-          <van-switch v-model="totalData.jhsfdx" v-if="totalData.editStatus===1"/>
+          <van-switch v-model="totalData.jhsfdx" v-if="totalData.editStatus==1"/>
           <van-switch v-model="totalData.jhsfdx" v-else disabled  />
         </van-col>
       </van-row>
+
       <van-row>
-        <van-col span="8">计划兑现情况描述</van-col>
+        <van-col span="8" class="getHeight">计划兑现情况描述</van-col>
         <van-col span="16">
-          <input type="text" @click='popupClick(totalData.jhdxqk)'v-model="totalData.jhdxqk" v-if="totalData.editStatus===1">
+          <input type="text" @click='popupClick(totalData.jhdxqk)'v-model="totalData.jhdxqk" v-if="totalData.editStatus==1">
           <input type="text" @click='popupClick(totalData.jhdxqk)'v-model="totalData.jhdxqk" v-else readonly>
         </van-col>
       </van-row>
-      <van-row>
-        <van-col span="24">现场照片</van-col>
-      </van-row>
-      <van-row>
-        <div class="img" style="height: 170px;">
 
-          <!--照片的展示-->
-        <div v-for="path in picturesArr" class="photoBox">
+      <van-row>
+        <van-col span="24" class="getHeight">现场照片</van-col>
+      </van-row>
+
+      <van-row>
+        <van-col span="24">
+          <!--<div class="img">-->
+          <!--<div class="testBox" v-for="(item ,index) in testImgIdUrlData">-->
+            <!--<img v-bind:id="item.id" v-bind:src="item.imgUrl" v-bind:alt="index">-->
+            <!--<span @click="reduceFn(index)">-</span>-->
+          <!--</div>-->
+
+          <!--<div class="testBox">-->
+            <!--&lt;!&ndash;参数：参1：标识位；参2：是否下载图片; 参3：下载图片的url地址&ndash;&gt;-->
+            <!--<div class="testBox1" @click='takePictureE(3,true,"http://www.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")' >+</div>-->
+          <!--</div>-->
+
+          <div v-for="path in picturesArr" class="photoBox">
           <img class="photo" v-bind:src="path" alt="logo" v-on:click="showBigImage($event)"/>
-        </div>
+          </div>
 
+          <!--参数：参1：标识位；参2：是否下载图片; 参3：下载图片的url地址-->
+          <div class="testBox addPhoto" @click='takePictureE(3,true,"http://www.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")' v-if="totalData.editStatus==1" >+</div>
 
-        <!--编辑权限code-->
-        <!--<div class="addPhoto" @click='takePictureE()' v-if="totalData.editStatus===1" >+</div>-->
-        <!-- 测试用 -->
-        <div class="addPhoto" @click='takePictureE(3)'>+</div>
-
-      </div>
+          <!--</div>-->
+        </van-col>
       </van-row>
 
       <van-row>
-        <van-col span="8">签到时间</van-col>
+        <van-col span="8" class="getHeight">签到时间</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.qdsj)'>{{totalData.qdsj}}</span>
-          <button @click="getCurrentTime()" v-if="totalData.editStatus===1">获取当前时间</button>
+          <span @click='popupClick(totalData.qdsj)' v-html="totalData.qdsj"></span>
+          <button class="refreshBtn" @click="getCurrentPositionInfo()" v-if="totalData.editStatus==1">刷新</button>
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="8">签到地点</van-col>
+        <van-col span="8" class="getHeight">签到地点</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.qddd)'>{{totalData.qddd}}</span>
-          <button @click="getCurrentPositionInfo()" v-if="totalData.editStatus===1">获取当前位置</button>
+          <span @click='popupClick(totalData.qddd)' v-html="totalData.qddd"></span>
         </van-col>
       </van-row>
 
@@ -259,7 +260,6 @@
       </mt-actionsheet>
 
       <div id="save" @click="save()">保存</div>
-      <!--<p hidden>{{imgCount}}</p>-->
 
        <!--预览图片的盒子-->
       <div id="showBigImage" v-if="showBigImage" @click="showBigImageBox($event)" v-bind:style="{height:setHeight+'px'}">
@@ -270,6 +270,7 @@
       </div>
 
     </div>
+    <p hidden>{{storeXmId}}</p>
   </div>
 </template>
 <script>
@@ -286,10 +287,27 @@
       },
       data(){
         return{
+          baseuserid:'222441',
+          domainName:'tljjgxt.r93535.com', // 域名
+
+          longitude:'', // 经度
+          latitude:'', // 纬度
+
+          // 测试图片删除功能数据
+          testImgIdUrlData:[
+            {id:'1',imgUrl:'../../assets/images/sgrjhImages/fqd.png'},
+            {id:'2',imgUrl:'../../assets/images/sgrjhImages/fyyxg.png'},
+            {id:'3',imgUrl:'../../assets/images/sgrjhImages/homeg.png'},
+            {id:'4',imgUrl:'../../assets/images/sgrjhImages/ljyyxg.png'},
+            {id:'5',imgUrl:'../../assets/images/sgrjhImages/searchg.png'},
+            {id:'6',imgUrl:'../../assets/images/sgrjhImages/fqd.png'}
+
+          ],
           testTxt:'',
           // 拍照
           callBackParams:'',
           imgUrl:'',
+
 
           // 从照片中选择照片
           paramsCount:'',
@@ -305,12 +323,13 @@
           testW:'',
           setHeight:window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,/// 设置预览图片的盒子的高度=屏幕可视区域的高度
 
-
           xczp:[],// 现场照片：拍照和相册中选择的照片存放的数组
 
           checked: true,
-          baseuserid:102300,
-          id:this.$route.query.id,// 获取通过路由传的值
+
+//          3.12 原始
+//          id:this.$route.query.id,// 获取通过路由传的值
+          id:'',
           totalData:[],
           popupVisible:false,
           popupTxt:'',
@@ -318,7 +337,18 @@
           actions:[]
         }
       },
+      computed:{
+        storeXmId(){
+          this.id = this.$store.getters.businessLineSearch.xmId;
+          this.getData();
+          return this.$store.getters.businessLineSearch.xmId; // 返回点击项目的id
+        },
+      },
       methods:{
+        // 图片元素的删除功能
+        reduceFn(index){//删除当前选中对象
+          this.testImgIdUrlData.splice(index,1);
+        },
         // 预览图片
         showBigImageBox(event){
           var el = event.currentTarget;
@@ -328,26 +358,26 @@
           var el = event.currentTarget;   //获取点击对象
           this.previewPicSrc =$(el).attr("src");  // 当前点击图片的src
 
-          this.previewPicWidth = $(el).width();// 当前点击图片的宽
+          this.previewPicWidth = $(el).width(); // 当前点击图片的宽
           this.previewPicHeight = $(el).height();// 当前点击图片的高
 
           $('#showBigImage').show(); // 显示box
         },
         // 获取位置信息的回调函数（ios、android和js交互）
-        RPMPositionCallBack:function (params) {
-          this.totalData.qddd=params;
+        RPMPositionCallBack:function (params) { // '位置,经度,纬度'
+
+          var arr =params.split(',');
+          this.totalData.qddd=arr[0]; //当前位置
+
+
         },
 
         // 拍照的原始图片的回调函数，
-        RPMImageCallBack:function (params,imageType,index) { // 参数一：base64;参数二：图片类型；参数三：标识位
+        RPMImageCallBack:function (params,imageType,x,y) { // 参数一：base64;参数二：图片类型；参数三：标识位
 
           let s="data:image/"+imageType+";base64,"+params;
 
-//          var img = new Image();
-//          img.src = s;
-//          this.testW = img.width;
-
-          switch (index){
+          switch (x){
             case '1':
               this.jhpfqkImgArr.push(s);
               break;
@@ -368,10 +398,9 @@
           this.xczp.push(obj);
 
           this.callBackParams = imageType;
-
         },
         // 从相册中选择照片的回调函数
-        RPMSelectPhotosCallBack:function (params,index) {
+        RPMSelectPhotosCallBack:function (params,x,y) {
           var a = params.split(',');
 
           for (var i=0;i<a.length;i++){
@@ -381,7 +410,7 @@
 
             var imgUrl ="data:image/"+obj.imgType+";base64,"+obj.base64;
 
-            switch (index){
+            switch (x){
               case '1':
                 this.jhpfqkImgArr.push(imgUrl);
                 break;
@@ -403,34 +432,36 @@
         },
         // JSAPI 函数调用  获取位置信息
         getCurrentPositionInfo(){
+          // 获取当前时间
+          let currentTime=new Date().getFullYear()+(new Date().getMonth()>=9?"-":"-0")+(new Date().getMonth()+1)+(new Date().getDate()>=9?"-":"-0")+new Date().getDate()+(new Date().getHours()>=9?" ":" 0")+new Date().getHours()+(new Date().getMinutes()>=9?":":":0")+new Date().getMinutes();
+
+          this.totalData.qdsj=currentTime;
+
+          // 调取获取当前位置的JSAPI
           RPM.getCurrentPositionInfo();
         },
         // JSAPI 函数调用 拍照或拍照或从相册中
-        takePictureE(index) {
+        takePictureE(index,bo,url) {
           this.sheetVisible = true; // 拍照或从相册中选择项目显示
           this.actions = [
             {
               name:'拍照',
               method :function () {
                 // 调取JSAPI拍照事件,参数：1 表示原始照片；2 带水印照片
-                RPM.takePicture(2,index); // 参数一：表示获取原始图片JSAPI约定；参数二：点击的方法的标识位
+                RPM.takePicture(2,index,bo,url); // 参数一：表示获取原始图片JSAPI约定；参数二：点击的方法的标识位
               }
             },
             {
               name:'从相册中选择',
               method :function () {
-                RPM.selectPhotos(9,index);
+                RPM.selectPhotos(9,index,bo,url);
               }
             }
           ];
         },
         save(){
           let vm = this;
-
-          vm.id=28;
-          vm.qdsj='2018-03-08';
-
-          let url = 'http://whjjgc.r93535.com/DayplanPhSaveServlet';
+          let url = 'http://'+vm.domainName+'/DayplanPhSaveServlet';
 
           var obj={
             id:vm.id,
@@ -474,20 +505,34 @@
         },
         getData(){
           let vm = this;
-          let url = 'http://whjjgc.r93535.com/YYXDayPlanUniqueServlet?id='+vm.id+'&baseuserId='+vm.baseuserid;
+          console.log("详情页接收到的项目id为：" +vm.id);
+          let url = 'http://'+vm.domainName+'/YYXDayPlanUniqueServlet?id='+vm.id+'&baseuserId='+vm.baseuserid;
           vm.$http.get(url).then((response) => {
             console.log("详情页面的数据：" + JSON.stringify(response.data));
             vm.totalData = response.data;
 
             vm.totalData.jhsfdx = vm.totalData.jhsfdx == '1'?true:false;
 
+            this.$nextTick(function(){
+              console.log("$nextTick监听数据渲染完成之后的回调函数");
+              var obj = $(".getHeight");
+              for(var i=0;i<obj.length;i++){
+                var h=$(obj[i]).height();
+                $(obj[i]).siblings().css({
+                  'height':h+'px',
+                  'lineHeight':h+'px'
+                });
+              }
+            })
+
           }, (response) => {
             console.log('error');
           });
-
         }
       },
       mounted:function () {
+        console.log("当前项目的id："+ this.id);
+
         // 绑定获取位置信息的回调函数
         window.RPMPositionCallBack = this.RPMPositionCallBack;
 
@@ -499,19 +544,51 @@
 
         this.getData();
 
-        $('.van-col.van-col-8').each(function (i) {
-          var txtL=$($('.van-col.van-col-8')[i]).text().length;
-          if(txtL>7){
-            $($('.van-col.van-col-8')[i]).addClass('wordBreak')
-          }else {
-            $($('.van-col.van-col-8')[i]).removeClass('wordBreak')
-          }
-        })
+//        $('.van-col.van-col-8').each(function (i) {
+//          var txtL=$($('.van-col.van-col-8')[i]).text().length;
+//          if(txtL>7){
+//            $($('.van-col.van-col-8')[i]).addClass('wordBreak')
+//          }else {
+//            $($('.van-col.van-col-8')[i]).removeClass('wordBreak')
+//          }
+//        })
       }
     }
 </script>
 
 <style scoped>
+  /* 照片test*/
+  .testBox{
+    width:32%;
+    border:1px solid #2a30ff;
+    display: inline-block;
+    margin-top:10px;
+  }
+  .testBox >img{
+    width:100%;
+    height:100%;
+  }
+  .testBox>span{
+    display: inline-block;
+    width:100%;
+    height:30px;
+    text-align: center;
+    line-height:30px;
+    background: #f30;
+    color: #fff;
+    font-size:30px;
+  }
+  .testBox>.testBox1{
+    width:50px;
+    height:50px;
+    text-align: center;
+    line-height:50px;
+    margin: auto;
+  }
+  /* 首列的字体 */
+  .getHeight{
+    font-weight:bold;
+  }
   /* 禁用按钮button*/
   /* 照片的样式 */
   .photoBox{
@@ -558,6 +635,22 @@
   .van-nav-bar{
     background: #2196F3;
     color: #fff;
+  }
+  .van-col.van-col-16{
+    position: relative;
+  }
+  .van-col.van-col-16>button.refreshBtn{
+    position: absolute;
+    top:5px;
+    right:5px;
+
+  }
+
+  .van-col.van-col-16>span.w{
+    display: inline-block;
+    width:100%;
+    height:100%;
+
   }
   .van-nav-bar .van-icon{
     color: #fff;
@@ -610,9 +703,8 @@
     margin-top:-1px;
   }
   .van-col{
-    height:44px;
-    padding:0;
-    line-height:44px;
+    padding: 5px;
+    line-height:30px;
     /* 折行显示 */
     white-space: normal;
     -ms-word-wrap: break-word;

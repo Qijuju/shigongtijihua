@@ -102,6 +102,8 @@
     data(){
       return{
         baseuserid:102300, // 基础平台登录人员id
+        domainName:'tljjgxt.r93535.com', // 域名
+
         id:this.$route.query.id,// 获取通过路由传的值
         totalData:[], // 数据源
         popupVisible:false, // 弹出层显示隐藏控制

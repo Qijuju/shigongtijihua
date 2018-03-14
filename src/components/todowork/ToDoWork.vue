@@ -67,6 +67,8 @@
     },
     data() {
       return {
+        domainName:'tljjgxt.r93535.com', // 域名
+
         counter : 1, //默认已经显示出15条数据 count等于一是让从16条开始加载
         num : 10,  // 一次显示多少条
         pageStart : 0, // 开始页数

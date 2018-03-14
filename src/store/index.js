@@ -25,6 +25,7 @@ const store = new Vuex.Store({
     businessLineSelectProjectCount:0,
 
     businessLineSearch: {
+      xmId:'',// 营业线选中项目id
       xmmc:'',
       dj:'',
       xingbie:'',
@@ -38,6 +39,7 @@ const store = new Vuex.Store({
       selectProObj:{}
     },
     nearBusinessLineSearch: {
+      xmId:'',// 邻近营业线选中项目id
       xmmc:'',
       dj:'',
       xingbie:'',
@@ -48,6 +50,7 @@ const store = new Vuex.Store({
     },
 
     nonBusinessLineSearch: {
+      xmId:'',// 营业线选中项目id
       xmmc:'',
       sgksrq:'',
       sgjsrq:'',
@@ -84,11 +87,16 @@ const store = new Vuex.Store({
     },
 
     setDaysIndex:(state,{daysIndex})=>{ // 一个月的天数选中的那天
-
       state.businessLineSearch.daysIndex = daysIndex
     },
+
     // 营业线
-    setBusinessLineSearch: (state, { xmmc, dj, xingbie, sglc, sglx, sgksrq, sgjsrq,imgCount,selectProObj}) => {
+    setBusinessLineSearch: (state, {xmId, xmmc, dj, xingbie, sglc, sglx, sgksrq, sgjsrq,imgCount,selectProObj}) => {
+
+      // 存放点击进入详情的项目的id
+      state.businessLineSearch.xmId = xmId
+      console.log("保存到store中的项目的id:" +xmId);
+
       state.businessLineSearch.xmmc = xmmc
       state.businessLineSearch.dj = dj
       state.businessLineSearch.xingbie = xingbie
@@ -97,32 +105,29 @@ const store = new Vuex.Store({
       state.businessLineSearch.sgksrq = sgksrq
       state.businessLineSearch.sgjsrq = sgjsrq
       state.businessLineSearch.imgCount = imgCount
-
-      console.log("营业线store存储的选中项目对象为：" + JSON.stringify(selectProObj));
       state.businessLineSearch.selectProObj = selectProObj
 
     },
     // 邻近营业线
-    setNearBusinessLineSearch: (state, { xmmc, dj, xingbie, /*sglc,*/ sglx, sgksrq, sgjsrq,selectProObj}) => {
+    setNearBusinessLineSearch: (state, {xmId, xmmc, dj, xingbie, /*sglc,*/ sglx, sgksrq, sgjsrq,selectProObj}) => {
+      // 存放点击进入详情的项目的id
+      state.nearBusinessLineSearch.xmId = xmId
+      console.log("邻近营业线保存到store中的项目的id:" +xmId);
+
       state.nearBusinessLineSearch.xmmc = xmmc
       state.nearBusinessLineSearch.dj = dj
       state.nearBusinessLineSearch.xingbie = xingbie
-      /*state.nearBusinessLineSearch.sglc = sglc*/
       state.nearBusinessLineSearch.sglx = sglx
       state.nearBusinessLineSearch.sgksrq = sgksrq
       state.nearBusinessLineSearch.sgjsrq = sgjsrq
-
-      console.log("邻近营业线store存储的选中项目对象为：" + JSON.stringify(selectProObj));
       state.nearBusinessLineSearch.selectProObj = selectProObj
 
     },
     // 非营业线
-    setNonBusinessLineSearch: (state, { xmmc,sgksrq, sgjsrq, selectProObj}) => {
+    setNonBusinessLineSearch: (state, { xmId,xmmc,sgksrq, sgjsrq, selectProObj}) => {
+      // 存放点击进入详情的项目的id
+      state.nonBusinessLineSearch.xmId = xmId
       state.nonBusinessLineSearch.xmmc = xmmc
-      /*state.nearBusinessLineSearch.dj = dj
-            state.nearBusinessLineSearch.xingbie = xingbie
-            /!*state.nearBusinessLineSearch.sglc = sglc*!/
-            state.nearBusinessLineSearch.sglx = sglx*/
       state.nonBusinessLineSearch.sgksrq = sgksrq
       state.nonBusinessLineSearch.sgjsrq = sgjsrq
       console.log("store存储的选中项目对象为：" + JSON.stringify(selectProObj));

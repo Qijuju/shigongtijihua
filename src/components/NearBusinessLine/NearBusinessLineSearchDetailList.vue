@@ -198,6 +198,8 @@
 
         checked: true,
         baseuserid:102300,
+        domainName:'tljjgxt.r93535.com', // 域名
+
         id:this.$route.query.id,// 获取通过路由传的值
         totalData:[],
         popupVisible:false,

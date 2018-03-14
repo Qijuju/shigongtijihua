@@ -30,13 +30,13 @@
           <img src="../../assets/images/sgrjhImages/fyyx.png" v-else="">
         </template>
       </van-tabbar-item>
-      <van-tabbar-item icon="shop" to="/Statistics">
-        <span>统计</span>
-        <template slot="icon" slot-scope="props">
-          <img src="../../assets/images/sgrjhImages/tjg.png" alt="" v-if="props.active">
-          <img src="../../assets/images/sgrjhImages/tj.png" v-else="">
-        </template>
-      </van-tabbar-item>
+      <!--<van-tabbar-item icon="shop" to="/Statistics">-->
+        <!--<span>统计</span>-->
+        <!--<template slot="icon" slot-scope="props">-->
+          <!--<img src="../../assets/images/sgrjhImages/tjg.png" alt="" v-if="props.active">-->
+          <!--<img src="../../assets/images/sgrjhImages/tj.png" v-else="">-->
+        <!--</template>-->
+      <!--</van-tabbar-item>-->
     </van-tabbar>
   </div>
 

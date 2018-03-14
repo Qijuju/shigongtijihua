@@ -98,7 +98,6 @@
   var y = date.getFullYear();
   var m = (date.getMonth()+1)>9?(date.getMonth()+1):'0'+(date.getMonth()+1);
   var d = date.getDate() >9?date.getDate():'0'+date.getDate();
-
   var dateS=y+'/'+m ;
 
   export default {
@@ -113,8 +112,13 @@
     },
     data(){
       return{
+        baseuserid:'222441', // 基本用户id
+        domainName:'tljjgxt.r93535.com', // 域名
+
         infiniteLoading:false,
-        baseuserid:102300,
+        // 222441
+//        baseuserid:102300,
+
         loading:'加载中......',
         page:1,
         sgrq: new Date().getFullYear()+(new Date().getMonth()>=9?"-":"-0")+(new Date().getMonth()+1)+(new Date().getDate()>=9?"-":"-0")+new Date().getDate(),
@@ -142,7 +146,7 @@
           select:(value)=>{ // 当选中日历上的某一天时，触发的事件
             console.log("选中的某一天："+JSON.stringify(value));
             this.sgrq = value[0]+'-'+value[1]+'-'+value[2];
-            this.getList(); // 选择完日期重新请求数据
+            this.getList();  // 选择完日期重新请求数据
             console.log("组合日期："+this.sgrq);
             value.pop(); // 删除‘天’\
             this.setStore(value); // 将选中的日期存储到store中
@@ -163,7 +167,6 @@
 
         var name= this.$store.getters.businessLineSearch.selectProObj.xmmc;
 
-        console.log("");
         if (name == undefined || name == '' ||name == null){
           this.xmmcId ='';
           this.projectName='全部'
@@ -186,6 +189,7 @@
         d = (this.$store.getters.businessLineSearch.daysIndex+1);
 
         return this.$store.getters.businessLineSearch.daysIndex
+
       },
 //      日期控件
       days2() {
@@ -222,6 +226,12 @@
 
     },
     methods:{
+      // 默认存储‘全部’
+      storeProInfo(){
+        let item={id:"",xmmc:"全部"};
+        // 修改，将选中的项目的名称和 id 保存的 store 中
+        this.$store.commit('setNonBusinessLineSearch',{selectProObj:item});
+      },
       getAllData(e){
         // 将项目id置空。获取全部数据
         this.xmmcId='';
@@ -252,9 +262,11 @@
 
       // 获取列表首页数据
       getList(){
+
         let vm = this;
+
         // url参数： page 页码；sgrq施工日期；xmmc 项目名称id
-        let url = 'http://whjjgc.r93535.com/DayPlanDetailServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq+'&xmmc='+vm.xmmcId;
+        let url = 'http://'+vm.domainName+'/DayPlanDetailServlet?page='+vm.page+'&baseuserid='+vm.baseuserid+'&sgrq='+vm.sgrq+'&xmmc='+vm.xmmcId;
 
         console.log("营业线首页数据源请求url："+url);
         vm.$http.get(url).then((response) => {
@@ -282,7 +294,8 @@
       onInfinite(done) {
         let vm = this;
         vm.counter++;
-        let url = 'http://whjjgc.r93535.com/DayPlanDetailServlet?page='+vm.counter+'&baseuserid='+this.baseuserid+'&sgrq='+vm.sgrq;
+        let url = 'http://'+vm.domainName+'/DayPlanDetailServlet?page='+vm.counter+'&baseuserid='+this.baseuserid+'&sgrq='+vm.sgrq+'&xmmc='+vm.xmmcId;
+
         vm.$http.get(url).then((response) => {
           let arr = response.data.data;
 
@@ -315,15 +328,23 @@
 
       // 跳转到详情页
       goDetail(planItem){
-        this.$router.push({path: '/BusinessLine/Detail',query:{id:planItem.id}}); // 路由信息传值
+        console.log("点击项目的id："+planItem.id);
+        // 将点击的项目的id存放在store
+        this.$store.commit('setBusinessLineSearch',{xmId:planItem.id});
+//        this.$router.push({path: '/BusinessLine/Detail',query:{id:planItem.id}}); // 路由信息传值
+        this.$router.push({path: '/BusinessLine/Detail'}); // 路由信息传值
       },
 
       // 获取可选项目列表数据
       getProjects(){
-        axios.get('http://whjjgc.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid)
+
+        let url='http://'+vm.domainName+'/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid;
+        console.log("获取可选项目数据的url：" +url);
+        axios.get(url)
           .then(response => {
             // 接收响应数据
             this.projects = response.data;
+            console.log("可选项目数据：" +JSON.stringify(this.projects));
 
           }).catch(err => {
           console.error(err.message)

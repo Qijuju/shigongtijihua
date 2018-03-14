@@ -72,6 +72,8 @@
     name: 'nonBusinessLine',// 和组件名称保持一致，只不过是小写的
     data () {
       return {
+        domainName:'tljjgxt.r93535.com', // 域名
+
         ToDoWorkflowCount:'',//存放获取待办流程条数
         workflowTypeId:15,
         charts: '',
@@ -106,7 +108,7 @@
     },
     methods:{
       getdata(baseuserid,type,sgksrq,sgjsrq,date){
-        var url='http://whjjgc.r93535.com/DayplanAllProjectnewServlet?baseuserid='+baseuserid+'&type='+type+'&sgksrq='+sgksrq+'&sgjsrq='+sgjsrq
+        var url='http://'+this.domainName+'/DayplanAllProjectnewServlet?baseuserid='+baseuserid+'&type='+type+'&sgksrq='+sgksrq+'&sgjsrq='+sgjsrq
         axios.get(url)
           .then(response => {
             console.log(url)
@@ -224,7 +226,7 @@
       //获取待我审批列表中的总条数
       GetToDoWorkflowCount() {
         this.baseuserId=102300;
-        var url = 'http://whjjgc.r93535.com/GetToDoWorkflowCount?baseuserId='+this.baseuserId+'&workflowTypeId='+this.workflowTypeId;
+        var url = 'http://'+this.domainName+'/GetToDoWorkflowCount?baseuserId='+this.baseuserId+'&workflowTypeId='+this.workflowTypeId;
         axios.get(url)
           .then(response => {
             this.ToDoWorkflowCount  = response.data;

@@ -53,6 +53,8 @@
     name: "day-plan-detail",
     data() {
       return {
+        domainName:'tljjgxt.r93535.com', // 域名
+
         isLoading: false,
         xmmc:'',
         dj:'',
