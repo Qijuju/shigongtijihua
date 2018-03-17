@@ -1,9 +1,11 @@
 <template>
   <div class="1">
     <!-- 施工日计划我已审批列表-表头-开始 -->
-    <div class = "biaotou">
-      <van-nav-bar title="我已审批" left-text="返回" right-text="关闭"  @click-right="onClickRight"  @click-left="$router.go(-1)">
-      </van-nav-bar>
+    <van-nav-bar title="我已审批" left-text="返回" right-text="关闭"  @click-right="onClickRight"  @click-left="$router.go(-1)" fixed>
+    </van-nav-bar>
+
+    <div class = "biaotou" style="margin-top: 46px;position: fixed;top:0px;left: 0px;">
+
       <!-- 施工日计划我已审批列表-表头-结束 -->
       <!-- 施工日计划我已审批列表-搜索筛选框-开始 -->
       <van-row>
@@ -27,9 +29,9 @@
 
     <!-- 施工日计划我已审批列表-list展示数据-开始 --><!-- 我已审批页名称 -->
     <!--<v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite">-->
-    <div class="neirong">
+    <div class="neirong" style="margin-top: 95px;margin-bottom: 50px;">
     <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom"  ref="loadmore" :autoFill="autoFill">
-      <div :style="{height:myHeight}">
+      <div>
       <table v-for="(plan, index) in DoWorkflowList" class="tablelist" @click="toDetail(plan.url)" >
           <tr><td style="width:20%">流程标题:</td><td style="width:80%">{{plan.requestName }}</td></tr>
           <tr><td style="width:20%">流程类型:</td><td style="width:80%">{{plan.workflowName }}</td></tr>
@@ -202,12 +204,12 @@ export default {
               this.pageNo=this.pageNo+1
               this.count=this.count+data.length
               this.myHeight=Math.max((window.innerHeight-50), (150*this.count))+'px'
-              this.GetDoWorkflowList()
-              /*this.msg='加载成功'
-              Toast.success(this.msg)*/
+              /*this.GetDoWorkflowList()*/
+              this.msg='加载成功'
+              Toast.success(this.msg)
             }else{
-              /*this.msg='没有更多数据'*/
-              this.msg='加载完毕'
+              this.msg='没有更多数据'
+              /*this.msg='加载完毕'*/
               Toast.success(this.msg)
             }
           }).catch(err => {
