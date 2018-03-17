@@ -3,7 +3,7 @@
     <van-nav-bar
       title="施工日计划详情"
       left-text="返回"
-      @click-left="onClickLeft" fixed
+      @click-left="$router.go(-1)" fixed
 
     ></van-nav-bar>
     <!--<van-row v-for="(name, index) in DayPlanCount">
@@ -91,6 +91,7 @@
       this.getDayPlanCount(data)
     },*/
     mounted(){
+      debugger
       var data=this.$route.query
       this.xmmc=data.xmmc
       this.dj =data.dj
@@ -105,7 +106,7 @@
     watch: {
       $route: function (route) {
         var data = route.query;
-        if(data.length>0){
+        if(!this._GLOBAL.isEmptyObject(data)){
           this.xmmc=data.xmmc
           this.dj=data.dj
           this.xingbie=data.xingbie
@@ -208,9 +209,16 @@
         var slectProjectName=this.mc
         this.$router.push({path: '/BusinessLine/BusinessLineSearch',query:{slectProjectId:this.xmmc,slectProjectName:this.mc}});
       },
-      goDetail(val){
+      /*goDetail(val){
         this.$router.push({path: '/BusinessLine/BusinessLineSearchDetailList',query:{id:val.id}}); // 路由信息传值
-      }
+      }*/
+      goDetail(planItem){
+        console.log("点击项目的id："+planItem.id);
+        // 将点击的项目的id存放在store
+        this.$store.commit('setBusinessLineSearch',{xmId:planItem.id});
+//        this.$router.push({path: '/BusinessLine/Detail',query:{id:planItem.id}}); // 路由信息传值
+        this.$router.push({path: '/BusinessLine/Detail'}); // 路由信息传值
+      },
 //      onClickRight() {
 //        //this.$router.push({path: '/BusinessLine/Search'});
 ////        debugger

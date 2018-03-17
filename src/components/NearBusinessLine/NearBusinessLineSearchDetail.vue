@@ -3,7 +3,7 @@
     <van-nav-bar
       title="临近营业线详情"
       left-text="返回"
-      @click-left="onClickLeft"  fixed
+      @click-left="$router.go(-1)"  fixed
     ></van-nav-bar>
 
     <div class="content">
@@ -96,7 +96,7 @@
       $route: function (route) {
         /*debugger*/
         var data = route.query;
-        if(data.length>0) {
+        if(!this._GLOBAL.isEmptyObject(data)) {
           this.xmmc = data.xmmc
           this.dj = data.dj
           this.xingbie = data.xingbie
@@ -192,8 +192,17 @@
           Toast('出错了！');
         }
       },
-      goDetail(val){
+      /*goDetail(val){
         this.$router.push({path: '/NearBusinessLine/NearBusinessLineSearchDetailList',query:{id:val.id}}); // 路由信息传值
+      },*/
+      goDetail(planItem){
+
+        // 将点击的项目的id存放在store
+        this.$store.commit('setNearBusinessLineSearch',{xmId:planItem.id});
+//        this.$router.push({path: '/BusinessLine/Detail',query:{id:planItem.id}}); // 路由信息传值
+        this.$router.push({path: '/NearBusinessLine/NearListDetail'}); // 路由信息传值
+
+//        this.$router.push({path: '/NearBusinessLine/NearListDetail',query:{id:planItem.id}}); // 路由信息传值
       },
       /*onClickLeft() {
         this.$router.push({path: '/NearBusinessLine/Search'});

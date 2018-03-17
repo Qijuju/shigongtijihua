@@ -12,13 +12,13 @@ import './assets/css/common.css'
 import  './assets/js/calendar.js'
 import store from './store/index.js'
 import RPM from './assets/js/r93535_mobile.js'
-
 import config from './config'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+
 
 Vue.prototype._GLOBAL = config
-
-
-
+Vue.use(ElementUI)
 Vue.use(Vant)
 Vue.use(mint)
 Vue.use(Resource)

@@ -5,7 +5,7 @@
       title="临近营业线搜索"
       left-text="返回"
       right-text="搜索"
-      @click-left="onClickLeft"
+      @click-left="$router.go(-1)"
       @click-right="onClickRight"
     >
     </van-nav-bar>

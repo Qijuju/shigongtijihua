@@ -1,7 +1,7 @@
 <template>
   <div class="1">
     <!-- 施工日计划待我审批筛选-表头-开始 -->
-    <van-nav-bar title="待我审批" left-text="返回" @click-left="onClickLeft">
+    <van-nav-bar title="待我审批" left-text="返回" @click-left="$router.go(-1)">
     </van-nav-bar>
     <!-- 施工日计划待我审批筛选-表头-结束 -->
 <!-- 施工日计划待我审批筛选-类型标题 -->

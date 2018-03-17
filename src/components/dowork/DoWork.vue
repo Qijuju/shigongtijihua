@@ -2,7 +2,7 @@
   <div class="1">
     <!-- 施工日计划我已审批列表-表头-开始 -->
     <div class = "biaotou">
-      <van-nav-bar title="我已审批" left-text="返回" @click-left="onClickLeft">
+      <van-nav-bar title="我已审批" left-text="返回" @click-left="$router.go(-1)">
       </van-nav-bar>
       <!-- 施工日计划我已审批列表-表头-结束 -->
       <!-- 施工日计划我已审批列表-搜索筛选框-开始 -->
@@ -26,16 +26,20 @@
     <!-- 施工日计划我已审批列表-搜索筛选框-结束 -->
 
     <!-- 施工日计划我已审批列表-list展示数据-开始 --><!-- 我已审批页名称 -->
-    <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite">
-      <div class="neirong">
-      <table v-for="(plan, index) in DoWorkflowList" class="tablelist" @click="toDetail(plan.url)">
+    <!--<v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite">-->
+    <div class="neirong">
+    <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom"  ref="loadmore" :autoFill="autoFill">
+      <div :style="{height:myHeight}">
+      <table v-for="(plan, index) in DoWorkflowList" class="tablelist" @click="toDetail(plan.url)" >
           <tr><td style="width:20%">流程标题:</td><td style="width:80%">{{plan.requestName }}</td></tr>
           <tr><td style="width:20%">流程类型:</td><td style="width:80%">{{plan.workflowName }}</td></tr>
           <tr><td style="width:20%">流程状态:</td><td style="width:80%">{{plan.currentNodeName }}</td></tr>
         </table>
       </div>
-    </v-scroll>
+    <!--</v-scroll>-->
     <!-- 施工日计划我已审批列表-list展示数据-结束 -->
+    </mt-loadmore>
+    </div>
   </div>
 </template>
 
@@ -43,6 +47,7 @@
 import { Waterfall } from 'vant';
 import Vue from 'vue';
 import axios from 'axios';
+import { Toast } from 'vant';
 import bus from '../bus';
 import Scroll from '../Common/PullRefresh';  //引入上拉加载，下拉刷新的插件
 
@@ -54,8 +59,14 @@ export default {
     },
   data() {
     return {
-      counter : 1, //默认已经显示出15条数据 count等于一是让从16条开始加载
-      num : 10,  // 一次显示多少条
+      neirong:(window.innerHeight-150)+'px',
+      myscroll:'scroll',
+      autoFill:false,
+      msg:'',
+      myHeight:(window.innerHeight-50)+'px',
+      myWidth:window.innerWidth+'px',
+      counter:1, //默认已经显示出15条数据 count等于一是让从16条开始加载
+      num:10,  // 一次显示多少条
       pageStart : 0, // 开始页数
       pageEnd : 0, // 结束页数
 
@@ -64,7 +75,7 @@ export default {
       DoWorkflowList:[],//存放获取待办流程列表
       requestName:'',//流程名称
       userId:this._GLOBAL.baseUserId,//基础平台用户id
-      pageNo:'1',//页数
+      pageNo:1,//页数
       workflowTypeId:'15',//流程分类id  15代表施工日计划
       pageSize:'10',//每页条数
       workflowId:'',//流程类型id  51营业线 52临近营业线 53非营业线
@@ -157,9 +168,54 @@ export default {
       });
 
     },
+    reset(){
+      this.DoWorkflowList=[]
+      this.pageNo=1
+      this.count=0
+    },
+    loadTop(){
+      this.reset();
+      this.GetDoWorkflowList();
+      this.$refs.loadmore.onTopLoaded();
+    },
+    loadBottom(){
+      this.GetDoWorkflowList();
+      this.$refs.loadmore.onBottomLoaded();
+    },
 
 // 获取我已审批页列表数据-拼接url，发送请求获取待办流程列表数据
     GetDoWorkflowList(){
+      if(this.status != null && this.status == '1'){//审批完成
+        var url = 'http://tljjgxt.r93535.com/YiDoWorkflowListPCServlet?userId='+this._GLOBAL.baseUserId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
+      }else{//审批中
+        var url = 'http://tljjgxt.r93535.com/DoWorkflowListPCServlet?userId='+this._GLOBAL.baseUserId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
+      }
+        axios.get(url)
+          .then(response => {
+            var data = response.data
+            debugger
+            if(data.length>=1){
+              for(var i in data) {
+                console.log(data[i].requestId)
+                this.DoWorkflowList.push(data[i])
+              }
+              this.pageNo=this.pageNo+1
+              this.count=this.count+data.length
+              this.myHeight=Math.max((window.innerHeight-50), (150*this.count))+'px'
+              this.GetDoWorkflowList()
+              /*this.msg='加载成功'
+              Toast.success(this.msg)*/
+            }else{
+              this.msg='没有更多数据'
+              Toast.success(this.msg)
+            }
+          }).catch(err => {
+          console.error(err.message)
+          this.msg='加载失败'
+          Toast.fail(this.msg)
+          console.log('error');
+        })
+      },/* GetDoWorkflowList(){
       // debugger
       // this.userId=236807;
       this.pageNo = 1;
@@ -184,7 +240,7 @@ export default {
           }).catch(err => {
           console.error(err.message)
         })
-      },
+      },*/
 
 //下拉页面刷新数据操作
       onRefresh(done) {
@@ -233,7 +289,6 @@ export default {
 <style scoped>
 /* 表头标题演示 */
 .biaotou{
-  position: fixed;
   width: 100%;
 }
 /* 标题样式 */

@@ -3,7 +3,7 @@
     <van-nav-bar
       title="非营业线详情"
       left-text="返回"
-      @click-left="onClickLeft" fixed
+      @click-left="$router.go(-1)" fixed
     ></van-nav-bar>
     <div class="content">
       <van-row v-for="(name, index) in DayPlanCount" :key="index">
@@ -90,7 +90,7 @@
       $route: function (route) {
         /*debugger*/
         var data = route.query;
-        if(data.length>0) {
+        if(!this._GLOBAL.isEmptyObject(data)) {
           this.xmmc = data.xmmc
           this.dj = data.dj
           this.mc = data.mc
@@ -203,9 +203,17 @@
       onClickLeft() {
         this.$router.push({path: '/NonBusinessLine/NonBusinessLineSearch'});
       },
-      goDetail(val){
+      /*goDetail(val){
         this.$router.push({path: '/NonBusinessLine/NonBusinessLineSearchDetailList',query:{id:val.id}}); // 路由信息传值
-      }
+      }*/
+      goDetail(planItem){
+
+        // 将点击的项目的id存放在store
+        this.$store.commit('setNonBusinessLineSearch',{xmId:planItem.id});
+
+        // 路由调转
+        this.$router.push({path: '/NearBusinessLine/NonListDetail'});
+      },
     }
   }
 </script>

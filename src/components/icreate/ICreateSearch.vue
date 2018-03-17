@@ -1,7 +1,7 @@
 <template>
   <div class="iCreateSearch">
  <!-- 施工日计划我发起的搜索-表头-开始 -->
-    <van-nav-bar title="我发起的" left-text="返回" @click-left="onClickLeft">
+    <van-nav-bar title="我发起的" left-text="返回" @click-left="$router.go(-1)">
     </van-nav-bar>
 <!-- 施工日计划我发起的搜索-表头-结束 -->
 <!-- 施工日计划我发起的搜索-输入项目名称-开始 -->

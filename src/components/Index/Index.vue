@@ -25,37 +25,41 @@
       <div id="mycharts" calss="mycharts" :style="{width:mywidth,height:mywidth}"></div>
       <div id="mycharts1" calss="mycharts1" :style="{width:mywidth,height:mywidth}"></div>
         <van-row>
-          <van-col span="24"><h4>{{today}}至{{nextweek}}施工日计划</h4></van-col>
+          <!--<van-col span="24"><h3>{{today}}至{{nextweek}}施工日计划</h3></van-col>-->
+          <van-col span="24"><h3>施工日计划信息统计</h3></van-col>
         </van-row>
-        <van-row>
-          <van-col span="9">
-            <h4>项目名称</h4>
-          </van-col>
-          <van-col span="4" >
-            <h4>营业线</h4>
-          </van-col>
-          <van-col span="6"  >
-            <h4>临近营业线</h4>
-          </van-col>
-          <van-col span="5" >
-            <h4>非营业线</h4>
-          </van-col>
-        </van-row>
-        <van-row v-for="d in detail">
-            <van-col span="9"  class="getHeight">
-              <div class="chartsSize">{{ d.xmmc}}</div>
-            </van-col>
-            <van-col span="4" >
-              <div class="chartsSize">{{ d.yyxrjh }}</div>
-            </van-col>
-            <van-col span="6"  >
-              <div class="chartsSize">{{ d.ljyyxrjh}}</div>
-            </van-col>
-            <van-col span="5" >
-              <div class="chartsSize">{{ d.fyyxrjh }}</div>
-            </van-col>
-        </van-row>
-
+      <el-table
+        :data="detail"
+        :max-height="myheight"
+        show-summary
+        border
+        style="width: 100%; margin-top: 20px">
+        <el-table-column
+          prop="xmmc"
+          fixed
+          label="项目名称"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="yyxrjh"
+          label="营业线"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="ljyyxrjh"
+          label="临近营业线"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="fyyxrjh"
+          label="非营业线"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="total"
+          label="合计(个)">
+        </el-table-column>
+      </el-table>
     </div>
 
     <iframe style="margin-top:46px;width:100%;height:1000px;display:none;" :src="this._GLOBAL.sessionUrl"></iframe>
@@ -74,7 +78,7 @@
     data () {
       return {
         domainName:'tljjgxt.r93535.com', // 域名
-
+        myheight:window.innerHeight-200,
         ToDoWorkflowCount:'',//存放获取待办流程条数
         workflowTypeId:15,//流程分类id  15代表施工日计划
         charts: '',
@@ -130,7 +134,8 @@
         // debugger
         this.getdata(this._GLOBAL.baseUserId, this.type, this.today, this.today, 0);
         this.getdata(this._GLOBAL.baseUserId, this.type, this.tomorrow, this.tomorrow, 1)
-        this.getdata(this._GLOBAL.baseUserId, this.type, this.today, this.nextweek, 2)
+        //this.getdata(this._GLOBAL.baseUserId, this.type, this.today, this.nextweek, 2)
+        this.getdata(this._GLOBAL.baseUserId, this.type, '', '', 2)
       });
     },
    /* watch: {
@@ -176,6 +181,7 @@
               for(var i = 0;i<data.length;i++) {
                 this.detail.push(data[i])
               }
+              console.log(this.detail)
               /*表格渲染*/
               this.$nextTick(function(){
                 console.log("$nextTick监听数据渲染完成之后的回调函数");

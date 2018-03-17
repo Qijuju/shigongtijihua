@@ -3,7 +3,7 @@
 
     <van-nav-bar title="非营业线施工日计划"
                  left-text="返回"
-                 @click-left="onClickLeft"
+                 @click-left="$router.go(-1)"
                  fixed
     ></van-nav-bar>
 
@@ -129,7 +129,7 @@
         // 获取详情数据
         getData(){
           let vm = this;
-          let url = 'http://tljjgxt.r93535.com/FYYXDayUniquePlanServlet?id='+ vm.id+'&baseuserId='+this._GLOBAL.baseUserIds;
+          let url = 'http://tljjgxt.r93535.com/FYYXDayUniquePlanServlet?id='+ vm.id+'&baseuserId='+this._GLOBAL.baseUserId;
           vm.$http.get(url).then((response) => {
 
           // 请求成功返回数据

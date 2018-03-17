@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="详情" left-text="返回" @click-left="onClickLeft" ></van-nav-bar>
+    <van-nav-bar title="详情" left-text="返回" @click-left="$router.go(-1)" ></van-nav-bar>
     <iframe  style="margin-top:2px;width:100%;height:1000px;" :src="url"></iframe>
   </div>
 </template>

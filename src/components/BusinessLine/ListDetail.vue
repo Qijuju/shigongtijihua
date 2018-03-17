@@ -3,7 +3,7 @@
     <!--title-->
     <van-nav-bar title="营业线施工日计划"
                  left-text="返回"
-                 @click-left="onClickLeft"
+                 @click-left="$router.go(-1)"
                  fixed
     ></van-nav-bar>
     <!--内容-->

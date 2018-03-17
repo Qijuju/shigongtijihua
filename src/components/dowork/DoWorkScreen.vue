@@ -2,7 +2,7 @@
   <div class="1">
 
  <!-- 施工日计划我已审批筛选-表头-开始 -->
-    <van-nav-bar title="我已审批" left-text="返回" @click-left="onClickLeft">
+    <van-nav-bar title="我已审批" left-text="返回" @click-left="$router.go(-1)">
     </van-nav-bar>
 <!-- 施工日计划我已审批筛选-表头-结束 -->
 

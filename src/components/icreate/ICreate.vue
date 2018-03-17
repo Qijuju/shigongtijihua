@@ -1,8 +1,10 @@
 <template>
   <div class="1">
+    <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom"  ref="loadmore" :autoFill="autoFill">
+      <div :style="{height:myHeight}">
     <!-- 施工日计划我发起的列表-表头-开始 -->
     <div class = "biaotou">
-      <van-nav-bar title="我发起的" left-text="返回" @click-left="onClickLeft">
+      <van-nav-bar title="我发起的" left-text="返回" @click-left="$router.go(-1)">
       </van-nav-bar>
       <!-- 施工日计划我已审批列表-表头-结束 -->
       <!-- 施工日计划我发起的列表-搜索筛选框-开始 -->
@@ -26,20 +28,23 @@
     <!-- 施工日计划我发起的列表-搜索筛选框-结束 -->
 
     <!-- 施工日计划我发起的列表-list展示数据-开始 --><!-- 代办流程名称 -->
-     <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite">
+     <!--<v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite">-->
         <table v-for="(plan, index) in ICreateflowList" class="tablelist" @click="toDetail(plan.url)">
             <tr><td style="width:20%">流程标题:</td><td style="width:80%">{{plan.requestName }}</td></tr>
             <tr><td style="width:20%">流程类型:</td><td style="width:80%">{{plan.workflowName }}</td></tr>
             <tr><td style="width:20%">流程状态:</td><td style="width:80%">{{plan.currentNodeName }}</td></tr>
         </table>
-      </v-scroll>
+      <!--</v-scroll>-->
     <!-- 施工日计划我发起的列表-list展示数据-结束 -->
+      </div>
+    </mt-loadmore>
   </div>
 </template>
 
 <script>
 import { Waterfall } from 'vant';
 import Vue from 'vue';
+import { Toast } from 'vant';
 import axios from 'axios';
 import bus from '../bus';
 import Scroll from '../Common/PullRefresh';  //引入上拉加载，下拉刷新的插件
@@ -52,6 +57,10 @@ export default {
     },
   data() {
     return {
+      autoFill:false,
+      msg:'',
+      myHeight:(window.innerHeight-50)+'px',
+      myWidth:window.innerWidth+'px',
       counter : 1, //默认已经显示出15条数据 count等于一是让从16条开始加载
       num : 10,  // 一次显示多少条
       pageStart : 0, // 开始页数
@@ -146,6 +155,20 @@ export default {
         this.GetICreateflowList();
       });
     },
+    reset(){
+      this.ICreateflowList=[]
+      this.pageNo=1
+      this.count=0
+    },
+    loadTop(){
+      this.reset();
+      this.GetICreateflowList();
+      this.$refs.loadmore.onTopLoaded();
+    },
+    loadBottom(){
+      this.GetICreateflowList();
+      this.$refs.loadmore.onBottomLoaded();
+    },
 
 // GetToDoWorkflowCount(data) {
 //           //debugger
@@ -168,6 +191,32 @@ export default {
 
 // 获取代办流程列表数据-拼接url，发送请求获取待办流程列表数据
     GetICreateflowList(){
+        var url = 'http://tljjgxt.r93535.com/MyWorkflowRequestList?userId='+this._GLOBAL.baseUserId+'&pageNo='+this.pageNo+'&workflowTypeId='+this.workflowTypeId+'&pageSize='+this.pageSize+'&workflowId='+this.workflowId+'&requestName='+this.requestName
+        axios.get(url)
+          .then(response => {
+            var data = response.data
+            if(data.length>=1){
+              debugger
+              for(var i in data) {
+                console.log(data[i].requestId)
+                this.ICreateflowList.push(data[i])
+              }
+              this.pageNo=this.pageNo+1
+              this.count=this.count+data.length
+              this.myHeight=Math.max((window.innerHeight-50), (100+150*this.count))+'px'
+              this.msg='加载成功'
+              Toast.success(this.msg)
+            }else{
+              this.msg='没有更多数据'
+              Toast.success(this.msg)
+            }
+          }).catch(err => {
+          console.error(err.message)
+          this.msg='加载失败'
+          Toast.fail(this.msg)
+          console.log('error');
+        })
+      },/*GetICreateflowList(){
           // debugger
       this.pageNo = 1;
       // this.userId=236807;
@@ -185,7 +234,7 @@ export default {
           }).catch(err => {
           console.error(err.message)
         })
-      },
+      },*/
 
 //下拉页面刷新数据操作
       onRefresh(done) {
@@ -231,7 +280,6 @@ export default {
 <style scoped>
 /* 表头标题演示 */
 .biaotou{
-  position: fixed;
   width: 100%;
 }
 
