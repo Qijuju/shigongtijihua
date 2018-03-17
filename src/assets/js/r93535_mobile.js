@@ -17,13 +17,13 @@
     // 拍照
     e.takePicture=function (num,index,bo,url,arrL) { // 调相机实现拍照功能
       console.log("jsApi拍照函数被调用："+ num +'-'+index);
-        isiOS? loadURL("takePicture:takePicture:"+num+":"+index+':'+bo+':'+url+':'+arrL):androidObject.photo(num,index,bo,url,arrL);
+        isiOS? loadURL("takePicture:takePicture:"+num+":"+index+':'+bo+':'+arrL+':'+url):androidObject.photo(num,index,bo,url,arrL);
     };
 
     // 从相册中选择照片
     e.selectPhotos=function (num,index,bo,url,arrL) { // 从相册中选择照片
       console.log("jsApi从相册中选择照片函数被调用："+ num +'-'+index);
-      isiOS? loadURL("selectPhotos:selectPhotos:"+num+":"+index+':'+bo+':'+url+':'+arrL):androidObject.selectPhoto(num,index,bo,url,arrL);
+      isiOS? loadURL("selectPhotos:selectPhotos:"+num+":"+index+':'+bo+':'+arrL+':'+url):androidObject.selectPhoto(num,index,bo,url,arrL);
     };
 
     // 当前位置信息
