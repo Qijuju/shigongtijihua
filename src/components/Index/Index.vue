@@ -1,6 +1,6 @@
 <template>
   <div class="nonBusinessLine">
-    <van-nav-bar title="施工日计划" fixed></van-nav-bar>
+    <van-nav-bar title="施工日计划"  right-text="关闭"  @click-right="onClickRight" fixed></van-nav-bar>
     <div class="content">
       <van-row>
         <van-col span="8">
@@ -148,6 +148,12 @@
       }
     },*/
     methods:{
+
+      //  关闭应用程序。调取JSAPI,关闭应用程序
+      onClickRight(){
+        RPM.closeApplication();
+      },
+
       getQueryVariable(variable){
         // debugger
         var query = window.location.search.substring(1);

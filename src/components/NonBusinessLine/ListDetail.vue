@@ -4,6 +4,7 @@
     <van-nav-bar title="非营业线施工日计划"
                  left-text="返回"
                  @click-left="$router.go(-1)"
+                 right-text="关闭"  @click-right="onClickRight"
                  fixed
     ></van-nav-bar>
 
@@ -102,7 +103,7 @@
       name: "listDetail",
       data(){
         return{
-          baseuserid:102300, // 基础平台登录人员id
+//          baseuserid:102300, // 基础平台登录人员id
           domainName:'tljjgxt.r93535.com', // 域名
 
 //          id:this.$route.query.id,// 获取通过路由传的值
@@ -120,10 +121,18 @@
           return this.$store.getters.nonBusinessLineSearch.xmId; // 返回点击项目的id
         },
       },
+
       mounted:function () {
         this.getData();
       },
       methods:{
+
+        //  关闭应用程序。调取JSAPI,关闭应用程序
+        onClickRight(){
+          RPM.closeApplication();
+        },
+
+
         // 返回事件
         onClickLeft(){
           this.$router.push({path: '/NonBusinessLine'});
@@ -131,8 +140,13 @@
 
         // popup弹出层点击事件
         popupClick(txt) {
-          this.popupVisible = true;
-          this.popupTxt = txt;
+          console.log("点击空格的内容为：" + txt);
+          if (txt !=''){
+            this.popupVisible = true;
+            this.popupTxt = txt;
+          }else {
+            return;
+          }
         },
 
         // 获取详情数据

@@ -2,12 +2,12 @@
   <div class="index">
     <!-- title -->
     <!--<Header title="邻近营业线施工日计划"></Header>-->
-    <van-nav-bar title="邻近营业线施工日计划" fixed></van-nav-bar>
+    <van-nav-bar title="邻近营业线施工日计划"  right-text="关闭"  @click-right="onClickRight" fixed></van-nav-bar>
     <!--搜索栏-->
     <div class="search">
       <van-row>
         <van-col span="6" ><span v-on:click="goSearchPage(calendar.value,selectProjectObj.id,selectProjectObj.xmmc)">搜索</span></van-col>
-        <van-col span="12">{{projectName}}</van-col>
+        <van-col span="12" style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">{{projectName}}</van-col>
         <van-col span="6" class="chooseBtn">
           <van-button type="primary">
             <div class="flex">
@@ -20,8 +20,8 @@
       <div class="days_box">
         <div id="wrap">
           <div id="innerWrap" :style="{'width':days2.length*66+'px'}">
-            <div class="scroll" v-for="(item ,index) in days2" @click="dayClick(index,item)">
-              <p class="dateDetail">
+            <div class="scroll" v-for="(item ,index) in days2" @click="dayClick(index,item,$event)">
+              <p class="dateDetail" v-bind:class="{ active: item.showBg}">
                 <span class="num">{{item.day}}</span>
                 <span class="china">{{item.weekDay}}</span>
               </p>
@@ -48,7 +48,7 @@
                 <p class="jssjd_rjhh clearfix">
                   <span class="jssjd">{{planItem.jssjd}}</span>
                 </p>
-                <p>{{planItem.xmmc}}</p>
+                <p>{{planItem.id}}：{{planItem.xmmc}}</p>
                 <p>{{planItem.sgdd}}</p>
               </div>
             </van-step>
@@ -219,6 +219,11 @@
     },
     methods:{
 
+      //  关闭应用程序。调取JSAPI,关闭应用程序
+      onClickRight(){
+        RPM.closeApplication();
+      },
+
       // 获取全部项目的列表数据
       getAllData(e){
         // 将项目id置空。获取全部数据
@@ -252,6 +257,7 @@
       getList(){
         let vm = this;
         let url = 'http://tljjgxt.r93535.com/DayPlanDetailNearbyServlet?page='+vm.page+'&baseuserid='+this._GLOBAL.baseUserId+'&sgrq='+vm.sgrq+'&xmmc='+vm.xmmcId;
+        console.log("邻近营业线列表请求的url：" + url);
 
         vm.$http.get(url).then((response) => {
           vm.listdata = response.data;
@@ -371,7 +377,17 @@
         },1000)
       },
       // 点击事件
-      dayClick(index,item) { // index 为下标值
+      dayClick(index,item,e) { // index 为下标值
+
+        var el=e.currentTarget;
+        // 设置自已颜色
+        $(el).siblings().children().css({
+          'color':"#2196F3"
+        });
+        $(el).children().css({
+          'color':"#F44336"
+        })
+
         let vm = this;
 
         var clickDay =item.day>9?item.day:'0'+item.day;
@@ -707,6 +723,11 @@
     padding:3px;
     color: #2196F3;
   }
+
+  p.dateDetail.active{
+    color: #F44336;
+  }
+
   p.dateDetail > .num{
     font-size:16px;
   }
@@ -723,7 +744,8 @@
     bottom:-2px;
     width:100%;
     height:2px;
-    background: #2196F3;
+    /*background: #2196F3;*/
+    background: #F44336;
   }
 
 </style>

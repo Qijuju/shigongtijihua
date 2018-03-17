@@ -2,7 +2,7 @@
   <div class="1">
 
  <!-- 施工日计划我已审批筛选-表头-开始 -->
-    <van-nav-bar title="我已审批" left-text="返回" @click-left="$router.go(-1)">
+    <van-nav-bar title="我已审批" left-text="返回" right-text="关闭"  @click-right="onClickRight" @click-left="$router.go(-1)">
     </van-nav-bar>
 <!-- 施工日计划我已审批筛选-表头-结束 -->
 
@@ -53,10 +53,10 @@ export default {
         this.$router.push({path: '/DoWork'});
       },
 
-    // 表头关闭按钮事件
-      onClickRight() {
-        this.$router.push({path: '/DoWork'});
-      },
+     //  关闭应用程序。调取JSAPI,关闭应用程序
+     onClickRight(){
+       RPM.closeApplication();
+     },
 
     //  点击审批状态事件
     onClickStatus(data){

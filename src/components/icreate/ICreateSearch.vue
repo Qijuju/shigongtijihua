@@ -1,7 +1,7 @@
 <template>
   <div class="iCreateSearch">
  <!-- 施工日计划我发起的搜索-表头-开始 -->
-    <van-nav-bar title="我发起的" left-text="返回" @click-left="$router.go(-1)">
+    <van-nav-bar title="我发起的" right-text="关闭"  @click-right="onClickRight" left-text="返回" @click-left="$router.go(-1)">
     </van-nav-bar>
 <!-- 施工日计划我发起的搜索-表头-结束 -->
 <!-- 施工日计划我发起的搜索-输入项目名称-开始 -->
@@ -63,10 +63,12 @@ export default {
         // Toast('返回');
         this.$router.push({path: '/ICreate'});
       },
-    // 表头关闭按钮事件
-      onClickRight() {
-       this.$router.push({path: '/ICreate'});
-      },
+
+     //  关闭应用程序。调取JSAPI,关闭应用程序
+     onClickRight(){
+       RPM.closeApplication();
+     },
+
     //  点击搜索按钮跳转事件
     onSearch(){
       //向我发起的页面展示-传递流程名称

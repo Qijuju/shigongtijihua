@@ -1,12 +1,12 @@
 <template>
   <div class="index">
-    <van-nav-bar title="营业线施工日计划" fixed></van-nav-bar>
+
+    <van-nav-bar title="营业线施工日计划"  right-text="关闭"  @click-right="onClickRight" fixed></van-nav-bar>
     <!--搜索栏-->
     <div class="search">
       <van-row>
         <van-col span="6" ><span v-on:click="goSearchPage(calendar.value,selectProjectObj.id,selectProjectObj.xmmc)">搜索</span></van-col>
-        <!--<van-col span="12">{{selectProjectObj.xmmc}}</van-col>-->
-        <van-col span="12">{{projectName}}</van-col>
+        <van-col span="12" style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">{{projectName}}</van-col>
 
         <van-col span="6" class="chooseBtn">
           <van-button type="primary">
@@ -21,8 +21,8 @@
         <!--<Days></Days>-->
         <div id="wrap">
           <div id="innerWrap" :style="{'width':days2.length*66+'px'}">
-            <div class="scroll" v-for="(item ,index) in days2" @click="dayClick(index,item)">
-              <p class="dateDetail">
+            <div class="scroll" v-for="(item ,index) in days2" @click="dayClick(index,item,$event)">
+              <p class="dateDetail" v-bind:class="{ active: item.showBg}">
                 <span class="num">{{item.day}}</span>
                 <span class="china">{{item.weekDay}}</span>
               </p>
@@ -50,7 +50,7 @@
                       <span class="jssjd">{{planItem.jssjd}}</span>
                       <span class="rjhh">{{planItem.rjhh}}</span>
                     </p>
-                    <p>{{planItem.xmmc}}</p>
+                    <p>{{planItem.id}}:{{planItem.xmmc}}</p>
                     <p>{{planItem.dd}}</p>
                   </div>
                 </van-step>
@@ -154,7 +154,6 @@
             this.calendar.value=value;
             this.calendar.display=value.join("/");
 
-
           }
         }
       }
@@ -167,7 +166,6 @@
 
         var name= this.$store.getters.businessLineSearch.selectProObj.xmmc;
 
-        console.log("");
         if (name == undefined || name == '' ||name == null){
           this.xmmcId ='';
           this.projectName='全部'
@@ -227,6 +225,10 @@
 
     },
     methods:{
+      //  关闭应用程序。调取JSAPI,关闭应用程序
+      onClickRight(){
+        RPM.closeApplication();
+      },
       // 默认存储‘全部’
       storeProInfo(){
         let item={id:"",xmmc:"全部"};
@@ -264,17 +266,15 @@
       // 获取列表首页数据
       getList(){
 
-        let vm = this;
-
         // url参数： page 页码；sgrq施工日期；xmmc 项目名称id
-        let url = 'http://tljjgxt.r93535.com/DayPlanDetailServlet?page='+vm.page+'&baseuserid='+this._GLOBAL.baseUserId+'&sgrq='+vm.sgrq+'&xmmc='+vm.xmmcId;
+        let url = 'http://tljjgxt.r93535.com/DayPlanDetailServlet?page='+this.page+'&baseuserid='+this._GLOBAL.baseUserId+'&sgrq='+this.sgrq+'&xmmc='+this.xmmcId;
 
         console.log("营业线首页数据源请求url："+url);
-        vm.$http.get(url).then((response) => {
+        this.$http.get(url).then((response) => {
 
-          vm.listdata = response.data;
+          this.listdata = response.data;
 
-          console.log("营业线首页列表数据："+JSON.stringify(vm.listdata));
+          console.log("营业线首页列表数据："+JSON.stringify(this.listdata));
 
           if (response.data.thiscount< 10){
             this.infiniteLoading =  true;
@@ -293,10 +293,9 @@
 
       // 列表数据加载更多
       onInfinite(done) {
-        let vm = this;
-        vm.counter++;
-        let url = 'http://tljjgxt.r93535.com/DayPlanDetailServlet?page='+vm.counter+'&baseuserid='+this._GLOBAL.baseUserId+'&sgrq='+vm.sgrq;
-        vm.$http.get(url).then((response) => {
+        this.counter++;
+        let url = 'http://tljjgxt.r93535.com/DayPlanDetailServlet?page='+this.counter+'&baseuserid='+this._GLOBAL.baseUserId+'&sgrq='+this.sgrq+'&xmmc='+this.xmmcId;
+        this.$http.get(url).then((response) => {
           let arr = response.data.data;
 
           if (response.data.thiscount< 10){
@@ -310,7 +309,7 @@
               let obj={};
               obj["kssjd"] = arr[i].kssjd;
               obj["list"] = arr[i].list;
-              vm.listdata.data.push(obj);
+              this.listdata.data.push(obj);
             }
           }else {
             return;
@@ -337,7 +336,9 @@
 
       // 获取可选项目列表数据
       getProjects(){
-        axios.get('http://whjjgc.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this._GLOBAL.baseUserId)
+
+        let url='http://tljjgxt.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this._GLOBAL.baseUserId;
+        axios.get(url)
           .then(response => {
             // 接收响应数据
             this.projects = response.data;
@@ -389,10 +390,19 @@
       },
 
       // 点击事件
-      dayClick(index,item) { // index 为下标值
-        let vm = this;
+      dayClick(index,item,e) { // index 为下标值
+
+        var el=e.currentTarget;
+        // 设置自已颜色
+        $(el).siblings().children().css({
+          'color':"#2196F3"
+        });
+        $(el).children().css({
+          'color':"#F44336"
+        })
+
         var clickDay =item.day>9?item.day:'0'+item.day;
-        vm.sgrq = vm.calendar.value[0]+'-'+vm.calendar.value[1]+'-'+clickDay;
+        this.sgrq = this.calendar.value[0]+'-'+this.calendar.value[1]+'-'+clickDay;
 
 //        重新调取数据，刷新列表数据
         this.getList();
@@ -736,6 +746,9 @@
     padding:3px;
     color: #2196F3;
   }
+  p.dateDetail.active{
+    color: #F44336;
+  }
   p.dateDetail > .num{
     font-size:16px;
   }
@@ -752,7 +765,8 @@
     bottom:-2px;
     width:100%;
     height:2px;
-    background: #2196F3;
+    /*background: #2196F3;*/
+    background: #F44336;
   }
 
 

@@ -3,7 +3,8 @@
     <!--title-->
     <van-nav-bar title="营业线施工日计划"
                  left-text="返回"
-                 @click-left="$router.go(-1)"
+                 right-text="关闭"  @click-right="onClickRight"
+                 @click-left="onClickLeft"
                  fixed
     ></van-nav-bar>
     <!--内容-->
@@ -320,6 +321,11 @@
         }
       },
       methods:{
+
+        //  关闭应用程序。调取JSAPI,关闭应用程序
+        onClickRight(){
+          RPM.closeApplication();
+        },
 
         // 获取位置信息的回调函数（ios、android和js交互）
         RPMPositionCallBack:function (params) {

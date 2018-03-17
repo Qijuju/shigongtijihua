@@ -4,6 +4,7 @@
       title="临近营业线详情"
       left-text="返回"
       @click-left="$router.go(-1)"  fixed
+      right-text="关闭"  @click-right="onClickRight"
     ></van-nav-bar>
 
     <div class="content">
@@ -212,6 +213,12 @@
         this.$router.push({path: '/NearBusinessLine/Search'});
         //Toast('按钮');
       }*/
+
+      //  关闭应用程序。调取JSAPI,关闭应用程序
+      onClickRight(){
+        RPM.closeApplication();
+      },
+
       onClickLeft() {
         this.$router.push({path: '/NearBusinessLine/NearBusinessLineSearch',query:{slectProjectId:this.xmmc,slectProjectName:this.mc}});
       }

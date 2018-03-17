@@ -4,6 +4,8 @@
       title="施工日计划详情"
       left-text="返回"
       @click-left="$router.go(-1)" fixed
+      right-text="关闭"  @click-right="onClickRight"
+
 
     ></van-nav-bar>
     <!--<van-row v-for="(name, index) in DayPlanCount">
@@ -91,7 +93,6 @@
       this.getDayPlanCount(data)
     },*/
     mounted(){
-      debugger
       var data=this.$route.query
       this.xmmc=data.xmmc
       this.dj =data.dj
@@ -227,6 +228,11 @@
 //        this.$router.push({path: '/BusinessLine/BusinessLineSearch',query:{slectProjectId:this.xmmc,slectProjectName:this.mc}});
 //        //Toast('按钮');
 //      }
+//       },
+      //  关闭应用程序。调取JSAPI,关闭应用程序
+      onClickRight(){
+        RPM.closeApplication();
+      }
     }
   }
 </script>

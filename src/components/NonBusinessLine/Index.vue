@@ -1,13 +1,13 @@
 <template>
   <div class="index">
 
-    <van-nav-bar title="非营业线施工日计划" fixed></van-nav-bar>
+    <van-nav-bar title="非营业线施工日计划"  right-text="关闭"  @click-right="onClickRight" fixed></van-nav-bar>
 
     <!--搜索栏-->
     <div class="search">
       <van-row>
         <van-col span="6" ><span v-on:click="goSearchPage(calendar.value,selectProjectObj.id,selectProjectObj.xmmc)">搜索</span></van-col>
-        <van-col span="12">{{projectName}}</van-col>
+        <van-col span="12" style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">{{projectName}}</van-col>
         <van-col span="6" class="chooseBtn">
           <van-button type="primary">
             <div class="flex">
@@ -20,8 +20,8 @@
       <div class="days_box">
         <div id="wrap">
           <div id="innerWrap" :style="{'width':days2.length*66+'px'}">
-            <div class="scroll" v-for="(item ,index) in days2" @click="dayClick(index,item)">
-              <p class="dateDetail">
+            <div class="scroll" v-for="(item ,index) in days2" @click="dayClick(index,item,$event)">
+              <p class="dateDetail" v-bind:class="{ active: item.showBg}">
                 <span class="num">{{item.day}}</span>
                 <span class="china">{{item.weekDay}}</span>
               </p>
@@ -229,6 +229,12 @@
       this.$store.commit('setBusinessLineSelectProjectCount',{count:this.projects.length });
     },
     methods:{
+
+      //  关闭应用程序。调取JSAPI,关闭应用程序
+      onClickRight(){
+        RPM.closeApplication();
+      },
+
       // 默认存储‘全部’
       storeProInfo(){
         let item={id:"",xmmc:"全部"};
@@ -377,7 +383,7 @@
         },1000)
       },
       // 点击事件
-      dayClick(index,item) { // index 为下标值
+      dayClick(index,item,e) { // index 为下标值
         let vm = this;
 
         var clickDay =item.day>9?item.day:'0'+item.day;
@@ -711,6 +717,11 @@
     padding:3px;
     color: #2196F3;
   }
+
+  p.dateDetail.active{
+    color: #F44336;
+  }
+
   p.dateDetail > .num{
     font-size:16px;
   }
@@ -727,7 +738,7 @@
     bottom:-2px;
     width:100%;
     height:2px;
-    background: #2196F3;
+    background: #F44336;
   }
 
 </style>

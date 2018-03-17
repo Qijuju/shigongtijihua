@@ -7,6 +7,7 @@
           <van-nav-bar
             title="待我审批"
             left-text="返回"
+            right-text="关闭"  @click-right="onClickRight"
             @click-left="$router.go(-1)"></van-nav-bar>
           <van-row>
             <van-col span="12">
@@ -123,14 +124,19 @@
 
     methods: {
 
-      toDetail(url) {
-        var query = {
-          url: url
-        }
-        this.$router.push({path: '/Detail', query: query});
-      },
-      // 表头返回按钮事件
-      onClickLeft() {
+    //  关闭应用程序。调取JSAPI,关闭应用程序
+    onClickRight(){
+      RPM.closeApplication();
+    },
+
+    toDetail(url) {
+      var query = {
+        url: url
+      }
+      this.$router.push({path: '/Detail', query: query});
+    },
+    // 表头返回按钮事件
+    onClickLeft() {
         this.$router.push({path: '/Index'});
       },
 
