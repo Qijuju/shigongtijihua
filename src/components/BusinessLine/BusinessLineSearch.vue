@@ -246,20 +246,27 @@
         this.showxmmc=!this.showxmmc
       },
       onXMConfirm(value, index) {
-        var data = this.xiangmuServlet
-        for(var i in data) {
-          if(index!=0){
-            if(data[i].xmmc==value){
-              this.xmmc=data[i].xmmc
-              this.xmmc_id=data[i].id
+        var data = this.xiangmuServlet;
+
+        if (data.length===0){
+          this.xmmc_id=''
+          this.xmmc='全部'
+        }else {
+          for(var i in data) {
+            if(index!=0){
+              if(data[i].xmmc==value){
+                this.xmmc=data[i].xmmc
+                this.xmmc_id=data[i].id
+              }
+            }else{
+              this.xmmc_id=''
+              this.xmmc='全部'
             }
-          }else{
-            this.xmmc_id=''
-            this.xmmc='全部'
           }
         }
+
         this.closeAll()
-        // Toast(`当前值：${value}, 当前索引：${index}`);
+
       },
       isShowDJ(){
         this.closeOthers('dj')

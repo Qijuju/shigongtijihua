@@ -1,6 +1,7 @@
 <template>
   <div class="index">
-    <van-nav-bar title="营业线施工日计划" fixed></van-nav-bar>
+
+    <van-nav-bar title="营业线施工日计划"  right-text="关闭"  @click-right="onClickRight" fixed></van-nav-bar>
     <!--搜索栏-->
     <div class="search">
       <van-row>
@@ -21,7 +22,7 @@
         <!--<Days></Days>-->
         <div id="wrap">
           <div id="innerWrap" :style="{'width':days2.length*66+'px'}">
-            <div class="scroll" v-for="(item ,index) in days2" @click="dayClick(index,item)">
+            <div class="scroll" v-for="(item ,index) in days2" @click="dayClick(index,item,$event)">
               <p class="dateDetail">
                 <span class="num">{{item.day}}</span>
                 <span class="china">{{item.weekDay}}</span>
@@ -50,7 +51,7 @@
                       <span class="jssjd">{{planItem.jssjd}}</span>
                       <span class="rjhh">{{planItem.rjhh}}</span>
                     </p>
-                    <p>{{planItem.xmmc}}</p>
+                    <p>{{planItem.id}}:{{planItem.xmmc}}</p>
                     <p>{{planItem.dd}}</p>
                   </div>
                 </van-step>
@@ -167,7 +168,6 @@
 
         var name= this.$store.getters.businessLineSearch.selectProObj.xmmc;
 
-        console.log("");
         if (name == undefined || name == '' ||name == null){
           this.xmmcId ='';
           this.projectName='全部'
@@ -227,6 +227,10 @@
 
     },
     methods:{
+      //  关闭应用程序。调取JSAPI,关闭应用程序
+      onClickRight(){
+        RPM.closeApplication();
+      },
       // 默认存储‘全部’
       storeProInfo(){
         let item={id:"",xmmc:"全部"};
@@ -388,7 +392,14 @@
       },
 
       // 点击事件
-      dayClick(index,item) { // index 为下标值
+      dayClick(index,item,e) { // index 为下标值
+        console.log('点击的日期对象为：' + e);
+        var el=e.currentTarget;
+        console.log('点击的日期对象为：' + el);
+        $(el).siblings().css({
+          'color':"#f30"
+        });
+
         var clickDay =item.day>9?item.day:'0'+item.day;
         this.sgrq = this.calendar.value[0]+'-'+this.calendar.value[1]+'-'+clickDay;
 
@@ -750,7 +761,8 @@
     bottom:-2px;
     width:100%;
     height:2px;
-    background: #2196F3;
+    /*background: #2196F3;*/
+    background: #F44336;
   }
 
 

@@ -10,8 +10,13 @@ import Vant from 'vant'
 import 'vant/lib/vant-css/index.css'
 import './assets/css/common.css'
 import  './assets/js/calendar.js'
+// 引入第三方
+// import TestBase64 from './assets/js/Base64.js'
 import store from './store/index.js'
 import RPM from './assets/js/r93535_mobile.js'
+
+
+
 
 import config from './config'
 
@@ -24,6 +29,7 @@ Vue.use(mint)
 Vue.use(Resource)
 Vue.use(Vuex)
 Vue.use(RPM)
+// Vue.use(TestBase64)
 // Vue.use(config)
 
 var bus = new Vue({})

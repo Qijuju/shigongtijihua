@@ -17,7 +17,8 @@
       <van-row>
         <van-col span="8" class="getHeight">月计划号</van-col>
         <van-col span="16" >
-          <span class="w" @click='popupClick(totalData.yjhh)' v-html="totalData.yjhh"></span>
+          <!--<span class="w" @click='popupClick(totalData.yjhh)' v-html="totalData.yjhh">{{totalData.xmmc}}</span>-->
+          <span class="w" @click='popupClick(totalData.yjhh)'>{{totalData.id}}{{totalData.xmmc}}</span>
         </van-col>
       </van-row>
       <van-row>
@@ -217,10 +218,8 @@
           <van-icon name="delete" @click="onDelete(2,index)" />
         </div>
 
-        <!--权限-->
         <div class="addPhoto" @click='takePictureE(2,true,"http://www.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")' v-if="totalData.editStatus==1">+</div>
 
-        <!--<div class="addPhoto" @click='takePictureE(2,true,"http://www.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")'>+</div>-->
       </div>
 
       <van-row>
@@ -228,8 +227,7 @@
         <van-col span="16">
           <span @click='popupClick(totalData.qdsj)' v-html="totalData.qdsj"></span>
           <!--权限-->
-          <button class="refreshBtn" @click="getCurrentPositionInfo()" v-if="totalData.editStatus==1">刷新</button>
-          <!--<button class="refreshBtn" @click="getCurrentPositionInfo()">刷新</button>-->
+          <button class="refreshBtn" @click="getCurrentPositionInfo()" v-if="totalData.editStatus==1">签到</button>
 
         </van-col>
       </van-row>
@@ -254,7 +252,7 @@
       >
       </mt-actionsheet>
 
-      <div id="save" @click="save()" v-if="totalData.editStatus==1">保存</div>
+      <button id="save" @click="save()" v-if="totalData.editStatus==1">保存</button>
 
        <!--预览图片的盒子-->
       <div id="showBigImage" v-if="showBigImage" @click="showBigImageBox($event)" v-bind:style="{height:setHeight+'px'}">
@@ -266,29 +264,40 @@
 </template>
 <script>
   // 引入组件
-  import {Toast  } from 'vant';
-  import Header from '../Common/Header'
+
+  import {Toast ,Dialog } from 'vant';
   import $ from 'jquery'
-  import { Dialog } from 'vant';
   import axios from 'axios';
+  // 引入第三方,将字符串转换成base64
+  import { Base64 } from '../../assets/js/Base64.js'
+
 
     export default {
       name: "listDetail",
       components: {
-        Header,Toast
+        Toast,Dialog
       },
       data(){
         return{
           domainName:'tljjgxt.r93535.com', // 域名
+//          id:'', // 营业线数据id
+          id:this.$store.getters.businessLineSearch.xmId,
+          jwd:'', // ‘经度，纬度’ 保存字段
+          ryqdbId:'', //人员签到表 保存字段
+          xczpId:'', //现场照片 保存字段
 
-          longitude:'', // 经度
-          latitude:'', // 纬度
+          ryqdbIdArr:[], //人员签到表 桥梁作用
+          xczpIdArr:[], //现场照片 桥梁作用
+
+          // 测试用 ，保存的字段
+          saveS:'',
+
+
 
           testTxt:'',
           // 拍照
           callBackParams:'',
           imgUrl:'',
-
 
           // 从照片中选择照片
           paramsCount:'',
@@ -309,8 +318,7 @@
           checked: true,
 
 //          3.12 原始
-//          id:this.$route.query.id,// 获取通过路由传的值
-          id:'',
+
           baseuserid:this._GLOBAL.baseUserId,
           totalData:[],
           popupVisible:false,
@@ -322,15 +330,17 @@
       computed:{
         storeXmId(){
           this.id = this.$store.getters.businessLineSearch.xmId;
-          this.getData();
+//          this.getData();
           return this.$store.getters.businessLineSearch.xmId; // 返回点击项目的id
         },
       },
       methods:{
+        // 引入base64
+        Base64:function () {
+          Base64();
+        },
 
         changeValue(event){
-
-          console.log('改变了数值');
           var el = event.currentTarget;
 
           var s=el.innerText=='是'?'否':'是';
@@ -344,13 +354,27 @@
             title: '删除',
             message: '确定删除此图片吗？'
           }).then(() => {
+
+            console.log("删除的确认方法：" + num+ ':'+ index);
             // 删除图片的方法
-            if (num==1){
+            if (num===1){
+
+              console.log('删除的对象为：' +JSON.stringify(this.ryqdqkImgArr[index]));
 
               this.ryqdqkImgArr.splice(index,1);
+
+
+              // 删除图片。根据有没有id,有id的时从删除对应的id，没有id时，不执行删除操作。
+              this.ryqdbIdArr.splice(index,1);
             }
-            if (num==2){
+            if (num===2){
+
+              console.log('删除的对象为：' +JSON.stringify(this.zczpArr[index]));
               this.zczpArr.splice(index,1);
+
+
+              // 删除对应图片的id
+              this.xczpIdArr.splice(index,1);
             }
 
           }).catch(() => {
@@ -371,17 +395,21 @@
           this.previewPicHeight = $(el).height();// 当前点击图片的高
 
           $('#showBigImage').show(); // 显示box
-
         },
 
         // 获取位置信息的回调函数（ios、android和js交互）
-        RPMPositionCallBack:function (params) { // '位置,经度,纬度'
+        RPMPositionCallBack:function (params) { // 返回参数格式：'位置,经度,纬度'
           var arr =params.split(',');
           this.totalData.qddd=arr[0]; //当前位置
+
+          // 取经纬度
+          this.jwd = arr[1]+',' +arr[2];
+
+          console.log("上传的经纬度为：" + this.jwd);
         },
 
-        // 拍照的原始图片的回调函数，
-        RPMImageCallBack:function (params,imageType,x,y) { // 参数一：base64;参数二：图片类型；参数三：标识位
+        // 拍照的水印图片的回调函数，
+        RPMImageCallBack:function (params,imageType,x,y) { // 参数一：base64;参数二：图片类型；参3：x轴,参4：y轴
 
           let s="data:image/"+imageType+";base64,"+params;
 
@@ -447,28 +475,32 @@
           this.paramsCount =a.length;
         },
 
-        // android回传图片id的回调函数
+        // android回传图片id的回调函数。参1：图片的id，参2:x轴；参3：y轴
         RPMImageIdCallBack(dataId,x,y){
-
           console.log("ndroid回传图片id，接收到的参数为：" + dataId+":"+x+':'+y);
           // 首先判断id是否为空。 为空时，显示叉号，非空时，显示对号。
-          if (dataId !==''){ // 非空
+          if (dataId !==''){ // 接收返回的图片id非空
 
             switch (x){
               case '1':
                 // 将对应的图片的标识修改为true,图片的右上角显示对号
                 this.ryqdqkImgArr[y-1].isShow = true;
+                // 将图片id追加到数组中
+                this.ryqdbIdArr.push(dataId);
+                console.log('人员签到图片：' +  this.ryqdbIdArr.length);
                 break;
               case '2':
                 // 将对应的图片的标识修改为true,图片的右上角显示对号
                 this.zczpArr[y-1].isShow = true;
+                // 将图片id追加到数组中
+                this.xczpIdArr.push(dataId);
+                console.log('人员签到图片：' +  this.xczpIdArr.length);
                 break;
               default:
                 break;
             }
 
-          }else {
-
+          }else { // 接收返回的图片id为空
             switch (x){
               case '1':
                 // 将对应的图片的标识修改为true,图片的右上角显示对号
@@ -514,6 +546,7 @@
               method :function () {
 
                 // 调取JSAPI拍照事件,参数：1 表示原始照片；2 带水印照片
+                // 参1：加水印照片；参2：标识位;参3：boolean 是否下载图片；参4：图片下载url;参5:页面现有照片的个数（长度）
                 RPM.takePicture(2,index,bo,url,arrL); // 参数一：表示获取原始图片JSAPI约定；参数二：点击的方法的标识位
               }
             },
@@ -525,37 +558,42 @@
             }
           ];
         },
+
+        // 保存功能调取方法
         save(){
 
-           Toast(`保存成功`);
-          /*let vm = this;
-          let url = 'http://'+vm.domainName+'/DayplanPhSaveServlet';
+          // 将图片id数组转换成字符串
+          var ryqdbId = this.ryqdbIdArr.join(',');
+          var xczpId = this.xczpIdArr.join(',');
 
-          var obj={
-            id:vm.id,
-            ryqdb:'',
-            dcryqk:'',
-            xczp:vm.xczp,
-            jhsfdx:'',
-            jhdxqk:'',
-            qdsj:'',
-            qddd:'',
-            jwd:''
-          };
-          axios.post(url, obj, {
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            }
-          })
-            .then(function (response) {
-              console.log("post111请求成功"+JSON.stringify(response));
-            })
-            .catch(function (error) {
-              console.log(error);
-            });*/
+          console.log('保存的照片的id - 人员签到情况[]：' + this.ryqdbIdArr);
+          console.log('保存的照片的id - 人员签到情况：' + this.ryqdbId);
 
+          console.log('保存的照片的id - 现场照片[]：' + this.xczpIdArr);
+          console.log('保存的照片的id - 现场照片：' + this.xczpId);
+
+          // 计划兑现情况,将汉字转换成数字字符串
+          var jhsfdxS = this.totalData.jhsfdx === '是'?'1':'0'; // 注意：后台要求‘否’的情况，只能传‘0’，不能传空字符串。
+
+          // 将需要保存的’汉字字符串字段’转换成base64形式保存到后台，处理的字段3个，包括：（人员签到情况描述、计划兑现情况描述、签到地点）。
+          var base = new Base64();
+          var qdddTemp = base.encode(this.totalData.qddd);  // 签到地点
+          var dcryqkTemp = base.encode(this.totalData.dcryqk); // 计划兑现情况
+          var jhdxqkTemp = base.encode(this.totalData.jhdxqk); // 计划兑现情况
+
+
+          let url = 'http://tljjgxt.r93535.com/DayplanSaveServlet?id='+this.id+'&qddd='+qdddTemp+'&qdsj='+this.totalData.qdsj+'&jhdxqk='+jhdxqkTemp+'&jhsfdx='+jhsfdxS+'&dcryqk='+dcryqkTemp+'&ryqdb='+ ryqdbId+'&xczp='+xczpId+'&jwd='+this.jwd;
+
+          this.$http.get(url).then((response) => {
+            console.log("营业线保存成功：" + JSON.stringify(response));
+            // 保存成功
+            Toast(`保存成功`);
+          }, (response) => {
+            console.log('error');
+          });
         },
         onClickLeft(){
+
           // 清空历史数据，再次进入重新获取数据
           this.totalData.qddd='';
           this.totalData.qdsj='';
@@ -565,12 +603,8 @@
           this.ryqdqkImgArr  =[];
           this.zczpArr  =[];
 
-
-
           // 跳转页面，返回首页
           this.$router.push({path: '/BusinessLine'});
-
-
 
         },
 
@@ -590,10 +624,72 @@
           let vm = this;
           let url = 'http://tljjgxt.r93535.com/YYXDayPlanUniqueServlet?id='+vm.id+'&baseuserId='+this._GLOBAL.baseUserId;
           vm.$http.get(url).then((response) => {
-            console.log("详情页面的数据：" + JSON.stringify(response.data));
             vm.totalData = response.data;
 
-            vm.totalData.jhsfdx = vm.totalData.jhsfdx == '1'?'是':'否';
+            console.log('获取营业线的详情页面的数据--1：' + JSON.stringify(vm.totalData));
+            console.log('获取营业线的详情页面--------2：' + JSON.stringify(vm.totalData.ryqdb));
+            console.log('获取的详情页:现场照片--------3：' + JSON.stringify(vm.totalData.xczp));
+
+            // 根据后台返回的图片id数据获取图片信息
+            var ryqdbTempUrl ='http://rails.r93535.com/tljggxt/selfrun/selfruncon!getFilePath.action?fileId='+vm.totalData.ryqdb;
+            var xczpTempUrl ='http://rails.r93535.com/tljggxt/selfrun/selfruncon!getFilePath.action?fileId='+vm.totalData.xczp;
+
+            // 将从接口拿到的id数据放进数组中
+            var ryqdbT = vm.totalData.ryqdb.split(',');
+            var xczpT = vm.totalData.xczp.split(',');
+
+            for (var i=0;i<ryqdbT.length;i++){
+              this.ryqdbIdArr.push(ryqdbT[i]);
+            }
+
+            for (var i=0;i<xczpT.length;i++){
+              this.xczpIdArr.push(xczpT[i]);
+            }
+
+
+            console.log("因也先请求的url:" + ryqdbTempUrl);
+            // 请求人员签到表数据
+            axios.get(ryqdbTempUrl).then(response => {
+              console.log("图片url数据源22222：" +JSON.stringify( response.data));
+              // 将接收到的id转换成数组形式
+              var ryqdbTemp = response.data; //  4
+//
+              for (var i=0;i<ryqdbTemp.length;i++){
+                console.log("图片的src:" +JSON.stringify( ryqdbTemp[i]));
+                var index=i;
+                var imgObj={};
+
+                imgObj.s = ryqdbTemp[index].fileAddr;
+                imgObj.x=1;
+                imgObj.y=index;
+                imgObj.isShow=true;
+
+                this.ryqdqkImgArr.push(imgObj);
+              }
+            }).catch(err => {
+              console.error(err.message)
+            })
+
+            // 请求现场照片数据
+            axios.get(xczpTempUrl).then(response => {
+              console.log("图片url数据源3333：" +JSON.stringify( response.data));
+              var xczpTemp = response.data; // 1
+
+              for (var i=0;i<xczpTemp.length;i++){
+                var index=i;
+                var imgObj={};
+                imgObj.s = xczpTemp[index].fileAddr;
+                imgObj.x=2;
+                imgObj.y=index;
+                imgObj.isShow=true;
+
+                this.zczpArr.push(imgObj);
+              }
+            }).catch(err => {
+              console.error(err.message)
+            })
+
+            vm.totalData.jhsfdx = vm.totalData.jhsfdx === '1'?'是':'否';
 
             this.$nextTick(function(){
               console.log("$nextTick监听数据渲染完成之后的回调函数");
@@ -601,15 +697,19 @@
               for(var i=0;i<obj.length;i++){
                 var h=$(obj[i]).height();
                 $(obj[i]).siblings().css({
-                  'height':h+'px',
+//                  'height':h+'px',
                   'lineHeight':h+'px'
                 });
               }
             })
+
           }, (response) => {
             console.log('error');
           });
         }
+      },
+      activated: function() {
+        this.getData();
       },
       mounted:function () {
         // 绑定获取位置信息的回调函数
@@ -624,32 +724,32 @@
         // 绑定获取android回传图片id的回调函数
         window.RPMImageIdCallBack = this.RPMImageIdCallBack;
 
-        this.getData();
       }
     }
 </script>
 
+
 <style scoped>
   .van-col.van-col-16{
-    height:40px;
-    line-height:40px;
+    /*height:40px;*/
+    /*line-height:40px;*/
 
   }
-  .van-col.van-col-16>button.refreshBtn{
-    width:50px;
-    height:30px;
-    text-align: center;
-    line-height:30px;
-    border:none;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    background: #2196F3;
-    color: #fff;
-  }
-  .van-col.van-col-16>button.refreshBtn:active{
-    background: #1771f3;
-  }
+  /*.van-col.van-col-16>button.refreshBtn{*/
+    /*width:50px;*/
+    /*height:30px;*/
+    /*text-align: center;*/
+    /*line-height:30px;*/
+    /*border:none;*/
+    /*-webkit-border-radius: 4px;*/
+    /*-moz-border-radius: 4px;*/
+    /*border-radius: 4px;*/
+    /*background: #2196F3;*/
+    /*color: #fff;*/
+  /*}*/
+  /*.van-col.van-col-16>button.refreshBtn:active{*/
+    /*background: #1771f3;*/
+  /*}*/
   /*添加工作内容*/
   .workcontent{
     padding: 10px 15px;
@@ -739,32 +839,10 @@
     padding:5px;
   }
 
-  /* 保存按钮 */
-  #save{
-    position: fixed;
-    left:0px;
-    bottom:50px;
-    width:100%;
-    height:40px;
-    text-align: center;
-    line-height:40px;
-    background: #2196F3;
-    color:#fff;
-    border-radius:4px;
-  }
   /* 设置头部 style start */
   .van-nav-bar{
     background: #2196F3;
     color: #fff;
-  }
-  .van-col.van-col-16{
-    position: relative;
-  }
-  .van-col.van-col-16>button.refreshBtn{
-    position: absolute;
-    top:5px;
-    right:5px;
-
   }
 
   .van-col.van-col-16>span.w{
@@ -787,8 +865,6 @@
   /* 照片 */
   .img{
     width:100%;
-    /*height:100px;*/
-    /*background: #a3f8ff;*/
   }
   img.photo{
     width: 50px;

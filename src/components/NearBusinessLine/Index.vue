@@ -48,7 +48,7 @@
                 <p class="jssjd_rjhh clearfix">
                   <span class="jssjd">{{planItem.jssjd}}</span>
                 </p>
-                <p>{{planItem.xmmc}}</p>
+                <p>{{planItem.id}}：{{planItem.xmmc}}</p>
                 <p>{{planItem.sgdd}}</p>
               </div>
             </van-step>
@@ -252,6 +252,7 @@
       getList(){
         let vm = this;
         let url = 'http://tljjgxt.r93535.com/DayPlanDetailNearbyServlet?page='+vm.page+'&baseuserid='+this._GLOBAL.baseUserId+'&sgrq='+vm.sgrq+'&xmmc='+vm.xmmcId;
+        console.log("邻近营业线列表请求的url：" + url);
 
         vm.$http.get(url).then((response) => {
           vm.listdata = response.data;
