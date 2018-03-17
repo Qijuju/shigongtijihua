@@ -246,9 +246,6 @@
         xczpId:'', //现场照片 保存字段
 
 
-
-
-
         previewPicSrc:'', // 预览图片的src
         setHeight:window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,/// 设置预览图片的盒子的高度=屏幕可视区域的高度
 
@@ -482,8 +479,6 @@
       },
       // android回传图片id的回调函数
       RPMImageIdCallBack(dataId,x,y){
-       /* ryqdbIdArr:[], //人员签到表 桥梁作用
-          xczpIdArr:[], //现场照片 桥梁作用*/
 
         console.log("ndroid回传图片id，接收到的参数为：" + dataId+":"+x+':'+y);
         // 首先判断id是否为空。 为空时，显示叉号，非空时，显示对号。
