@@ -338,6 +338,8 @@
       getProjects(){
 
         let url='http://tljjgxt.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this._GLOBAL.baseUserId;
+
+        console.log('请求项目的url：' + url);
         axios.get(url)
           .then(response => {
             // 接收响应数据
