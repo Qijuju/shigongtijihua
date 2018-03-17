@@ -5,8 +5,6 @@
       left-text="返回"
       @click-left="$router.go(-1)" fixed
       right-text="关闭"  @click-right="onClickRight"
-
-
     ></van-nav-bar>
     <!--<van-row v-for="(name, index) in DayPlanCount">
       <div @click="getDayPlanDetail(name.date,index,true)">
@@ -143,7 +141,7 @@
       },
       getDayPlanCount() {
 //        debugger
-        var url='http://tljjgxt.r93535.com/DayPlanCountServlet?baseuserid=102300&xmmc='+this.xmmc+'&type=1&sgksrq='+this.sgksrq+'&sgjsrq='+this.sgjsrq+
+        var url='http://tljjgxt.r93535.com/DayPlanCountServlet?baseuserid='+this._GLOBAL.baseUserId+'&xmmc='+this.xmmc+'&type=1&sgksrq='+this.sgksrq+'&sgjsrq='+this.sgjsrq+
           '&dj='+this.dj+'&xingbie='+this.xingbie+'&sglx='+this.sglx+'&sglc='+this.sglc+'&kssjd=&page=1'
         axios.get(url)
           .then(response => {

@@ -148,6 +148,7 @@ export default {
       // debugger
      bus.$on('v-model',data=> {
       this.requestName = data;
+      this.reset()
       // alert('onSearchName===='+data);
       this.GetDoWorkflowList();
      });
@@ -161,9 +162,10 @@ export default {
          this.status = data;
          //alert('status===='+data);
          bus.$on('van-button--normal',data=> {
-          this.workflowId = data;
-          //alert('workflowId===='+data);
-          this.GetDoWorkflowList();
+            this.reset()
+            this.workflowId = data;
+            //alert('workflowId===='+data);
+            this.GetDoWorkflowList();
           });
       });
 
@@ -196,7 +198,6 @@ export default {
             debugger
             if(data.length>=1){
               for(var i in data) {
-                console.log(data[i].requestId)
                 this.DoWorkflowList.push(data[i])
               }
               this.pageNo=this.pageNo+1
@@ -206,7 +207,8 @@ export default {
               /*this.msg='加载成功'
               Toast.success(this.msg)*/
             }else{
-              this.msg='没有更多数据'
+              /*this.msg='没有更多数据'*/
+              this.msg='加载完毕'
               Toast.success(this.msg)
             }
           }).catch(err => {

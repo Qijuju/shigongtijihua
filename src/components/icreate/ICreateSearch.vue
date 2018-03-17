@@ -73,11 +73,11 @@ export default {
     onSearch(){
       //向我发起的页面展示-传递流程名称
       bus.$emit('v-model',this.qsrxmmc)
-      this.$router.push({path: '/DoWork'});
+      this.$router.push({path: '/ICreate'});
       },
     // 点击取消按钮跳转事件
     onCancel(){
-      this.$router.push({path: '/DoWork'});
+      this.$router.push({path: '/ICreate'});
     }
 
    }

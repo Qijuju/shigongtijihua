@@ -141,6 +141,7 @@ export default {
       // debugger
      bus.$on('v-model',data=> {
       this.requestName = data;
+      this.reset()
       // alert('onSearchName===='+data);
       this.GetICreateflowList();
      });
@@ -152,6 +153,7 @@ export default {
       bus.$on('van-button--normal',data=> {
         this.workflowId = data;
         // alert('workflowId===='+data);
+        this.reset()
         this.GetICreateflowList();
       });
     },
