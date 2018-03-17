@@ -48,7 +48,7 @@
                 <p class="jssjd_rjhh clearfix">
                   <span class="jssjd">{{planItem.jssjd}}</span>
                 </p>
-                <p>{{planItem.id}}：{{planItem.xmmc}}</p>
+                <p>{{planItem.xmmc}}</p>
                 <p>{{planItem.sgdd}}</p>
               </div>
             </van-step>
@@ -327,7 +327,9 @@
 
       // 获取可选项目列表数据
       getProjects(){
-        axios.get('http://tljjgxt.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this._GLOBAL.baseUserId)
+        let url='http://tljjgxt.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this._GLOBAL.baseUserId;
+
+        axios.get(url)
           .then(response => {
             // 接收响应数据
             this.projects = response.data;

@@ -3,7 +3,7 @@
     <!--title-->
     <van-nav-bar title="营业线施工日计划"
                  left-text="返回"
-                 @click-left="$router.go(-1)"
+                 @click-left="onClickLeft"
                  right-text="关闭"  @click-right="onClickRight"
                  fixed
     ></van-nav-bar>
@@ -606,6 +606,18 @@
             // 保存成功
             Toast(`保存成功`);
             // 跳转页面，返回首页
+            // 清空历史数据，再次进入重新获取数据
+            this.totalData.qddd='';
+            this.totalData.qdsj='';
+            this.totalData.jhdxqk='';
+            this.totalData.jhsfdx='';
+            this.totalData.dcryqk='';
+            this.ryqdqkImgArr  =[];
+            this.ryqdbIdArr=[];
+            this.zczpArr  =[];
+            this.xczpIdArr=[];
+            this.jwd='';
+
             this.$router.push({path: '/BusinessLine'});
 
           }, (response) => {
@@ -614,21 +626,31 @@
         },
         onClickLeft(){
 
-          // 清空历史数据，再次进入重新获取数据
-          this.totalData.qddd='';
-          this.totalData.qdsj='';
-          this.totalData.jhdxqk='';
-          this.totalData.jhsfdx='';
-          this.totalData.dcryqk='';
-          this.ryqdqkImgArr  =[];
-          this.ryqdbIdArr=[];
-          this.zczpArr  =[];
-          this.xczpIdArr=[];
-          this.jwd='';
+          Dialog.confirm({
+            message: '确认退出此次编辑？'
+          }).then(() => {
+
+            // 清空历史数据，再次进入重新获取数据
+            this.totalData.qddd='';
+            this.totalData.qdsj='';
+            this.totalData.jhdxqk='';
+            this.totalData.jhsfdx='';
+            this.totalData.dcryqk='';
+            this.ryqdqkImgArr  =[];
+            this.ryqdbIdArr=[];
+            this.zczpArr  =[];
+            this.xczpIdArr=[];
+            this.jwd='';
 
 
-          // 跳转页面，返回首页
-          this.$router.push({path: '/BusinessLine'});
+            // 跳转页面，返回首页
+            this.$router.go(-1)
+  //          this.$router.push({path: '/BusinessLine'});
+
+
+          }).catch((error) => {
+            console.log(error);
+          });
 
         },
 
@@ -710,6 +732,7 @@
                 }
 
                 this.ryqdqkImgArr.push(imgObj);
+
               }
             }).catch(err => {
               console.error(err.message)

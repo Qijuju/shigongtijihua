@@ -195,7 +195,6 @@ export default {
         axios.get(url)
           .then(response => {
             var data = response.data
-            debugger
             if(data.length>=1){
               for(var i in data) {
                 this.DoWorkflowList.push(data[i])

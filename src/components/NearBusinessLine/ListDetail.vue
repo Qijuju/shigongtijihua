@@ -4,7 +4,7 @@
     <!--<Header title="邻近营业线施工日计划"></Header>-->
     <van-nav-bar title="邻近营业线施工日计划"
                  left-text="返回"
-                 @click-left="$router.go(-1)"
+                 @click-left="onClickLeft"
                  right-text="关闭"  @click-right="onClickRight"
                  fixed
     ></van-nav-bar>
@@ -92,7 +92,7 @@
         <van-col span="8" class="getHeight">施工配合通知书照片</van-col>
         <van-col span="16">
           <!--<img width="90%" height="80%" style="margin-left: 5%;" v-bind:src="totalData.phtzszp" alt="通知书照片">-->
-          <img width="90%" height="80%" style="margin-left: 5%;border:0;" src="" alt="通知书照片" v-on:click="showBigImage($event)"/>
+          <!--<img width="90%" height="80%" style="margin-left: 5%;border:0;" src="" alt="通知书照片" v-on:click="showBigImage($event)"/>-->
         </van-col>
       </van-row>
       <van-row>
@@ -572,6 +572,16 @@
           // 保存成功
           Toast(`保存成功`);
 
+          // 清空数据
+          this.totalData.qddd ='';
+          this.totalData.qdsj ='';
+          this.totalData.jhsfdx ='';
+          this.xczpImgArr=[];
+          this.ryqdqkImgArr=[];
+          this.ryqdbIdArr=[];
+          this.xczpIdArr  =[];
+          this.jwd='';
+
           // 跳转页面，返回列表页
           this.$router.push({path: '/NearBusinessLine'});
 
@@ -583,19 +593,20 @@
         Dialog.confirm({
           message: '确认退出此次编辑？'
         }).then(() => {
-          // 清空数据
-          this.totalData.qddd ='';
-          this.totalData.qdsj ='';
-          this.totalData.jhsfdx ='';
-          this.xczpImgArr=[];
-          this.ryqdqkImgArr=[];
-          this.ryqdbIdArr=[];
-          this.xczpIdArr  =[];
-          this.jwd='';
 
+            // 清空数据
+            this.totalData.qddd ='';
+            this.totalData.qdsj ='';
+            this.totalData.jhsfdx ='';
+            this.xczpImgArr=[];
+            this.ryqdqkImgArr=[];
+            this.ryqdbIdArr=[];
+            this.xczpIdArr  =[];
+            this.jwd='';
 
-          // 跳转页面，返回列表页
-          this.$router.push({path: '/NearBusinessLine'});
+            // 跳转页面，返回列表页
+            this.$router.go(-1)
+  //          this.$router.push({path: '/NearBusinessLine'});
 
         }).catch((error) => {
           console.log(error);
