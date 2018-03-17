@@ -5,6 +5,7 @@
       <van-nav-bar
         title="待我审批"
         left-text="返回"
+        right-text="关闭"  @click-right="onClickRight"
         @click-left="onClickLeft"
       >
       </van-nav-bar>
@@ -111,6 +112,11 @@
     },
 
   methods: {
+
+    //  关闭应用程序。调取JSAPI,关闭应用程序
+    onClickRight(){
+      RPM.closeApplication();
+    },
 
     toDetail(url) {
       var query = {

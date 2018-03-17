@@ -6,8 +6,7 @@
     <div class="search">
       <van-row>
         <van-col span="6" ><span v-on:click="goSearchPage(calendar.value,selectProjectObj.id,selectProjectObj.xmmc)">搜索</span></van-col>
-        <!--<van-col span="12">{{selectProjectObj.xmmc}}</van-col>-->
-        <van-col span="12">{{projectName}}</van-col>
+        <van-col span="12" style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">{{projectName}}</van-col>
 
         <van-col span="6" class="chooseBtn">
           <van-button type="primary">
@@ -23,7 +22,7 @@
         <div id="wrap">
           <div id="innerWrap" :style="{'width':days2.length*66+'px'}">
             <div class="scroll" v-for="(item ,index) in days2" @click="dayClick(index,item,$event)">
-              <p class="dateDetail">
+              <p class="dateDetail" v-bind:class="{ active: item.showBg}">
                 <span class="num">{{item.day}}</span>
                 <span class="china">{{item.weekDay}}</span>
               </p>
@@ -154,7 +153,6 @@
             this.calendar.show=false;
             this.calendar.value=value;
             this.calendar.display=value.join("/");
-
 
           }
         }
@@ -393,12 +391,15 @@
 
       // 点击事件
       dayClick(index,item,e) { // index 为下标值
-        console.log('点击的日期对象为：' + e);
+
         var el=e.currentTarget;
-        console.log('点击的日期对象为：' + el);
-        $(el).siblings().css({
-          'color':"#f30"
+        // 设置自已颜色
+        $(el).siblings().children().css({
+          'color':"#2196F3"
         });
+        $(el).children().css({
+          'color':"#F44336"
+        })
 
         var clickDay =item.day>9?item.day:'0'+item.day;
         this.sgrq = this.calendar.value[0]+'-'+this.calendar.value[1]+'-'+clickDay;
@@ -744,6 +745,9 @@
     line-height:44px;
     padding:3px;
     color: #2196F3;
+  }
+  p.dateDetail.active{
+    color: #F44336;
   }
   p.dateDetail > .num{
     font-size:16px;

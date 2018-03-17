@@ -3,13 +3,15 @@
     <!--title-->
     <van-nav-bar title="营业线施工日计划"
                  left-text="返回"
+                 right-text="关闭"  @click-right="onClickRight"
                  @click-left="onClickLeft"
                  fixed
     ></van-nav-bar>
+
     <!--内容-->
     <div class="content">
       <van-row>
-        <van-col span="8" class="getHeight">日计划号</van-col>
+        <van-col span="8" class="getHeight">本系统日计划号</van-col>
         <van-col span="16" >
           <span class="w"  @click='popupClick(totalData.rjhh)' v-html="totalData.rjhh"></span>
         </van-col>
@@ -18,7 +20,7 @@
         <van-col span="8" class="getHeight">月计划号</van-col>
         <van-col span="16" >
           <!--<span class="w" @click='popupClick(totalData.yjhh)' v-html="totalData.yjhh">{{totalData.xmmc}}</span>-->
-          <span class="w" @click='popupClick(totalData.yjhh)'>{{totalData.id}}{{totalData.xmmc}}</span>
+          <span class="w" @click='popupClick(totalData.yjhh)'>{{totalData.yjhh}}</span>
         </van-col>
       </van-row>
       <van-row>
@@ -147,7 +149,6 @@
           <span class="w" @click='popupClick(totalData.bz)' v-html="totalData.bz"></span>
         </van-col>
       </van-row>
-      <br>
       <van-row>
         <van-col span="24" class="getHeight">计划批复情况</van-col>
       </van-row>
@@ -165,9 +166,9 @@
 
       <div class="imgBox">
 
-        <div class="imgnow" v-for="(item ,index) in ryqdqkImgArr" >
+        <div class="imgnow" v-for="(item ,index) in ryqdqkImgArr">
           <img v-bind:src="item.s" :alt="index" v-on:click="showBigImage($event)">
-          <van-icon name="checked"  v-show="item.isShow==true" />
+          <van-icon name="checked"  v-show="item.isShow==true"/>
           <van-icon name="clear"  v-show="item.isShow==false"/>
           <van-icon name="delete" @click="onDelete(1,index)" />
         </div>
@@ -201,7 +202,7 @@
       <van-row>
         <van-col span="8" class="getHeight">计划兑现情况描述</van-col>
         <van-col span="16">
-          <input type="text" @click='popupClick(totalData.jhdxqk)'v-model="totalData.jhdxqk" v-if="totalData.editStatus==1">
+          <input type="text" @click='popupClick(totalData.jhdxqk)' v-model="totalData.jhdxqk" v-if="totalData.editStatus==1">
           <input type="text" @click='popupClick(totalData.jhdxqk)'v-model="totalData.jhdxqk" v-else readonly>
         </van-col>
       </van-row>
@@ -225,7 +226,7 @@
       <van-row>
         <van-col span="8" class="getHeight">签到时间</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.qdsj)' v-html="totalData.qdsj"></span>
+          <span style="display: inline-block;width: 140px;" @click='popupClick(totalData.qdsj)' v-html="totalData.qdsj"></span>
           <!--权限-->
           <button class="refreshBtn" @click="getCurrentPositionInfo()" v-if="totalData.editStatus==1">签到</button>
 
@@ -292,8 +293,6 @@
           // 测试用 ，保存的字段
           saveS:'',
 
-
-
           testTxt:'',
           // 拍照
           callBackParams:'',
@@ -335,6 +334,11 @@
         },
       },
       methods:{
+        //  关闭应用程序。调取JSAPI,关闭应用程序
+        onClickRight(){
+          RPM.closeApplication();
+        },
+
         // 引入base64
         Base64:function () {
           Base64();
@@ -354,24 +358,21 @@
             title: '删除',
             message: '确定删除此图片吗？'
           }).then(() => {
-
             console.log("删除的确认方法：" + num+ ':'+ index);
             // 删除图片的方法
             if (num===1){
-
               console.log('删除的对象为：' +JSON.stringify(this.ryqdqkImgArr[index]));
 
               this.ryqdqkImgArr.splice(index,1);
-
-
               // 删除图片。根据有没有id,有id的时从删除对应的id，没有id时，不执行删除操作。
+              console.log("删除前的id数组为：" + JSON.stringify(this.ryqdbIdArr));
               this.ryqdbIdArr.splice(index,1);
+              console.log("删除后的额的id数组为：" + JSON.stringify(this.ryqdbIdArr));
+
             }
             if (num===2){
-
               console.log('删除的对象为：' +JSON.stringify(this.zczpArr[index]));
               this.zczpArr.splice(index,1);
-
 
               // 删除对应图片的id
               this.xczpIdArr.splice(index,1);
@@ -562,15 +563,32 @@
         // 保存功能调取方法
         save(){
 
+
+          console.log("清楚空元素之前的数据：" +JSON.stringify(this.ryqdbIdArr));
+          for(var i = 0; i < this.ryqdbIdArr.length; i++) {
+            if(this.ryqdbIdArr[i] == null|| this.ryqdbIdArr[i]=='' ||this.ryqdbIdArr[i]==undefined) {
+              this.ryqdbIdArr.splice(i,1);
+              i = i - 1; // i - 1 ,因为空元素在数组下标 2 位置，删除空之后，后面的元素要向前补位，
+                         // 这样才能真正去掉空元素,觉得这句可以删掉的连续为空试试，然后思考其中逻辑
+            }
+          }
+          console.log("清楚空元素之后：" +JSON.stringify(this.ryqdbIdArr));
+
+          console.log("清楚空元素之前的数据：" +JSON.stringify(this.xczpIdArr));
+          for(var i = 0; i < this.xczpIdArr.length; i++) {
+            if(this.xczpIdArr[i] == null|| this.xczpIdArr[i]=='' ||this.xczpIdArr[i]==undefined) {
+              this.xczpIdArr.splice(i,1);
+              i = i - 1; // i - 1 ,因为空元素在数组下标 2 位置，删除空之后，后面的元素要向前补位，
+                         // 这样才能真正去掉空元素,觉得这句可以删掉的连续为空试试，然后思考其中逻辑
+            }
+          }
+          console.log("清楚空元素之后：" +JSON.stringify(this.xczpIdArr));
+
           // 将图片id数组转换成字符串
           var ryqdbId = this.ryqdbIdArr.join(',');
           var xczpId = this.xczpIdArr.join(',');
 
-          console.log('保存的照片的id - 人员签到情况[]：' + this.ryqdbIdArr);
-          console.log('保存的照片的id - 人员签到情况：' + this.ryqdbId);
-
-          console.log('保存的照片的id - 现场照片[]：' + this.xczpIdArr);
-          console.log('保存的照片的id - 现场照片：' + this.xczpId);
+          console.log('拼接要保存的的数组id为' + ryqdbId);
 
           // 计划兑现情况,将汉字转换成数字字符串
           var jhsfdxS = this.totalData.jhsfdx === '是'?'1':'0'; // 注意：后台要求‘否’的情况，只能传‘0’，不能传空字符串。
@@ -588,6 +606,9 @@
             console.log("营业线保存成功：" + JSON.stringify(response));
             // 保存成功
             Toast(`保存成功`);
+            // 跳转页面，返回首页
+            this.$router.push({path: '/BusinessLine'});
+
           }, (response) => {
             console.log('error');
           });
@@ -601,7 +622,11 @@
           this.totalData.jhsfdx='';
           this.totalData.dcryqk='';
           this.ryqdqkImgArr  =[];
+          this.ryqdbIdArr=[];
           this.zczpArr  =[];
+          this.xczpIdArr=[];
+          this.jwd='';
+
 
           // 跳转页面，返回首页
           this.$router.push({path: '/BusinessLine'});
@@ -609,8 +634,15 @@
         },
 
         popupClick(txt) { // popup弹出层点击事件
-          this.popupVisible = true;
-          this.popupTxt = txt;
+          console.log("点击空格的内容为：" + txt);
+
+          if (txt !=''){
+            this.popupVisible = true;
+            this.popupTxt = txt;
+          }else {
+            return;
+          }
+
         },
         onInput(checked) {
           Dialog.confirm({
@@ -634,6 +666,9 @@
             var ryqdbTempUrl ='http://rails.r93535.com/tljggxt/selfrun/selfruncon!getFilePath.action?fileId='+vm.totalData.ryqdb;
             var xczpTempUrl ='http://rails.r93535.com/tljggxt/selfrun/selfruncon!getFilePath.action?fileId='+vm.totalData.xczp;
 
+            console.log('获取营业线的详情页面--------2url：' + ryqdbTempUrl);
+            console.log('获取的详情页:现场照片--------3url：' + xczpTempUrl);
+
             // 将从接口拿到的id数据放进数组中
             var ryqdbT = vm.totalData.ryqdb.split(',');
             var xczpT = vm.totalData.xczp.split(',');
@@ -645,9 +680,6 @@
             for (var i=0;i<xczpT.length;i++){
               this.xczpIdArr.push(xczpT[i]);
             }
-
-
-            console.log("因也先请求的url:" + ryqdbTempUrl);
             // 请求人员签到表数据
             axios.get(ryqdbTempUrl).then(response => {
               console.log("图片url数据源22222：" +JSON.stringify( response.data));
@@ -657,12 +689,26 @@
               for (var i=0;i<ryqdbTemp.length;i++){
                 console.log("图片的src:" +JSON.stringify( ryqdbTemp[i]));
                 var index=i;
-                var imgObj={};
 
+                /*
+                *  // 将对应的图片的标识修改为true,图片的右上角显示对号
+                this.ryqdqkImgArr[y-1].isShow = false;
+                break;
+              case '2':
+                // 将对应的图片的标识修改为true,图片的右上角显示对号
+                this.zczpArr[y-1].isShow = false;
+                * */
+
+                var imgObj={};
                 imgObj.s = ryqdbTemp[index].fileAddr;
                 imgObj.x=1;
                 imgObj.y=index;
-                imgObj.isShow=true;
+
+                if (ryqdbTemp[index].id==''){
+                  imgObj.isShow=false;
+                }else {
+                  imgObj.isShow=true;
+                }
 
                 this.ryqdqkImgArr.push(imgObj);
               }
@@ -675,13 +721,20 @@
               console.log("图片url数据源3333：" +JSON.stringify( response.data));
               var xczpTemp = response.data; // 1
 
+
+              console.log("拿回的图片数据为232：" + JSON.stringify(xczpTemp));
+
               for (var i=0;i<xczpTemp.length;i++){
                 var index=i;
                 var imgObj={};
                 imgObj.s = xczpTemp[index].fileAddr;
                 imgObj.x=2;
                 imgObj.y=index;
-                imgObj.isShow=true;
+                if (xczpTemp[index].id==''){
+                  imgObj.isShow=false;
+                }else {
+                  imgObj.isShow=true;
+                }
 
                 this.zczpArr.push(imgObj);
               }
@@ -730,26 +783,6 @@
 
 
 <style scoped>
-  .van-col.van-col-16{
-    /*height:40px;*/
-    /*line-height:40px;*/
-
-  }
-  /*.van-col.van-col-16>button.refreshBtn{*/
-    /*width:50px;*/
-    /*height:30px;*/
-    /*text-align: center;*/
-    /*line-height:30px;*/
-    /*border:none;*/
-    /*-webkit-border-radius: 4px;*/
-    /*-moz-border-radius: 4px;*/
-    /*border-radius: 4px;*/
-    /*background: #2196F3;*/
-    /*color: #fff;*/
-  /*}*/
-  /*.van-col.van-col-16>button.refreshBtn:active{*/
-    /*background: #1771f3;*/
-  /*}*/
   /*添加工作内容*/
   .workcontent{
     padding: 10px 15px;
@@ -768,7 +801,6 @@
     height:70px;
     text-align: center;
     line-height:70px;
-    /*background: #ccc;*/
     color: #333;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -813,9 +845,7 @@
   /* 禁用按钮button*/
   /* 照片的样式 */
   .photoBox{
-    /*width:18%;*/
     margin-left:1%;
-    /*height:70px;*/
     margin-top:10px;
     float: left;
     -webkit-border-radius: 4px;
@@ -823,9 +853,6 @@
     border-radius: 4px;
   }
   .photoBox >img.photo{
-    /*width:100%;*/
-    /*height:100%;*/
-    /*height:50px;*/
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
@@ -849,7 +876,6 @@
     display: inline-block;
     width:100%;
     height:100%;
-
   }
   .van-nav-bar .van-icon{
     color: #fff;
@@ -885,7 +911,6 @@
     -moz-border-radius: 4px;
     border-radius: 4px;
     font-size:30px;
-
     border:1px dashed #9c9c9c;
   }
   .content{

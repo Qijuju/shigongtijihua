@@ -1,7 +1,7 @@
 <template>
   <div class="1">
   <!-- 施工日计划我发起的列表-表头-开始 -->
-  <van-nav-bar title="我发起的" left-text="返回" @click-left="onClickLeft">
+  <van-nav-bar title="我发起的" left-text="返回"  right-text="关闭"  @click-right="onClickRight" @click-left="onClickLeft">
   </van-nav-bar>
   <!-- 施工日计划我已审批列表-表头-结束 -->
 <!-- 施工日计划我发起的筛选-类型标题 -->
@@ -36,10 +36,12 @@ export default {
         // Toast('返回');
         this.$router.push({path: '/ICreate'});
       },
-    // 表头关闭按钮事件
-      onClickRight() {
-        this.$router.push({path: '/ICreate'});
-      },
+
+     //  关闭应用程序。调取JSAPI,关闭应用程序
+     onClickRight(){
+       RPM.closeApplication();
+     },
+
      //  点击营业线施工日计划选择按钮事件
     onClickSgrjh(data){
       var typeId = '';

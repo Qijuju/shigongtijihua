@@ -3,6 +3,7 @@
 
     <van-nav-bar title="邻近营业线施工日计划"
                  left-text="返回"
+                 right-text="关闭"  @click-right="onClickRight"
                  @click-left="onClickLeft"
                  fixed
     ></van-nav-bar>
@@ -142,7 +143,6 @@
 
         </van-col>
       </van-row>
-      <br>
       <van-row>
         <van-col span="24" class="getHeight">现场照片</van-col>
       </van-row>
@@ -164,7 +164,7 @@
       <van-row>
         <van-col span="8" class="getHeight">签到时间</van-col>
         <van-col span="16">
-          <span @click='popupClick(totalData.qdsj)' v-html="totalData.qdsj"></span>
+          <span style="display: inline-block;width: 140px;" @click='popupClick(totalData.qdsj)' v-html="totalData.qdsj"></span>
           <!--权限-->
           <button class="refreshBtn" @click="getCurrentPositionInfo()" v-if="totalData.status==1">签到</button>
           <!--无权限-->
@@ -264,6 +264,13 @@
       },
     },
     methods:{
+
+
+      //  关闭应用程序。调取JSAPI,关闭应用程序
+      onClickRight(){
+        RPM.closeApplication();
+      },
+
       // 引入base64
       Base64:function () {
         Base64();
@@ -522,6 +529,29 @@
       // 保存可编辑字段
       save(){
         // 将图片id数组转换成字符串
+        // 删除默认图片，即：id为空的图片不保存
+        console.log("清楚空元素之前的数据：" +JSON.stringify(this.ryqdbIdArr));
+        for(var i = 0; i < this.ryqdbIdArr.length; i++) {
+          if(this.ryqdbIdArr[i] == null|| this.ryqdbIdArr[i]=='' ||this.ryqdbIdArr[i]==undefined) {
+            this.ryqdbIdArr.splice(i,1);
+            i = i - 1; // i - 1 ,因为空元素在数组下标 2 位置，删除空之后，后面的元素要向前补位，
+                       // 这样才能真正去掉空元素,觉得这句可以删掉的连续为空试试，然后思考其中逻辑
+          }
+        }
+        console.log("清楚空元素之后：" +JSON.stringify(this.ryqdbIdArr));
+
+        console.log("清楚空元素之前的数据：" +JSON.stringify(this.xczpIdArr));
+        for(var i = 0; i < this.xczpIdArr.length; i++) {
+          if(this.xczpIdArr[i] == null|| this.xczpIdArr[i]=='' ||this.xczpIdArr[i]==undefined) {
+            this.xczpIdArr.splice(i,1);
+            i = i - 1; // i - 1 ,因为空元素在数组下标 2 位置，删除空之后，后面的元素要向前补位，
+                       // 这样才能真正去掉空元素,觉得这句可以删掉的连续为空试试，然后思考其中逻辑
+          }
+        }
+
+        console.log("清楚空元素之后的数据：" +JSON.stringify(this.xczpIdArr));
+
+
         var ryqdbId = this.ryqdbIdArr.join(',');
         var xczpId = this.xczpIdArr.join(',');
 
@@ -547,6 +577,9 @@
           // 保存成功
           Toast(`保存成功`);
 
+          // 跳转页面，返回列表页
+          this.$router.push({path: '/NearBusinessLine'});
+
         }, (response) => {
           console.log('error');
         });
@@ -561,6 +594,10 @@
           this.totalData.jhsfdx ='';
           this.xczpImgArr=[];
           this.ryqdqkImgArr=[];
+          this.ryqdbIdArr=[];
+          this.xczpIdArr  =[];
+          this.jwd='';
+
 
           // 跳转页面，返回列表页
           this.$router.push({path: '/NearBusinessLine'});
@@ -573,8 +610,16 @@
         this.sheetVisible = true;
       },
       popupClick(txt) { // popup弹出层点击事件
-        this.popupVisible = true;
-        this.popupTxt = txt;
+        console.log("点击空格的内容为：" + txt);
+
+        if (txt !=''){
+          this.popupVisible = true;
+          this.popupTxt = txt;
+        }else {
+          return;
+        }
+
+
       },
       onInput(checked) {
         Dialog.confirm({
@@ -625,7 +670,12 @@
               imgObj.s = ryqdbTemp[index].fileAddr;
               imgObj.x=1;
               imgObj.y=index;
-              imgObj.isShow=true;
+
+              if (ryqdbTemp[index].id==''){
+                imgObj.isShow=false;
+              }else {
+                imgObj.isShow=true;
+              }
 
               this.ryqdqkImgArr.push(imgObj);
             }
@@ -647,7 +697,12 @@
               imgObj.s = xczpTemp[index].fileAddr;
               imgObj.x=2;
               imgObj.y=index;
-              imgObj.isShow=true;
+
+              if (xczpTemp[index].id==''){
+                imgObj.isShow=false;
+              }else {
+                imgObj.isShow=true;
+              }
 
               this.xczpImgArr.push(imgObj);
             }

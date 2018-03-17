@@ -1,7 +1,7 @@
 <template>
   <div class="doWorkSearch">
  <!-- 施工日计划我已审批搜索-表头-开始 -->
-    <van-nav-bar title="我已审批" left-text="返回" @click-left="onClickLeft">
+    <van-nav-bar title="我已审批" left-text="返回"  right-text="关闭"  @click-right="onClickRight" @click-left="onClickLeft">
     </van-nav-bar>
 <!-- 施工日计划我已审批搜索-表头-结束-->
 <!-- 施工日计划我已审批搜索-输入项目名称-开始 -->
@@ -62,10 +62,12 @@ export default {
        // Toast('返回');
        this.$router.push({path: '/DoWork'});
       },
-    // 表头关闭按钮事件
-      onClickRight() {
-        this.$router.push({path: '/DoWork'});
-      },
+
+     //  关闭应用程序。调取JSAPI,关闭应用程序
+     onClickRight(){
+       RPM.closeApplication();
+     },
+
     //  点击搜索按钮跳转事件
     onSearch(){
       //向我已审批页面展示-传递流程名称

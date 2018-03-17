@@ -3,6 +3,7 @@
     <van-nav-bar
       title="非营业线详情"
       left-text="返回"
+      right-text="关闭"  @click-right="onClickRight"
       @click-left="onClickLeft" fixed
     ></van-nav-bar>
     <div class="content">
@@ -105,6 +106,12 @@
       this.getCount(data)
     },*/
     methods: {
+
+      //  关闭应用程序。调取JSAPI,关闭应用程序
+      onClickRight(){
+        RPM.closeApplication();
+      },
+
       loadMore(index){
         /*debugger*/
         if(this.count>this.DayPlanDetail.length&&index===this.showmum){
