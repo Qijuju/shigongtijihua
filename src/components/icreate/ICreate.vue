@@ -1,6 +1,6 @@
 <template>
   <div class="1">
-    <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom"  ref="loadmore" :autoFill="autoFill">
+    <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom"  ref="loadmore" >
       <div :style="{height:myHeight}">
     <!-- 施工日计划我发起的列表-表头-开始 -->
     <div class = "biaotou">
@@ -139,7 +139,7 @@ export default {
   GetOnSearch(){
       //我发起的页面展示-传递流程名称 变量名为v-model
       // debugger
-     bus.$on('v-model',data=> {
+     bus.$on('icreate-v-model',data=> {
       this.requestName = data;
       this.reset()
       // alert('onSearchName===='+data);
@@ -150,7 +150,7 @@ export default {
  //  获取点击营业线施工日计划跳转事件的值
     GetOnClickSgrjh(){
       //获取我发起的页面展示-传递流程类型id 变量名van-button--normal
-      bus.$on('van-button--normal',data=> {
+      bus.$on('icreate-van-button--normal',data=> {
         this.workflowId = data;
         // alert('workflowId===='+data);
         this.reset()

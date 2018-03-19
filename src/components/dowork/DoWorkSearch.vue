@@ -72,7 +72,7 @@ export default {
     onSearch(){
       //向我已审批页面展示-传递流程名称
       console.log(this.qsrxmmc);
-      bus.$emit('v-model',this.qsrxmmc);
+      bus.$emit('dowork-v-model',this.qsrxmmc);
       this.$router.push({path: '/DoWork'});
       },
     // 点击取消按钮跳转事件
