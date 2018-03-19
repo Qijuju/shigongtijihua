@@ -101,10 +101,6 @@
         }
       },
     },
-    /*created(){
-      var data=this.$store.getters.nonBusinessLineSearch
-      this.getCount(data)
-    },*/
     methods: {
 
       //  关闭应用程序。调取JSAPI,关闭应用程序
@@ -113,12 +109,9 @@
       },
 
       loadMore(index){
-        /*debugger*/
         if(this.count>this.DayPlanDetail.length&&index===this.showmum){
-          var url='http://tljjgxt.r93535.com/NonBusinessDayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&page='+this.page+'&baseuserid='+this._GLOBAL.baseUserId+'&sgjsrq='+this.currenttime
-          /*var url='http://whjjgc.r93535.com/DayPlanDetailNearbySearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&page=1&sgjsrq='+this.currenttime+'&baseuserid=236000&xb='+this.xingbie+'&lb='+this.sglx*/
-          /*var url='http://whjjgc.r93535.com/DayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&dj='+this.dj+'&xingbie='+this.xingbie+'&sglx='+this.sglx+'&page='+this.page+'&sglc='+this.sglc+'&baseuserid=236210&kssjd=&sgjsrq='+this.currenttime*/
-          /*debugger*/
+          var url='http://tljjgxt.r93535.com/NonBusinessDayPlanDetailSearchServlet?xmmc='+this.xmmc+'&sgksrq='+this.currenttime+'&page='+this.page+'&baseuserid='+this._GLOBAL.baseUserId+'&sgjsrq='+this.currenttime;
+
           axios.get(url)
             .then(response => {
               var data=response.data.data

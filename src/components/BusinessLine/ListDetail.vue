@@ -173,7 +173,7 @@
         </div>
 
         <!--权限-->
-        <div class="addPhoto" @click='takePictureE(1,true,"http://www.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")' v-if="totalData.editStatus==1">+</div>
+        <div class="addPhoto" @click='takePictureE(1,true,"http://rails.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")' v-if="totalData.editStatus==1">+</div>
 
 
         <!--<div class="addPhoto" @click='takePictureE(1,true,"http://www.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")'>+</div>-->
@@ -218,7 +218,7 @@
           <van-icon name="delete" @click="onDelete(2,index)" />
         </div>
 
-        <div class="addPhoto" @click='takePictureE(2,true,"http://www.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")' v-if="totalData.editStatus==1">+</div>
+        <div class="addPhoto" @click='takePictureE(2,true,"http://rails.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")' v-if="totalData.editStatus==1">+</div>
 
       </div>
 
