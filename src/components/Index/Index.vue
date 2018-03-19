@@ -111,6 +111,9 @@
         var sessionid = this.getQueryVariable('sessionid');
         if(!this._GLOBAL.isEmptyObject(sessionid)){
           this._GLOBAL.setSessionId(sessionid)
+
+          var testS ='http://tljjgxt.r93535.com:89/verifyLogin.do?loginid='+sessionid;
+          console.log("点击进入流程详情影藏的url：" + testS);
           this._GLOBAL.setSessionUrl('http://tljjgxt.r93535.com:89/verifyLogin.do?loginid='+sessionid)
         }
         var userid=this.getQueryVariable('userid')

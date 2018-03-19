@@ -201,7 +201,7 @@
     <!--预览图片的盒子-->
     <div id="showBigImage" v-if="showBigImage" @click="showBigImageBox($event)" v-bind:style="{height:setHeight+'px'}">
       <!--<img  src="../../assets/images/sgrjhImages/search.png" alt="">-->
-      <img  v-bind:src="previewPicSrc" alt="">
+      <img  v-bind:src="previewPicSrc"  alt="" style="width:100%;" />
     </div>
 
     <p hidden>{{storeXmId}}</p>
@@ -378,6 +378,7 @@
         $(el).hide();
       },
       showBigImage(event){
+
         //获取点击对象
         var el = event.currentTarget;
 
@@ -544,7 +545,6 @@
         }
 
         console.log("清楚空元素之后的数据：" +JSON.stringify(this.xczpIdArr));
-
 
         var ryqdbId = this.ryqdbIdArr.join(',');
         var xczpId = this.xczpIdArr.join(',');

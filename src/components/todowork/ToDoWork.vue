@@ -133,6 +133,7 @@
       var query = {
         url: url
       }
+      console.log("点击进入流程详情的url:" + url);
       this.$router.push({path: '/Detail', query: query});
     },
     // 表头返回按钮事件

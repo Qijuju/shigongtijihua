@@ -1,6 +1,9 @@
 <template>
   <div>
-    <van-nav-bar title="详情" left-text="返回" right-text="关闭"  @click-right="onClickRight"  @click-left="$router.go(-1)" ></van-nav-bar>
+    <!--<van-nav-bar title="详情" left-text="返回" right-text="关闭"  @click-right="onClickRight"  @click-left="$router.go(-1)" ></van-nav-bar>-->
+
+    <van-nav-bar title="详情" left-text="返回" right-text="关闭"  @click-right="onClickRight"  @click-left="onClickLeft" fixed ></van-nav-bar>
+
     <iframe  style="margin-top:2px;width:100%;height:1000px;" :src="url"></iframe>
   </div>
 </template>
@@ -27,6 +30,12 @@
           }
         }
       },
+
+      activated: function() {
+        $($('.van-tabbar--fixed')[0]).css({
+          'bottom':'-50px'
+        })
+      },
       methods: {
 
         //  关闭应用程序。调取JSAPI,关闭应用程序
@@ -38,9 +47,16 @@
           // Toast('返回');
           this.$router.push({path: '/Index'});
         },
+        // 返回上一页调取函数
         onClickLeft() {
-          this.$router.push({path: '/ToDoWork'});
-          // history.back();
+          // 返回上一页
+          this.$router.go(-1)
+
+          // 修改tabbar的定位
+          $($('.van-tabbar--fixed')[0]).css({
+            'bottom':'0px'
+          })
+
         }
       }
     }

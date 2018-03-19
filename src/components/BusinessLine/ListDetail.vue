@@ -305,8 +305,8 @@
           zczpArr:[], // 现场照片
 
           previewPicSrc:'', // 预览图片的src
-          previewPicWidth:'', // 预览图片的宽
-          previewPicHeight:'', // 预览图片的高
+//          previewPicWidth:'', // 预览图片的宽
+//          previewPicHeight:'', // 预览图片的高
 
           testW:'',
           setHeight:window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,/// 设置预览图片的盒子的高度=屏幕可视区域的高度
@@ -391,8 +391,8 @@
           var el = event.currentTarget;   //获取点击对象
           this.previewPicSrc =$(el).attr("src");  // 当前点击图片的src
 
-          this.previewPicWidth = $(el).width(); // 当前点击图片的宽
-          this.previewPicHeight = $(el).height();// 当前点击图片的高
+//          this.previewPicWidth = $(el).width(); // 当前点击图片的宽
+//          this.previewPicHeight = $(el).height();// 当前点击图片的高
 
           $('#showBigImage').show(); // 显示box
         },
