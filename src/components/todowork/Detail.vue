@@ -17,13 +17,13 @@
         }
       },
       mounted: function() {
-        var data = this.$route.query
+        var data = this.$route.query;
         console.log(data);
         this.url=data.url
       },
       watch: {
         $route: function (to, from) {
-          console.log("watch函数............")
+          console.log("watch函数............");
           if(to.path==='/Detail'){
             var data = to.query;
             this.url=data.url
