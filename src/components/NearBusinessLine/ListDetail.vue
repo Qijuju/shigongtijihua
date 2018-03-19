@@ -262,7 +262,6 @@
     },
     methods:{
 
-
       //  关闭应用程序。调取JSAPI,关闭应用程序
       onClickRight(){
         RPM.closeApplication();
