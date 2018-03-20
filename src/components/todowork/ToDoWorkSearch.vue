@@ -70,7 +70,7 @@ export default {
     //  点击搜索按钮跳转事件
     onSearch(){
       //向待我审批页面展示-传递流程名称 变量名为v-model
-      bus.$emit('v-model',this.qsrxmmc)
+      bus.$emit('todowork-v-model',this.qsrxmmc)
       this.$router.push({path: '/ToDoWork'});
       },
     // 点击取消按钮跳转事件

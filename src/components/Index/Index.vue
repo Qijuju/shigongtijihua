@@ -24,36 +24,38 @@
     <div class="charts" >
       <div id="mycharts" calss="mycharts" :style="{width:mywidth,height:mywidth}"></div>
       <div id="mycharts1" calss="mycharts1" :style="{width:mywidth,height:mywidth}"></div>
-        <van-row>
-          <!--<van-col span="24"><h3>{{today}}至{{nextweek}}施工日计划</h3></van-col>-->
+        <!--<van-row>
+          &lt;!&ndash;<van-col span="24"><h3>{{today}}至{{nextweek}}施工日计划</h3></van-col>&ndash;&gt;
           <van-col span="24"><h3>施工日计划信息统计</h3></van-col>
-        </van-row>
+        </van-row>-->
       <el-table
         :data="detail"
         :max-height="myheight"
+        cell-style="text-align:center"
+        header-cell-style="text-align:center;background: #D9EDF7"
         show-summary
         border
-        style="width: 100%; margin-top: 20px">
+        style="width: 100%; margin-top: 20px;text-align: center">
         <el-table-column
           prop="xmmc"
           fixed
           label="项目名称"
-          width="180">
+          width="120">
         </el-table-column>
         <el-table-column
           prop="yyxrjh"
           label="营业线"
-          width="180">
+          width="120">
         </el-table-column>
         <el-table-column
           prop="ljyyxrjh"
           label="临近营业线"
-          width="180">
+          width="120">
         </el-table-column>
         <el-table-column
           prop="fyyxrjh"
           label="非营业线"
-          width="180">
+          width="120">
         </el-table-column>
         <el-table-column
           prop="total"
@@ -176,14 +178,14 @@
               this.today_statistics.push({value: response.data.yyxrjh, name: '营业线'})
               this.today_statistics.push({value: response.data.ljyyxrjh, name: '临近营业线'})
               this.today_statistics.push({value: response.data.fyyxrjh, name: '非营业线'})
-              this.drawPie('mycharts','施工日计划统计图',this.today,0)
+              this.drawPie('mycharts','今日施工日计划统计图','',0)
             }
 //            console.log("当日数据源："+JSON.stringify(this.today_detail));
             if(date===1){
               this.tomorrow_statistics.push({value: response.data.yyxrjh, name: '营业线'})
               this.tomorrow_statistics.push({value: response.data.ljyyxrjh, name: '临近营业线'})
               this.tomorrow_statistics.push({value: response.data.fyyxrjh, name: '非营业线'})
-              this.drawPie('mycharts1','施工日计划统计图',this.tomorrow,1)
+              this.drawPie('mycharts1','明日施工日计划统计图','',1)
             }
             if(date===2){
               var data = response.data.data

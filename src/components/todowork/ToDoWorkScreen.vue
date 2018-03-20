@@ -55,7 +55,7 @@ export default {
         }else{
           typeId = '';
         }
-        bus.$emit('van-button--normal',typeId)
+        bus.$emit('todowork-van-button--normal',typeId)
         this.$router.push({path: '/ToDoWork'});
       },
 

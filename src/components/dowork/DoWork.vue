@@ -1,6 +1,7 @@
 <template>
   <div class="1">
     <!-- 施工日计划我已审批列表-表头-开始 -->
+    <mt-loadmore :top-method="loadTop"  ref="loadmore" :autoFill="autoFill">
     <van-nav-bar title="我已审批" left-text="返回" right-text="关闭"  @click-right="onClickRight"  @click-left="$router.go(-1)" fixed>
     </van-nav-bar>
 
@@ -30,18 +31,18 @@
     <!-- 施工日计划我已审批列表-list展示数据-开始 --><!-- 我已审批页名称 -->
     <!--<v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite">-->
     <div class="neirong" style="margin-top: 95px;margin-bottom: 50px;">
-    <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom"  ref="loadmore" :autoFill="autoFill">
-      <div>
-      <table v-for="(plan, index) in DoWorkflowList" class="tablelist" @click="toDetail(plan.url)" >
+        <table v-for="(plan, index) in DoWorkflowList" class="tablelist" @click="toDetail(plan.url)" >
           <tr><td style="width:20%">流程标题:</td><td style="width:80%">{{plan.requestName }}</td></tr>
           <tr><td style="width:20%">流程类型:</td><td style="width:80%">{{plan.workflowName }}</td></tr>
           <tr><td style="width:20%">流程状态:</td><td style="width:80%">{{plan.currentNodeName }}</td></tr>
         </table>
-      </div>
+      <!--<div v-show="DoWorkflowList.length<=4" :style="{height: myHeight+'px'}"></div>-->
+
     <!--</v-scroll>-->
     <!-- 施工日计划我已审批列表-list展示数据-结束 -->
-    </mt-loadmore>
+
     </div>
+    </mt-loadmore>
   </div>
 </template>
 
@@ -65,7 +66,7 @@ export default {
       myscroll:'scroll',
       autoFill:false,
       msg:'',
-      myHeight:(window.innerHeight-50)+'px',
+      myHeight:window.innerHeight+'px',
       myWidth:window.innerWidth+'px',
       counter:1, //默认已经显示出15条数据 count等于一是让从16条开始加载
       num:10,  // 一次显示多少条
@@ -148,7 +149,7 @@ export default {
   GetOnSearch(){
       //我已审批页页面展示-传递流程名称 变量名为v-model
       // debugger
-     bus.$on('v-model',data=> {
+     bus.$on('dowork-v-model',data=> {
       this.requestName = data;
       this.reset()
       // alert('onSearchName===='+data);
@@ -160,15 +161,15 @@ export default {
     GetOnClickSgrjh(){
       //获取我已审批页页面展示-传递流程类型id 变量名van-button--normal
       //  获取点击审批状态事件的值
-       bus.$on('van-button--normal-zt',data=> {
-         this.status = data;
-         //alert('status===='+data);
-         bus.$on('van-button--normal',data=> {
-            this.reset()
-            this.workflowId = data;
-            //alert('workflowId===='+data);
-            this.GetDoWorkflowList();
-          });
+      bus.$on('dowork-van-button--normal-zt', data => {
+        this.reset()
+        if (data) {
+          debugger
+          var params = data.split(',');
+          this.status = params[0];
+          this.workflowId = params[1];
+        }
+        this.GetDoWorkflowList();
       });
 
     },
@@ -203,7 +204,6 @@ export default {
               }
               this.pageNo=this.pageNo+1
               this.count=this.count+data.length
-              this.myHeight=Math.max((window.innerHeight-50), (150*this.count))+'px'
               /*this.GetDoWorkflowList()*/
               this.msg='加载成功'
               Toast.success(this.msg)
@@ -292,6 +292,10 @@ export default {
 <style scoped>
 /* 表头标题演示 */
 .biaotou{
+  width: 100%;
+}
+.forloadmore{
+  overflow: scroll;
   width: 100%;
 }
 /* 标题样式 */

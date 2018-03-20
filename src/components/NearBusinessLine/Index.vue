@@ -1,7 +1,5 @@
 <template>
   <div class="index">
-    <!-- title -->
-    <!--<Header title="邻近营业线施工日计划"></Header>-->
     <van-nav-bar title="邻近营业线施工日计划"  right-text="关闭"  @click-right="onClickRight" fixed></van-nav-bar>
     <!--搜索栏-->
     <div class="search">

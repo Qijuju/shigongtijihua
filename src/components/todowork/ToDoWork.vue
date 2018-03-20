@@ -178,7 +178,7 @@
       GetOnSearch(){
         //待我审批页面展示-传递流程名称 变量名为v-model
         // debugger
-        bus.$on('v-model',data=> {
+        bus.$on('todowork-v-model',data=> {
           this.requestName = data;
           // alert('onSearchName===='+data);
           this.reset()
@@ -189,7 +189,7 @@
       //  获取点击营业线施工日计划跳转事件的值
       GetOnClickSgrjh(){
         //获取待我审批页面展示-传递流程类型id 变量名van-button--normal
-        bus.$on('van-button--normal',data=> {
+        bus.$on('todowork-van-button--normal',data=> {
           this.workflowId = data;
           // alert('workflowId===='+data);
           this.reset()

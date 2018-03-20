@@ -56,7 +56,7 @@ export default {
         }else{
           typeId = '';
         }
-        bus.$emit('van-button--normal',typeId)
+        bus.$emit('icreate-van-button--normal',typeId)
         this.$router.push({path: '/ICreate'});
       },
 

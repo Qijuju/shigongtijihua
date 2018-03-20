@@ -86,7 +86,7 @@
       WaterfallUpper: Waterfall('upper')
     },
     /*created(){
-      debugger
+
       var data=this.$store.getters.businessLineSearch
       this.getDayPlanCount(data)
     },*/
