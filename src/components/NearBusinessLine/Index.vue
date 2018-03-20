@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <van-nav-bar title="邻近营业线施工日计划"  right-text="关闭"  @click-right="onClickRight" fixed></van-nav-bar>
+    <van-nav-bar title="邻近营业线施工日计划列表"  right-text="关闭"  @click-right="onClickRight" fixed></van-nav-bar>
     <!--搜索栏-->
     <div class="search">
       <van-row>

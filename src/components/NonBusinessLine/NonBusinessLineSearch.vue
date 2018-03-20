@@ -318,18 +318,6 @@
         this.$router.push({path: '/NonBusinessLine'});
       },
       onClickRight() {
-        /*
-        this.$store.commit('setNonBusinessLineSearch',{
-          xmmc:this.xmmc_id,
-          mc:this.xmmc,
-          /!*dj:this.dj_id,
-          xingbie:this.xingbie_id,
-          sglc:this.sglc,
-          sglx:this.sglx_id,*!/
-          sgksrq:this.startDay,
-          sgjsrq:this.endDay,
-        });
-        this.$router.push({path: '/NonBusinessLine/NonDetail'});*/
         var query={
           xmmc:this.xmmc_id,
           mc:this.xmmc,

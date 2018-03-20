@@ -2,7 +2,7 @@
 <template>
   <div id="search">
     <van-nav-bar
-      title="临近营业线搜索"
+      title="邻近营业线施工日计划搜索"
       left-text="返回"
       right-text="搜索"
       @click-left="$router.go(-1)"
@@ -23,7 +23,7 @@
       <van-row >
         <van-field
           v-bind:value="dj"
-          label="项目等级"
+          label="类别"
           placeholder="全部"
           disabled
         />
@@ -33,7 +33,7 @@
       <van-row >
         <van-field
           v-bind:value="xingbie"
-          label="项目行别"
+          label="行别"
           placeholder="全部"
           disabled
         />

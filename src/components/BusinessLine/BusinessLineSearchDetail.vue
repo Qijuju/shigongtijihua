@@ -1,7 +1,7 @@
 <template>
   <div id="DayPlanCount">
     <van-nav-bar
-      title="施工日计划详情"
+      title="营业线施工日计划搜索列表"
       left-text="返回"
       @click-left="$router.go(-1)" fixed
       right-text="关闭"  @click-right="onClickRight"
@@ -13,40 +13,45 @@
       </div>
     </van-row>-->
     <div class="content">
-      <van-row v-for="(name, index) in DayPlanCount" :key="index">
-        <div @click="getDayPlanDetail(name.date,index,true)">
-        </div>
-        <van-col span="10"  >
-          <h3>{{ name.date}}</h3>
-        </van-col>
-        <van-col span="6" offset="4">
-          <h3>{{ name.count }}</h3>
-        </van-col>
-        <van-col span="4">
-          <img src="../../assets/images/icon/more_unfold.png" @click="getDayPlanDetail(name.date,index,true)" v-show="!(index===showmum)" style="height:25px;width:25px">
-          <img src="../../assets/images/icon/less.png"  @click="getDayPlanDetail(name.date,index,false)" v-show="index===showmum" style="height:25px;width:25px">
-          <!--<van-button type="default" @click="getDayPlanDetail(name.date,index,true)" v-show="!(index===showmum)"><van-icon name="add" /></van-button>
-          <van-button type="default" @click="getDayPlanDetail(name.date,index,false)" v-show="index===showmum"><van-icon name="clear" /></van-button>-->
-        </van-col>
-        <div v-show="index===showmum">
-          <van-steps direction="vertical"  active-color="#f60" v-waterfall-lower="loadMore(index)"
-                     waterfall-disabled="disabled"
-                     waterfall-offset="400">
-            <!--<van-pull-refresh v-model="isLoading">-->
-            <van-step v-for="(plan, index) in DayPlanDetail" >
-              <div @click="goDetail(plan)">
-                <h3>{{ "序号："+(index+1)}}</h3>
-                <p>{{ "开始时间："+plan.kssjd}}</p>
-                <p>{{ "项目名称："+plan.xmmc }}</p>
-                <p>{{ "项目地点："+plan.dd }}</p>
-                <p>{{ "本系统日计划号："+plan.rjhh }}</p>
-                <p>{{ "结束时间："+plan.jssjd }}</p>
-              </div>
-            </van-step>
-            <!--</van-pull-refresh>-->
-          </van-steps>
-        </div>
-      </van-row>
+
+        <van-row v-for="(name, index) in DayPlanCount" :key="index">
+          <div @click="getDayPlanDetail(name.date,index,true)">
+          </div>
+          <van-col span="10">
+            <h3>{{ name.date}}</h3>
+          </van-col>
+          <van-col span="6">
+            <h3>{{name.count}}</h3>
+          </van-col>
+          <van-col span="8" style="padding: 0px;">
+            <p @click="getDayPlanDetail(name.date,index,true)" v-show="!(index===showmum)">
+              <img src="../../assets/images/icon/more_unfold.png"  style="height:25px;width:25px">
+            </p>
+            <p @click="getDayPlanDetail(name.date,index,false)" v-show="index===showmum">
+              <img src="../../assets/images/icon/less.png"    style="height:25px;width:25px">
+            </p>
+          </van-col>
+          <div v-show="index===showmum">
+            <van-steps direction="vertical"  active-color="#f60" v-waterfall-lower="loadMore(index)"
+                       waterfall-disabled="disabled"
+                       waterfall-offset="400">
+              <!--<van-pull-refresh v-model="isLoading">-->
+              <van-step v-for="(plan, index) in DayPlanDetail" >
+                <div @click="goDetail(plan)">
+                  <h3>{{ "序号："+(index+1)}}</h3>
+                  <p>{{ "开始时间："+plan.kssjd}}</p>
+                  <p>{{ "项目名称："+plan.xmmc }}</p>
+                  <p>{{ "项目地点："+plan.dd }}</p>
+                  <p>{{ "本系统日计划号："+plan.rjhh }}</p>
+                  <p>{{ "结束时间："+plan.jssjd }}</p>
+                </div>
+              </van-step>
+              <!--</van-pull-refresh>-->
+            </van-steps>
+          </div>
+        </van-row>
+
+        <div id="isShowAlertInfo" v-if="isShowAlertInfo">没有更多数据</div>
     </div>
   </div>
 
@@ -78,7 +83,9 @@
         currenttime:'',
         showmum:'',
         loadmore:false,
-        hasopen:false
+        hasopen:false,
+
+        isShowAlertInfo:false
       };
     },
     directives: {
@@ -146,12 +153,21 @@
         axios.get(url)
           .then(response => {
 //            debugger
-            this.DayPlanCount  = response.data
+            this.DayPlanCount  = response.data;
+
+            // 根据搜索结果判断是否显示提示信息
+            if ( this.DayPlanCount.length >0){
+              this.isShowAlertInfo  =false;
+            }else {
+              this.isShowAlertInfo  =true;
+            }
+
           }).catch(err => {
           console.error(err.message)
         })
       },
       getDayPlanDetail(data,index,flag) {
+
         if(this.hasopen==false&&flag==true){
           this.currenttime=data
           var url='http://tljjgxt.r93535.com/DayPlanDetailSearchServlet?xmmc='

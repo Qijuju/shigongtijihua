@@ -23,7 +23,7 @@
       <van-row >
         <van-field
           v-bind:value="dj"
-          label="项目等级"
+          label="类别"
           placeholder="全部"
           disabled
         />
@@ -33,7 +33,7 @@
       <van-row >
         <van-field
           v-bind:value="xingbie"
-          label="项目行别"
+          label="行别"
           placeholder="全部"
           disabled
         />
@@ -220,7 +220,7 @@
         }
         if(value!='sgjsrq'){
           this.showEndPicker=false
-        }
+        }  0
       },
       getXiangmuServlet(){
         let url='http://'+this.domainName+'/XiangmuServlet?orgid=265&baseuserid='+this.baseuserid;

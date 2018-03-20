@@ -2,7 +2,7 @@
   <div class="listDetail">
     <!--title-->
     <!--<Header title="邻近营业线施工日计划"></Header>-->
-    <van-nav-bar title="邻近营业线施工日计划"
+    <van-nav-bar title="邻近营业线施工日计划详情"
                  left-text="返回"
                  @click-left="onClickLeft"
                  right-text="关闭"  @click-right="onClickRight"

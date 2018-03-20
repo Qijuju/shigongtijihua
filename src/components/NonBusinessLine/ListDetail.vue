@@ -1,7 +1,7 @@
 <template>
   <div class="listDetail">
 
-    <van-nav-bar title="非营业线施工日计划"
+    <van-nav-bar title="非营业线施工日计划详情"
                  left-text="返回"
                  @click-left="$router.go(-1)"
                  right-text="关闭"  @click-right="onClickRight"

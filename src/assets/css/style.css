@@ -372,10 +372,16 @@ div.van-radio{
 }
 
 /* 弹出层 end */
+/* 搜索结果列表提示信息  start */
+#isShowAlertInfo{
+  text-align: center;
+  line-height:30px;
+  color: #666;
+}
 
-/* 日期选择，默认选中当天 start */
+/* 搜索结果列表提示信息  end */
 
-/* 日期选择，默认选中当天 end */
+
 
 
 

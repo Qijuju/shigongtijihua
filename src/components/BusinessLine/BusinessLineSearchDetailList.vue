@@ -1,7 +1,7 @@
 <template>
   <div class="listDetail">
     <!--title-->
-    <van-nav-bar title="营业线施工日计划"
+    <van-nav-bar title="营业线施工日计划搜索列表"
                  left-text="返回"
                  right-text="关闭"  @click-right="onClickRight"
                  @click-left="onClickLeft"

@@ -1,7 +1,7 @@
 <template>
   <div id="DayPlanCount">
     <van-nav-bar
-      title="非营业线详情"
+      title="非营业线施工日计划搜索列表"
       left-text="返回"
       right-text="关闭"  @click-right="onClickRight"
       @click-left="$router.go(-1)" fixed
@@ -13,14 +13,17 @@
         <van-col span="10"  >
           <h3>{{ name.date}}</h3>
         </van-col>
-        <van-col span="6" offset="4">
+        <van-col span="6">
           <h3>{{ name.count }}</h3>
         </van-col>
-        <van-col span="4">
-          <img src="../../assets/images/icon/more_unfold.png" @click="getDayPlanDetail(name.date,index,true)" v-show="!(index===showmum)" style="height:25px;width:25px">
-          <img src="../../assets/images/icon/less.png"  @click="getDayPlanDetail(name.date,index,false)" v-show="index===showmum" style="height:25px;width:25px">
-          <!--<van-button type="default" @click="getDayPlanDetail(name.date,index,true)" v-show="!(index===showmum)"><van-icon name="add" /></van-button>
-          <van-button type="default" @click="getDayPlanDetail(name.date,index,false)" v-show="index===showmum"><van-icon name="clear" /></van-button>-->
+        <van-col span="4" style="padding: 0px;">
+
+          <p @click="getDayPlanDetail(name.date,index,true)" v-show="!(index===showmum)">
+            <img src="../../assets/images/icon/more_unfold.png"  style="height:25px;width:25px">
+          </p>
+          <p @click="getDayPlanDetail(name.date,index,false)" v-show="index===showmum" >
+            <img src="../../assets/images/icon/less.png"   style="height:25px;width:25px">
+          </p>
         </van-col>
         <div v-show="index===showmum">
           <van-steps direction="vertical"  active-color="#f60" v-waterfall-lower="loadMore(index)"
@@ -40,6 +43,8 @@
           </van-steps>
         </div>
       </van-row>
+
+      <div id="isShowAlertInfo" v-if="isShowAlertInfo">没有更多数据</div>
     </div>
 
   </div>
@@ -71,7 +76,8 @@
         currenttime:'',
         showmum:'',
         loadmore:false,
-        hasopen:false
+        hasopen:false,
+        isShowAlertInfo:false
       };
     },
     directives: {
@@ -140,7 +146,15 @@
         axios.get(url)
           .then(response => {
             /*debugger*/
-            this.DayPlanCount  = response.data
+            this.DayPlanCount  = response.data;
+
+            // 根据搜索结果判断是否显示提示信息
+            if ( this.DayPlanCount.length >0){
+              this.isShowAlertInfo  =false;
+            }else {
+              this.isShowAlertInfo  =true;
+            }
+
           }).catch(err => {
           console.error(err.message)
         })
