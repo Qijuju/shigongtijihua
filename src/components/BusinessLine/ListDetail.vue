@@ -169,7 +169,7 @@
           <img v-bind:src="item.s" :alt="index" v-on:click="showBigImage($event)">
           <van-icon name="checked"  v-show="item.isShow==true"/>
           <van-icon name="clear"  v-show="item.isShow==false"/>
-          <van-icon name="delete" @click="onDelete(1,index)" />
+          <van-icon name="delete" @click="onDelete(1,index)" v-if="totalData.editStatus==1"/>
         </div>
 
         <!--权限-->
@@ -215,7 +215,7 @@
           <img v-bind:src="item.s" :alt="index" v-on:click="showBigImage($event)">
           <van-icon name="checked"  v-show="item.isShow==true" />
           <van-icon name="clear"  v-show="item.isShow==false"/>
-          <van-icon name="delete" @click="onDelete(2,index)" />
+          <van-icon name="delete" @click="onDelete(2,index)" v-if="totalData.editStatus==1" />
         </div>
 
         <div class="addPhoto" @click='takePictureE(2,true,"http://rails.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")' v-if="totalData.editStatus==1">+</div>
@@ -626,31 +626,34 @@
         },
         onClickLeft(){
 
-          Dialog.confirm({
-            message: '确认退出此次编辑？'
-          }).then(() => {
+          if(this.totalData.editStatus==1){ // 有编辑权限
+            Dialog.confirm({
+              message: '确认退出此次编辑？'
+            }).then(() => {
 
-            // 清空历史数据，再次进入重新获取数据
-            this.totalData.qddd='';
-            this.totalData.qdsj='';
-            this.totalData.jhdxqk='';
-            this.totalData.jhsfdx='';
-            this.totalData.dcryqk='';
-            this.ryqdqkImgArr  =[];
-            this.ryqdbIdArr=[];
-            this.zczpArr  =[];
-            this.xczpIdArr=[];
-            this.jwd='';
-
-
+              // 清空历史数据，再次进入重新获取数据
+              this.totalData.qddd='';
+              this.totalData.qdsj='';
+              this.totalData.jhdxqk='';
+              this.totalData.jhsfdx='';
+              this.totalData.dcryqk='';
+              this.ryqdqkImgArr  =[];
+              this.ryqdbIdArr=[];
+              this.zczpArr  =[];
+              this.xczpIdArr=[];
+              this.jwd='';
+              // 跳转页面，返回首页
+              this.$router.go(-1)
+              //          this.$router.push({path: '/BusinessLine'});
+            }).catch((error) => {
+              console.log(error);
+            });
+          }else { // 没有编辑权限。直接返回上一页
             // 跳转页面，返回首页
             this.$router.go(-1)
-  //          this.$router.push({path: '/BusinessLine'});
+          }
 
 
-          }).catch((error) => {
-            console.log(error);
-          });
 
         },
 

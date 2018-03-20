@@ -124,7 +124,7 @@
           <img v-bind:src="item.s" :alt="index" v-on:click="showBigImage($event)">
           <van-icon name="checked"  v-show="item.isShow==true" />
           <van-icon name="clear"  v-show="item.isShow==false"/>
-          <van-icon name="delete" @click="onDelete(1,index)" />
+          <van-icon name="delete" @click="onDelete(1,index)" v-if="totalData.editStatus==1"/>
         </div>
 
 
@@ -152,7 +152,7 @@
           <img v-bind:src="item.s" :alt="index" v-on:click="showBigImage($event)">
           <van-icon name="checked"  v-show="item.isShow==true" />
           <van-icon name="clear"  v-show="item.isShow==false"/>
-          <van-icon name="delete" @click="onDelete(2,index)" />
+          <van-icon name="delete" @click="onDelete(2,index)"  v-if="totalData.editStatus==1"/>
         </div>
 
         <div class="addPhoto" @click='takePictureE(2,true,"http://rails.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")' v-if="totalData.status==1">+</div>
@@ -589,9 +589,10 @@
         });
       },
       onClickLeft(){
-        Dialog.confirm({
-          message: '确认退出此次编辑？'
-        }).then(() => {
+        if (this.totalData.editStatus==1){// 有编辑权限
+          Dialog.confirm({
+            message: '确认退出此次编辑？'
+          }).then(() => {
 
             // 清空数据
             this.totalData.qddd ='';
@@ -604,12 +605,17 @@
             this.jwd='';
 
             // 跳转页面，返回列表页
-            this.$router.go(-1)
-  //          this.$router.push({path: '/NearBusinessLine'});
+            this.$router.go(-1);
+            //          this.$router.push({path: '/NearBusinessLine'});
 
-        }).catch((error) => {
-          console.log(error);
-        });
+          }).catch((error) => {
+            console.log(error);
+          });
+        }else {
+          // 跳转页面，返回列表页
+          this.$router.go(-1);
+        }
+
       },
       phoneOrPicture() { // 拍照或从相册中选择
         this.sheetVisible = true;
