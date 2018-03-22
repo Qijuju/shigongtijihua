@@ -6,7 +6,10 @@
     <!--搜索栏-->
     <div class="search">
       <van-row>
-        <van-col span="6" ><span v-on:click="goSearchPage(calendar.value,selectProjectObj.id,selectProjectObj.xmmc)">搜索</span></van-col>
+        <van-col span="6" >
+          <span v-on:click="goSearchPage(calendar.value,xmmcId,projectName)">搜索</span>
+
+        </van-col>
         <van-col span="12" style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">{{projectName}}</van-col>
         <van-col span="6" class="chooseBtn">
           <van-button type="primary">
@@ -65,9 +68,6 @@
       <div id="projectList">
         <div id="wrapProject">
           <div id="innerWrapProject" :style="{'width':width+'px'}">
-            <div class="scrollProject bg" @click="getAllData($event)">
-             全部
-            </div>
             <div class="scrollProject" v-for="item in projects" @click="changeItem($event,item)">
               {{item.xmmc}}
             </div>
@@ -94,7 +94,6 @@
     var screenW = $(window).width(); // 获取屏幕的宽度
     $("#wrapProject").width(screenW);// 设置外层盒子宽度==屏幕宽度
     $("#innerWrapProject").addClass('bg');
-
   })
 
   var date=new Date();
@@ -134,7 +133,9 @@
         pageEnd : 0, // 结束页数
         listdata: [], // 下拉更新数据存放数组
         projectName:'',
+        xmmc:'',
         xmmcId:'', // 选择项目的id
+        clickPro:{},// 底部点击的项目
 //        width: 15 * 56, // 设置滚动日历最外层盒子的宽度为屏幕宽度
         projects:[],
         calendar:{
@@ -160,24 +161,18 @@
     },
     computed:{
       width(){
-        return (this.projects.length+1)*130 // 动态设置宽度
+        console.log("333");
+        return this.projects.length*130 // 动态设置宽度
       },
       selectProjectObj() {
+        console.log("取出存储在store中的项目的名称：" + JSON.stringify(this.$store.getters.nonBusinessLineSearch.selectProObj));
 
-        let obj=this.$store.getters.nonBusinessLineSearch.selectProObj;
-
-        if (obj==undefined || obj== null || obj =={}){
-
-          this.xmmcId ='';
-          this.projectName='全部'
-        }else {
-          this.xmmcId =obj.id;
-          this.projectName= obj.xmmc;
-        }
+        this.projectName = this.$store.getters.nonBusinessLineSearch.selectProObj.xmmc;
+        this.xmmcId = this.$store.getters.nonBusinessLineSearch.selectProObj.id;
 
         this.getList();
 
-        return this.$store.getters.nonBusinessLineSearch.selectProObj// 时时获取选中项目的名称
+        return this.$store.getters.nonBusinessLineSearch.selectProObj;
       },
 
       daysIndex(){
@@ -217,12 +212,12 @@
         return left;
       }
     },
+    activated:function () {
+      this.getProjects(); // 项目数据源
+    },
     mounted:function () {
       this.selectProShowOrHidden();
-      this.getProjects(); // 项目数据源
       this.getList();
-      // 默认存储选中项目信息
-      this.storeProInfo();
     },
     created:function () {  // 将日历提交到store中
       this.$store.commit('setProjectCount',{count:getDaysInOneMonth(this.calendar.value[0],this.calendar.value[1]),year: this.calendar.value[0],month: this.calendar.value[1],day:this.calendar.value[2]});
@@ -235,12 +230,6 @@
         RPM.closeApplication();
       },
 
-      // 默认存储‘全部’
-      storeProInfo(){
-        let item={id:"",xmmc:"全部"};
-        // 修改，将选中的项目的名称和 id 保存的 store 中
-        this.$store.commit('setNonBusinessLineSearch',{selectProObj:item});
-      },
       // 项目的点击事件
       getAllData(e){
         // 将项目id置空。获取全部数据
@@ -258,6 +247,7 @@
         $(e.target).addClass("bg").siblings().removeClass("bg");
       },
       changeItem(e,item) { // 点击项目的触发函数
+        this.clickPro = item;
         // 改变背景色
         $(e.target).addClass("bg").siblings().removeClass("bg");
 
@@ -324,7 +314,8 @@
       goDetail(planItem){
 
         // 将点击的项目的id存放在store
-        this.$store.commit('setNonBusinessLineSearch',{xmId:planItem.id});
+        this.$store.commit('setNonBusinessLineSearch',{xmId:planItem.id,selectProObj:this.clickPro});
+
 
         // 路由调转
         this.$router.push({path: '/NearBusinessLine/NonListDetail'});
@@ -335,9 +326,25 @@
 
         let url='http://tljjgxt.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this._GLOBAL.baseUserId;
 
+//        debugger;
         axios.get(url)
           .then(response => {
             this.projects = response.data;
+
+            // 往数据源中追加一对象，全部
+            var tempObj={};
+            tempObj.id='';
+            tempObj.xmmc='全部';
+
+            this.projects.unshift(tempObj);
+
+            // 默认将第一条数据保存到store中
+            this.$store.commit('setNonBusinessLineSearch',{selectProObj: this.projects[0]});
+
+            // v-for 循环结束后设置首个样式
+            this.$nextTick(function(){
+              $('#innerWrapProject').children().first().addClass('bg').siblings().removeClass("bg");
+            })
 
           }).catch(err => {
           console.error(err.message)

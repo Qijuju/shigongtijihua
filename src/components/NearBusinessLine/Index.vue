@@ -42,7 +42,7 @@
           <p>{{item.kssjd}}</p>
           <van-steps direction="vertical">
             <van-step v-for="planItem in item.list">
-              <div @click="goDetail(planItem)">
+              <div @click="goDetail(planItem.id)">
                 <p class="jssjd_rjhh clearfix">
                   <span class="jssjd">{{planItem.jssjd}}</span>
                 </p>
@@ -64,9 +64,6 @@
 
         <div id="wrapProject">
           <div id="innerWrapProject" :style="{'width':width+'px'}">
-            <div class="scrollProject bg" @click="getAllData($event)">
-              全部
-            </div>
             <div class="scrollProject" v-for="item in projects" @click="changeItem($event,item)">
               {{item.xmmc}}
             </div>
@@ -95,6 +92,7 @@
   var d = date.getDate() >9?date.getDate():'0'+date.getDate();
 
   var dateS=y+'/'+m ;
+
 
   export default {
     name: "index",
@@ -129,6 +127,7 @@
         listdata: [], // 下拉更新数据存放数组
         projectName:'全部', // 选中
         xmmcId:'',
+        clickPro:{},// 底部点击的项目
 //        width: 15 * 56, // 设置滚动日历最外层盒子的宽度为屏幕宽度
         projects:[],
         calendar:{
@@ -154,21 +153,17 @@
     },
     computed:{
       width(){
-        return (this.projects.length+1)*130 // 动态设置宽度
+        return this.projects.length*130 // 动态设置宽度
       },
       selectProjectObj() {
-        var name= this.$store.getters.nearBusinessLineSearch.selectProObj.xmmc;
+        console.log("取出存储在store中的项目的名称：" + JSON.stringify(this.$store.getters.nearBusinessLineSearch.selectProObj));
 
-        if (name == undefined || name == '' ||name == null){
-          this.xmmcId ='';
-          this.projectName='全部'
-        }else {
-          this.xmmcId =this.$store.getters.nearBusinessLineSearch.selectProObj.id;
-          this.projectName=name;
-        }
+        this.projectName = this.$store.getters.nearBusinessLineSearch.selectProObj.xmmc;
+        this.xmmcId = this.$store.getters.nearBusinessLineSearch.selectProObj.id;
+
         this.getList();
 
-        return this.$store.getters.nearBusinessLineSearch.selectProObj// 时时获取选中项目的名称
+        return this.$store.getters.nearBusinessLineSearch.selectProObj;
       },
       daysIndex(){
         var date=new Date();
@@ -205,9 +200,11 @@
         return left;
       }
     },
+    activated:function () {
+      this.getProjects(); // 项目数据源
+    },
     mounted:function () {
       this.selectProShowOrHidden();
-      this.getProjects(); // 项目数据源
       this.getList();
     },
     created:function () {  // 将日历提交到store中
@@ -240,12 +237,12 @@
       },
 
       changeItem(e,item) { // 点击项目的触发函数
+        this.clickPro = item;
         // 改变背景色
         $(e.target).addClass("bg").siblings().removeClass("bg");
 
         // 修改，将选中的项目的名称和 id 保存的 store 中
         this.$store.commit('setNearBusinessLineSearch',{selectProObj:item});
-
       },
       setStore(value){
         this.$store.commit('setProjectCount',{count:getDaysInOneMonth(value[0],value[1]),year: value[0],month: value[1],day:value[2]})
@@ -313,14 +310,13 @@
       },
 
       // 跳转到详情页
-      goDetail(planItem){
+      goDetail(id){
 
+        console.log("邻近营业线详情id：" +id)
         // 将点击的项目的id存放在store
-        this.$store.commit('setNearBusinessLineSearch',{xmId:planItem.id});
-//        this.$router.push({path: '/BusinessLine/Detail',query:{id:planItem.id}}); // 路由信息传值
+        this.$store.commit('setNearBusinessLineSearch',{xmId:id,selectProObj:this.clickPro});
         this.$router.push({path: '/NearBusinessLine/NearListDetail'}); // 路由信息传值
 
-//        this.$router.push({path: '/NearBusinessLine/NearListDetail',query:{id:planItem.id}}); // 路由信息传值
       },
 
       // 获取可选项目列表数据
@@ -331,6 +327,22 @@
           .then(response => {
             // 接收响应数据
             this.projects = response.data;
+
+            // 往数据源中追加一对象，全部
+            var tempObj={};
+            tempObj.id='';
+            tempObj.xmmc='全部';
+
+            this.projects.unshift(tempObj);
+
+            // 默认将第一条数据保存到store中
+            this.$store.commit('setNearBusinessLineSearch',{selectProObj: this.projects[0]});
+
+            // v-for 循环结束后设置首个样式
+            this.$nextTick(function(){
+              $('#innerWrapProject').children().first().addClass('bg').siblings().removeClass("bg");
+            })
+
           }).catch(err => {
           console.error(err.message)
         })

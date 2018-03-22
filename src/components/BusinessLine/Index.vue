@@ -45,12 +45,12 @@
               <p>{{item.kssjd}}</p>
               <van-steps direction="vertical">
                 <van-step v-for="planItem in item.list">
-                  <div @click="goDetail(planItem)">
+                  <div @click="goDetail(planItem.id)">
                     <p class="jssjd_rjhh clearfix">
                       <span class="jssjd">{{planItem.jssjd}}</span>
                       <span class="rjhh">{{planItem.rjhh}}</span>
                     </p>
-                    <p>{{planItem.id}}:{{planItem.xmmc}}</p>
+                    <p>{{planItem.xmmc}}</p>
                     <p>{{planItem.dd}}</p>
                   </div>
                 </van-step>
@@ -65,12 +65,8 @@
         项目
       </div>
       <div id="projectList">
-        <!--<SelectProject v-if="projects" :projects="projects" :count="projects.length"></SelectProject>-->
         <div id="wrapProject">
           <div id="innerWrapProject" :style="{'width':width+'px'}">
-            <div class="scrollProject bg" @click="getAllData($event)">
-              全部
-            </div>
             <div class="scrollProject" v-for="item in projects" @click="changeItem($event,item)">
               {{item.xmmc}}
             </div>
@@ -114,11 +110,9 @@
       return{
         baseuserid:'222441', // 基本用户id
         domainName:'tljjgxt.r93535.com', // 域名
-
         infiniteLoading:false,
         // 222441
 //        baseuserid:102300,
-
         loading:'加载中......',
         page:1,
         sgrq: new Date().getFullYear()+(new Date().getMonth()>=9?"-":"-0")+(new Date().getMonth()+1)+(new Date().getDate()>=9?"-":"-0")+new Date().getDate(),
@@ -134,6 +128,9 @@
         listdata: [], // 下拉更新数据存放数组
         projectName:'',
         xmmcId:'',
+        xmmc:'',
+//        this.clickPro
+        clickPro:{},// 底部点击的项目
 //        width: 15 * 56, // 设置滚动日历最外层盒子的宽度为屏幕宽度
         projects:[],
         calendar:{
@@ -144,10 +141,10 @@
           value:[y,m,d], //  打开的日历默认选中的时间
           lunar:true, //显示农历
           select:(value)=>{ // 当选中日历上的某一天时，触发的事件
-            console.log("选中的某一天："+JSON.stringify(value));
+//            console.log("选中的某一天："+JSON.stringify(value));
             this.sgrq = value[0]+'-'+value[1]+'-'+value[2];
             this.getList();  // 选择完日期重新请求数据
-            console.log("组合日期："+this.sgrq);
+//            console.log("组合日期："+this.sgrq);
             value.pop(); // 删除‘天’\
             this.setStore(value); // 将选中的日期存储到store中
             this.calendar.show=false;
@@ -160,23 +157,18 @@
     },
     computed:{
       width(){
-        return (this.projects.length+1)*130 // 动态设置宽度
+        return this.projects.length*130 // 动态设置宽度
+//        return (this.projects.length+1)*130 // 动态设置宽度
       },
+      // 取出存放在store的项目信息
       selectProjectObj() {
-
-        var name= this.$store.getters.businessLineSearch.selectProObj.xmmc;
-
-        if (name == undefined || name == '' ||name == null){
-          this.xmmcId ='';
-          this.projectName='全部'
-        }else {
-          this.xmmcId =this.$store.getters.businessLineSearch.selectProObj.id;
-          this.projectName=name;
-        }
+        this.projectName = this.$store.getters.businessLineSearch.selectProObj.xmmc;
+        this.xmmcId = this.$store.getters.businessLineSearch.selectProObj.id;
 
         this.getList();
 
-        return this.$store.getters.businessLineSearch.selectProObj// 时时获取选中项目的名称
+        return this.$store.getters.businessLineSearch.selectProObj;
+//        return this.$store.getters.businessLineSearch.selectProObj // 时时获取选中项目的名称
       },
       daysIndex(){
         var date=new Date();
@@ -211,13 +203,19 @@
         if (this.$store.getters.scrollLeft > count*66+33-parseInt(screenW)){
           left = parseInt(screenW)-count*66;
         }
+
         return left;
       }
+
+    },
+    activated:function () {
+      this.getProjects(); // 项目数据源
     },
     mounted:function () {
       this.selectProShowOrHidden();
-      this.getProjects(); // 项目数据源
+
       this.getList();
+
     },
     created:function () {  // 将日历提交到store中
       this.$store.commit('setProjectCount',{count:getDaysInOneMonth(this.calendar.value[0],this.calendar.value[1]),year: this.calendar.value[0],month: this.calendar.value[1],day:this.calendar.value[2]});
@@ -229,12 +227,6 @@
       onClickRight(){
         RPM.closeApplication();
       },
-      // 默认存储‘全部’
-      storeProInfo(){
-        let item={id:"",xmmc:"全部"};
-        // 修改，将选中的项目的名称和 id 保存的 store 中
-        this.$store.commit('setNonBusinessLineSearch',{selectProObj:item});
-      },
       getAllData(e){
         // 将项目id置空。获取全部数据
         this.xmmcId='';
@@ -245,19 +237,19 @@
           id:'',
           xmmc:'全部'
         };
-        // setBusinessLineSearch
+
         this.$store.commit('setBusinessLineSearch',{selectProObj:item});
 
         // 修改样式
         $(e.target).addClass("bg").siblings().removeClass("bg");
       },
       changeItem(e,item) { // 点击项目的触发函数
+        this.clickPro = item;
         // 改变背景色
         $(e.target).addClass("bg").siblings().removeClass("bg");
 
         // 修改，将选中的项目的名称和 id 保存的 store 中
         this.$store.commit('setBusinessLineSearch',{selectProObj:item});
-
       },
       setStore(value){
         this.$store.commit('setProjectCount',{count:getDaysInOneMonth(value[0],value[1]),year: value[0],month: value[1],day:value[2]})
@@ -270,11 +262,12 @@
         let url = 'http://tljjgxt.r93535.com/DayPlanDetailServlet?page='+this.page+'&baseuserid='+this._GLOBAL.baseUserId+'&sgrq='+this.sgrq+'&xmmc='+this.xmmcId;
 
         console.log("营业线首页数据源请求url："+url);
+
         this.$http.get(url).then((response) => {
 
           this.listdata = response.data;
 
-          console.log("营业线首页列表数据："+JSON.stringify(this.listdata));
+//          console.log("营业线首页列表数据："+JSON.stringify(this.listdata));
 
           if (response.data.thiscount< 10){
             this.infiniteLoading =  true;
@@ -322,15 +315,17 @@
 
       // 跳转到搜索页面
       goSearchPage(date,slectProjectId,selectProjectName){
+
+        // 测试为何详情返回，列表点击事件不好使
+        console.log("点击搜索接收到的参数为：" + date + ':' + slectProjectId +':' + selectProjectName);
         this.$router.push({path: '/BusinessLine/BusinessLineSearch',query:{date:date.join('-'),slectProjectId:slectProjectId,slectProjectName:selectProjectName}});
       },
 
       // 跳转到详情页
-      goDetail(planItem){
-        console.log("点击项目的id："+planItem.id);
+      goDetail(id){
+        console.log("点击项目的id："+id);
         // 将点击的项目的id存放在store
-        this.$store.commit('setBusinessLineSearch',{xmId:planItem.id});
-//        this.$router.push({path: '/BusinessLine/Detail',query:{id:planItem.id}}); // 路由信息传值
+        this.$store.commit('setBusinessLineSearch',{xmId:id,selectProObj:this.clickPro});
         this.$router.push({path: '/BusinessLine/Detail'}); // 路由信息传值
       },
 
@@ -339,11 +334,27 @@
 
         let url='http://tljjgxt.r93535.com/XiangmuServlet?orgid=265&baseuserid='+this._GLOBAL.baseUserId;
 
-        console.log('请求项目的url：' + url);
         axios.get(url)
           .then(response => {
             // 接收响应数据
             this.projects = response.data;
+
+            // 往数据源中追加一对象，全部
+            var tempObj={};
+            tempObj.id='';
+            tempObj.xmmc='全部';
+
+            this.projects.unshift(tempObj);
+
+            console.log("拿回的项目的数据修改后的为：" +JSON.stringify(this.projects));
+
+            // 默认将第一条数据保存到store中
+            this.$store.commit('setBusinessLineSearch',{selectProObj: this.projects[0]});
+
+            // v-for 循环结束后设置首个样式
+            this.$nextTick(function(){
+              $('#innerWrapProject').children().first().addClass('bg').siblings().removeClass("bg");
+            })
 
           }).catch(err => {
           console.error(err.message)

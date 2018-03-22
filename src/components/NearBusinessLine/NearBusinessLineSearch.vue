@@ -69,7 +69,7 @@
     <van-row v-show="showxmmc">
       <van-col>
         <van-picker :columns="xmcolumns"
-                    visible-item-count=3 v-bind:xmmc="xmmc" show-toolbar @cancel="closeAll"
+                    :visible-item-count="visibleItemCount" v-bind:xmmc="xmmc" show-toolbar @cancel="closeAll"
                     @confirm="onXMConfirm"
         />
       </van-col>
@@ -77,7 +77,7 @@
     <van-row v-show="showdj">
       <van-col>
         <van-picker :columns="djcolumns"
-                    visible-item-count=3 v-bind:dj="dj" show-toolbar @cancel="closeAll"
+                    :visible-item-count="visibleItemCount" v-bind:dj="dj" show-toolbar @cancel="closeAll"
                     @confirm="onDjConfirm"
         />
       </van-col>
@@ -85,7 +85,7 @@
     <van-row v-show="showxingbie">
       <van-col>
         <van-picker :columns="xbcolumns"
-                    visible-item-count=3 v-bind:xingbie="xingbie" show-toolbar @cancel="closeAll"
+                    :visible-item-count="visibleItemCount" v-bind:xingbie="xingbie" show-toolbar @cancel="closeAll"
                     @confirm="onXBConfirm"
         />
       </van-col>
@@ -93,7 +93,7 @@
     <van-row v-show="showsglx">
       <van-col>
         <van-picker :columns="sgcolumns"
-                    visible-item-count=3 v-bind:xingbie="sglx" show-toolbar @cancel="closeAll"
+                    :visible-item-count="visibleItemCount" v-bind:xingbie="sglx" show-toolbar @cancel="closeAll"
                     @confirm="onSGConfirm"
         />
       </van-col>
@@ -103,7 +103,7 @@
         <van-datetime-picker
           v-model="startDate"
           type="date"
-          visible-item-count=3
+          :visible-item-count="visibleItemCount"
           @confirm="startConfirm"
           @cancel="closeAll"
         />
@@ -114,7 +114,7 @@
         <van-datetime-picker
           v-model="endDate"
           type="date"
-          visible-item-count=3
+          :visible-item-count="visibleItemCount"
           @confirm="endConfirm"
           @cancel="closeAll"
         />
@@ -169,6 +169,8 @@
         showEndPicker:false,
         endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
         endDay: new Date().getFullYear()+(new Date().getMonth()>=9?"-":"-0")+(new Date().getMonth()+1)+(new Date().getDate()>=9?"-":"-0")+new Date().getDate(),
+
+        visibleItemCount:3
       };
     },
     mounted: function() {

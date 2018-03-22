@@ -107,7 +107,7 @@
           domainName:'tljjgxt.r93535.com', // 域名
 
 //          id:this.$route.query.id,// 获取通过路由传的值
-          id:'',// 获取通过路由传的值
+          id:this.$store.getters.nonBusinessLineSearch.xmId,// 获取通过路由传的值
           totalData:[], // 数据源
           popupVisible:false, // 弹出层显示隐藏控制
           popupTxt:'', // 弹出层内容
@@ -132,7 +132,6 @@
           RPM.closeApplication();
         },
 
-
         // 返回事件
         onClickLeft(){
           this.$router.push({path: '/NonBusinessLine'});
@@ -153,6 +152,8 @@
         getData(){
           let vm = this;
           let url = 'http://tljjgxt.r93535.com/FYYXDayUniquePlanServlet?id='+ vm.id+'&baseuserId='+this._GLOBAL.baseUserId;
+
+          console.log("非营业线请求的url:" + url);
           vm.$http.get(url).then((response) => {
 
             // 请求成功返回数据
@@ -160,6 +161,7 @@
 
             /* 表格渲染:动态设置第二列的高度 */
             this.$nextTick(function(){
+
               console.log("$nextTick监听数据渲染完成之后的回调函数");
               var obj = $(".getHeight");
               for(var i=0;i<obj.length;i++){

@@ -326,11 +326,30 @@
         }
       },
       computed:{
+
         storeXmId(){
           this.id = this.$store.getters.businessLineSearch.xmId;
-//          this.getData();
+          console.log("获取的额store存储的id：" + this.id);
           return this.$store.getters.businessLineSearch.xmId; // 返回点击项目的id
         },
+      },
+      activated: function() {
+        console.log("74837483:" + this.id);
+        this.getData();
+      },
+      mounted:function () {
+        // 绑定获取位置信息的回调函数
+        window.RPMPositionCallBack = this.RPMPositionCallBack;
+
+        // 绑定拍照的回调函数
+        window.RPMImageCallBack = this.RPMImageCallBack;
+
+        // 绑定选择照片的回调函数
+        window.RPMSelectPhotosCallBack = this.RPMSelectPhotosCallBack;
+
+        // 绑定获取android回传图片id的回调函数
+        window.RPMImageIdCallBack = this.RPMImageIdCallBack;
+
       },
       methods:{
         //  关闭应用程序。调取JSAPI,关闭应用程序
@@ -357,20 +376,16 @@
             title: '删除',
             message: '确定删除此图片吗？'
           }).then(() => {
-            console.log("删除的确认方法：" + num+ ':'+ index);
+
             // 删除图片的方法
             if (num===1){
-              console.log('删除的对象为：' +JSON.stringify(this.ryqdqkImgArr[index]));
 
               this.ryqdqkImgArr.splice(index,1);
               // 删除图片。根据有没有id,有id的时从删除对应的id，没有id时，不执行删除操作。
-              console.log("删除前的id数组为：" + JSON.stringify(this.ryqdbIdArr));
               this.ryqdbIdArr.splice(index,1);
-              console.log("删除后的额的id数组为：" + JSON.stringify(this.ryqdbIdArr));
 
             }
             if (num===2){
-              console.log('删除的对象为：' +JSON.stringify(this.zczpArr[index]));
               this.zczpArr.splice(index,1);
 
               // 删除对应图片的id
@@ -390,9 +405,6 @@
         showBigImage(event){
           var el = event.currentTarget;   //获取点击对象
           this.previewPicSrc =$(el).attr("src");  // 当前点击图片的src
-
-//          this.previewPicWidth = $(el).width(); // 当前点击图片的宽
-//          this.previewPicHeight = $(el).height();// 当前点击图片的高
 
           $('#showBigImage').show(); // 显示box
         },
@@ -561,8 +573,6 @@
 
         // 保存功能调取方法
         save(){
-
-
           console.log("清楚空元素之前的数据：" +JSON.stringify(this.ryqdbIdArr));
           for(var i = 0; i < this.ryqdbIdArr.length; i++) {
             if(this.ryqdbIdArr[i] == null|| this.ryqdbIdArr[i]=='' ||this.ryqdbIdArr[i]==undefined) {
@@ -642,6 +652,7 @@
               this.zczpArr  =[];
               this.xczpIdArr=[];
               this.jwd='';
+
               // 跳转页面，返回首页
               this.$router.go(-1)
               //          this.$router.push({path: '/BusinessLine'});
@@ -669,6 +680,7 @@
 
         },
         onInput(checked) {
+
           Dialog.confirm({
             title: '提醒',
             message: '是否切换开关？'
@@ -679,9 +691,12 @@
         getData(){
           let vm = this;
           let url = 'http://tljjgxt.r93535.com/YYXDayPlanUniqueServlet?id='+vm.id+'&baseuserId='+this._GLOBAL.baseUserId;
+
+          console.log("详情页请求数据的url：" + url);
           vm.$http.get(url).then((response) => {
             vm.totalData = response.data;
 
+            console.log("详情页数据：" +JSON.stringify(vm.totalData));
             console.log('获取营业线的详情页面的数据--1：' + JSON.stringify(vm.totalData));
             console.log('获取营业线的详情页面--------2：' + JSON.stringify(vm.totalData.ryqdb));
             console.log('获取的详情页:现场照片--------3：' + JSON.stringify(vm.totalData.xczp));
@@ -785,23 +800,6 @@
             console.log('error');
           });
         }
-      },
-      activated: function() {
-        this.getData();
-      },
-      mounted:function () {
-        // 绑定获取位置信息的回调函数
-        window.RPMPositionCallBack = this.RPMPositionCallBack;
-
-        // 绑定拍照的回调函数
-        window.RPMImageCallBack = this.RPMImageCallBack;
-
-        // 绑定选择照片的回调函数
-        window.RPMSelectPhotosCallBack = this.RPMSelectPhotosCallBack;
-
-        // 绑定获取android回传图片id的回调函数
-        window.RPMImageIdCallBack = this.RPMImageIdCallBack;
-
       }
     }
 </script>

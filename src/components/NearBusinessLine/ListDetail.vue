@@ -1,11 +1,12 @@
 <template>
   <div class="listDetail">
-    <!--title-->
-    <!--<Header title="邻近营业线施工日计划"></Header>-->
+
     <van-nav-bar title="邻近营业线施工日计划详情"
                  left-text="返回"
+                 right-text="关闭"
                  @click-left="onClickLeft"
-                 right-text="关闭"  @click-right="onClickRight"
+                 @click-right="onClickRight"
+
                  fixed
     ></van-nav-bar>
     <!--内容-->
@@ -124,13 +125,11 @@
           <img v-bind:src="item.s" :alt="index" v-on:click="showBigImage($event)">
           <van-icon name="checked"  v-show="item.isShow==true" />
           <van-icon name="clear"  v-show="item.isShow==false"/>
-          <van-icon name="delete" @click="onDelete(1,index)" v-if="totalData.editStatus==1"/>
+          <van-icon name="delete" @click="onDelete(1,index)" v-if="totalData.status==1"/>
         </div>
 
 
         <div class="addPhoto" @click='takePictureE(1,true,"http://rails.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")' v-if="totalData.status==1">+</div>
-
-        <!--<div class="addPhoto" @click='takePictureE(1,true,"http://www.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")'>+</div>-->
 
       </div>
 
@@ -152,7 +151,7 @@
           <img v-bind:src="item.s" :alt="index" v-on:click="showBigImage($event)">
           <van-icon name="checked"  v-show="item.isShow==true" />
           <van-icon name="clear"  v-show="item.isShow==false"/>
-          <van-icon name="delete" @click="onDelete(2,index)"  v-if="totalData.editStatus==1"/>
+          <van-icon name="delete" @click="onDelete(2,index)"  v-if="totalData.status==1"/>
         </div>
 
         <div class="addPhoto" @click='takePictureE(2,true,"http://rails.r93535.com/tljggxt/selfrun/selfruncon!saveFiles.action")' v-if="totalData.status==1">+</div>
@@ -195,7 +194,7 @@
       </mt-actionsheet>
 
       <!-- 待接口测试返回-->
-      <button id="save" @click="save()" v-if="totalData.status==1">保存</button>
+      <button id="save" @click="saveNearB()" v-if="totalData.status==1">保存</button>
     </div>
 
     <!--预览图片的盒子-->
@@ -227,8 +226,8 @@
         checked: true,
      // baseuserid:'222441',
         domainName:'tljjgxt.r93535.com', // 域名
-//        id:'',
-        id:this.$store.getters.nearBusinessLineSearch.xmId,
+        id:'',
+//        id:this.$store.getters.nearBusinessLineSearch.xmId,
         totalData:[],
         popupVisible:false,
         popupTxt:'',
@@ -278,32 +277,23 @@
           message: '确定删除此图片吗？'
         }).then(() => {
 
-          console.log("删除的确认方法：" + num+ ':'+ index);
           // 删除图片的方法
           if (num===1){
 
-            console.log('删除的对象为：' +JSON.stringify(this.ryqdqkImgArr[index]));
             this.ryqdqkImgArr.splice(index,1);
 
             // 删除图片。根据有没有id,有id的时从删除对应的id，没有id时，不执行删除操作。
-            console.log('删除前数据：' +JSON.stringify( this.ryqdbIdArr));
             this.ryqdbIdArr.splice(index,1);
-
-            console.log('删除后的数据：' +JSON.stringify( this.ryqdbIdArr));
-
-
 
           }
 
           if (num===2){
 
-            console.log('删除的对象为：' +JSON.stringify(this.xczpImgArr[index]));
             // 删除图片的方法
             this.xczpImgArr.splice(index,1);
-            console.log('删除前数据：' +JSON.stringify( this.xczpIdArr));
+
             // 删除对应图片的id
             this.xczpIdArr.splice(index,1);
-            console.log('删除后的数据：' +JSON.stringify( this.xczpIdArr));
 
           }
 
@@ -370,7 +360,6 @@
         // 取经纬度
         this.jwd = arr[1]+',' +arr[2];
 
-        console.log("上传的经纬度为：" + this.jwd);
       },
       // 预览图片
       showBigImageBox(event){
@@ -479,8 +468,6 @@
       },
       // android回传图片id的回调函数
       RPMImageIdCallBack(dataId,x,y){
-
-        console.log("ndroid回传图片id，接收到的参数为：" + dataId+":"+x+':'+y);
         // 首先判断id是否为空。 为空时，显示叉号，非空时，显示对号。
         if (dataId !==''){ // 非空
           switch (x){
@@ -522,10 +509,9 @@
       },
 
       // 保存可编辑字段
-      save(){
+      saveNearB(){
         // 将图片id数组转换成字符串
         // 删除默认图片，即：id为空的图片不保存
-        console.log("清楚空元素之前的数据：" +JSON.stringify(this.ryqdbIdArr));
         for(var i = 0; i < this.ryqdbIdArr.length; i++) {
           if(this.ryqdbIdArr[i] == null|| this.ryqdbIdArr[i]=='' ||this.ryqdbIdArr[i]==undefined) {
             this.ryqdbIdArr.splice(i,1);
@@ -533,9 +519,7 @@
                        // 这样才能真正去掉空元素,觉得这句可以删掉的连续为空试试，然后思考其中逻辑
           }
         }
-        console.log("清楚空元素之后：" +JSON.stringify(this.ryqdbIdArr));
 
-        console.log("清楚空元素之前的数据：" +JSON.stringify(this.xczpIdArr));
         for(var i = 0; i < this.xczpIdArr.length; i++) {
           if(this.xczpIdArr[i] == null|| this.xczpIdArr[i]=='' ||this.xczpIdArr[i]==undefined) {
             this.xczpIdArr.splice(i,1);
@@ -544,30 +528,18 @@
           }
         }
 
-        console.log("清楚空元素之后的数据：" +JSON.stringify(this.xczpIdArr));
-
         var ryqdbId = this.ryqdbIdArr.join(',');
         var xczpId = this.xczpIdArr.join(',');
-
-        // 计划兑现情况,将汉字转换成数字字符串
-//        var jhsfdxS = this.totalData.jhsfdx === '是'?'1':'0'; // 注意：后台要求‘否’的情况，只能传‘0’，不能传空字符串。
-
-        // 将需要保存的’汉字字符串字段’转换成base64形式保存到后台，处理的字段3个，包括：（计划兑现情况描述、签到地点）。
 
         var base = new Base64();
 
         var qdddTemp = base.encode(this.totalData.qddd);  // 签到地点
         var jhdxqkTemp = base.encode(this.totalData.jhdxqk); // 计划兑现情况
 
-
-        console.log("保存传递的函数为11：" + ryqdbId);
-        console.log("保存传递的函数为222：" + xczpId);
-
         let url = 'http://tljjgxt.r93535.com/NearDayplanSaveServlet?id='+this.id+'&qddd='+qdddTemp+'&qdsj='+this.totalData.qdsj+'&jhdxqk='+jhdxqkTemp+'&ryqdb='+ ryqdbId+'&xczp='+xczpId+'&jwd='+this.jwd;
 
         this.$http.get(url).then((response) => {
 
-          console.log('保存成功的数据：' + JSON.stringify(response));
           // 保存成功
           Toast(`保存成功`);
 
@@ -589,7 +561,9 @@
         });
       },
       onClickLeft(){
-        if (this.totalData.editStatus==1){// 有编辑权限
+        console.log('权限：' +this.totalData.status);
+
+        if (this.totalData.status==1){// 有编辑权限
           Dialog.confirm({
             message: '确认退出此次编辑？'
           }).then(() => {
@@ -605,8 +579,8 @@
             this.jwd='';
 
             // 跳转页面，返回列表页
-            this.$router.go(-1);
-            //          this.$router.push({path: '/NearBusinessLine'});
+//            this.$router.go(-1);
+            this.$router.push({path: '/NearBusinessLine'});
 
           }).catch((error) => {
             console.log(error);
@@ -642,18 +616,20 @@
       },
       getData(){
         let vm = this;
+
+        console.log("邻近 详情 id：" + this.id);
         let url = 'http://tljjgxt.r93535.com/LJYYXDayUniquePlanServlet?id='+vm.id+'&baseuserId='+this._GLOBAL.baseUserId;
         console.log("邻近营业线详情页请求的url："+url);
-        vm.$http.get(url).then((response) => {
-          console.log("详情页面的数据：" + JSON.stringify(response.data));
-          vm.totalData = response.data;
 
-          console.log('获取营业线的详情页面--------2：' + JSON.stringify(vm.totalData.ryqdb));
-          console.log('获取的详情页:现场照片--------3：' + JSON.stringify(vm.totalData.xczp));
+        axios.get(url).then((response) => {
+
+          vm.totalData = response.data;
 
           // 根据后台返回的图片id数据获取图片信息
           var ryqdbTempUrl ='http://rails.r93535.com/tljggxt/selfrun/selfruncon!getFilePath.action?fileId='+vm.totalData.ryqdb;
           var xczpTempUrl ='http://rails.r93535.com/tljggxt/selfrun/selfruncon!getFilePath.action?fileId='+vm.totalData.xczp;
+
+          console.log('vm.totalData.ryqdb：' +vm.totalData.ryqdb);
 
           var ryqdbT = vm.totalData.ryqdb.split(',');
           var xczpT = vm.totalData.xczp.split(',');
@@ -661,12 +637,10 @@
           for (var i=0;i<ryqdbT.length;i++){
             this.ryqdbIdArr.push(ryqdbT[i]);
           }
-          console.log("aaa:" +JSON.stringify( this.ryqdbIdArr));
 
           for (var i=0;i<xczpT.length;i++){
             this.xczpIdArr.push(xczpT[i]);
           }
-          console.log("bbbb:" +JSON.stringify(  this.xczpIdArr));
 
           // 请求人员签到表数据
           axios.get(ryqdbTempUrl).then(response => {
@@ -674,7 +648,6 @@
             var ryqdbTemp = response.data; //  4
 //
             for (var i=0;i<ryqdbTemp.length;i++){
-              console.log("图片的src:" +JSON.stringify( ryqdbTemp[i]));
               var index=i;
               var imgObj={};
 
@@ -695,12 +668,9 @@
           })
 
           // 请求现场照片数据
-          console.log("图片url数据源3333url：" +xczpTempUrl);
           axios.get(xczpTempUrl).then(response => {
-            console.log("图片url数据源3333：" +JSON.stringify( response.data));
-            var xczpTemp = response.data; // 1
 
-            console.log("图片url数据源3333length：" +xczpTemp.length);
+            var xczpTemp = response.data;
 
             for (var i=0;i<xczpTemp.length;i++){
               var index=i;
@@ -723,12 +693,11 @@
 
 
           this.$nextTick(function(){
-            console.log("$nextTick监听数据渲染完成之后的回调函数");
+//            console.log("$nextTick监听数据渲染完成之后的回调函数");
             var obj = $(".getHeight");
             for(var i=0;i<obj.length;i++){
               var h=$(obj[i]).height();
               $(obj[i]).siblings().css({
-//                'height':h+'px',
                 'lineHeight':h+'px'
               });
             }

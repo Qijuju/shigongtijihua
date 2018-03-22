@@ -97,9 +97,13 @@ const store = new Vuex.Store({
     // 营业线
     setBusinessLineSearch: (state, {xmId, xmmc, dj, xingbie, sglc, sglx, sgksrq, sgjsrq,imgCount,selectProObj}) => {
 
+      // if(selectProObj==undefined||selectProObj==null||selectProObj==''){
+      //   selectProObj ={"id":"","xmmc":"全部"};
+      // }
       // 存放点击进入详情的项目的id
       state.businessLineSearch.xmId = xmId
-      console.log("保存到store中的项目的id:" +xmId);
+    console.log("请求详情的数据store的id：" +xmId );
+      // console.log("保存到store中的项目的businessLineSearch.selectProObj:" +JSON.stringify(selectProObj));
 
       state.businessLineSearch.xmmc = xmmc
       state.businessLineSearch.dj = dj
@@ -134,7 +138,7 @@ const store = new Vuex.Store({
       state.nonBusinessLineSearch.xmmc = xmmc
       state.nonBusinessLineSearch.sgksrq = sgksrq
       state.nonBusinessLineSearch.sgjsrq = sgjsrq
-      console.log("store存储的选中项目对象为：" + JSON.stringify(selectProObj));
+      console.log("非营业线store存储的选中项目对象为：" + JSON.stringify(selectProObj));
       state.nonBusinessLineSearch.selectProObj = selectProObj
 
     },
