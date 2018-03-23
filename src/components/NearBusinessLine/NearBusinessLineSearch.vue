@@ -19,21 +19,21 @@
         />
       </van-row>
     </div>
-    <div @click="isShowDJ()">
-      <van-row >
-        <van-field
-          v-bind:value="dj"
-          label="类别"
-          placeholder="全部"
-          disabled
-        />
-      </van-row>
-    </div>
     <div @click="isShowXB()">
       <van-row >
         <van-field
           v-bind:value="xingbie"
           label="行别"
+          placeholder="全部"
+          disabled
+        />
+      </van-row>
+    </div>
+    <div @click="isShowDJ()">
+      <van-row >
+        <van-field
+          v-bind:value="dj"
+          label="类别"
           placeholder="全部"
           disabled
         />

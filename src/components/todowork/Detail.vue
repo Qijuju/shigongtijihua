@@ -32,10 +32,9 @@
           }
         }
       },
-
       activated: function() {
         $($('.van-tabbar--fixed')[0]).css({
-          'bottom':'-50px'
+          'bottom':'-55px'
         })
       },
       methods: {
