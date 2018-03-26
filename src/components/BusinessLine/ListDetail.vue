@@ -376,14 +376,11 @@
             title: '删除',
             message: '确定删除此图片吗？'
           }).then(() => {
-
             // 删除图片的方法
             if (num===1){
-
               this.ryqdqkImgArr.splice(index,1);
               // 删除图片。根据有没有id,有id的时从删除对应的id，没有id时，不执行删除操作。
               this.ryqdbIdArr.splice(index,1);
-
             }
             if (num===2){
               this.zczpArr.splice(index,1);

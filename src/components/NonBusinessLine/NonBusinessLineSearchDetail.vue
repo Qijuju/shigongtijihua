@@ -6,7 +6,10 @@
       right-text="关闭"  @click-right="onClickRight"
       @click-left="$router.go(-1)" fixed
     ></van-nav-bar>
+
+
     <div class="content">
+
       <van-row v-for="(name, index) in DayPlanCount" :key="index">
         <div @click="getDayPlanDetail(name.date,index,true)">
         </div>
@@ -16,7 +19,7 @@
         <van-col span="6">
           <h3>{{ name.count }}</h3>
         </van-col>
-        <van-col span="4" style="padding: 0px;">
+        <van-col span="8" style="padding: 0px;">
 
           <p @click="getDayPlanDetail(name.date,index,true)" v-show="!(index===showmum)">
             <img src="../../assets/images/icon/more_unfold.png"  style="height:25px;width:25px">
@@ -25,6 +28,7 @@
             <img src="../../assets/images/icon/less.png"   style="height:25px;width:25px">
           </p>
         </van-col>
+
         <div v-show="index===showmum">
           <van-steps direction="vertical"  active-color="#f60" v-waterfall-lower="loadMore(index)"
                      waterfall-disabled="disabled"

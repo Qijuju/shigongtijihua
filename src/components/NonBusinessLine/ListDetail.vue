@@ -87,6 +87,7 @@
       <mt-popup
         v-model="popupVisible"
         popup-transition="popup-fade">
+        <p>{{popupTxt}}</p>
       </mt-popup>
 
     </div>

@@ -1,8 +1,7 @@
 <template>
   <div class="statistics">
 
-    <van-radio name="2" v-model="radio">单选框 1</van-radio>
-    <van-radio name="1" v-model="radio">单选框 2</van-radio>
+
 
   </div>
 </template>
@@ -12,7 +11,22 @@
   export default {
     data() {
       return {
-        radio: '0'
+
+        show: false,
+        options: [
+          {text: '現金購買'},
+          {text: '抵押購買'}
+        ],
+        selected: 0,
+
+      }
+    },
+    methods: {
+      showClick() {
+        this.show = !this.show
+      },
+      select(index) {
+        this.selected = index
       }
     }
   };
@@ -21,5 +35,7 @@
 </script>
 
 <style scoped>
+
+
 
 </style>
